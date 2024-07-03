@@ -1,0 +1,352 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Histórico - Python Parsons Puzzles</title>
+
+  <link rel="icon" href="./assets/logoicon.png">
+
+  <link href="./parsons.css" rel="stylesheet" />
+  <link href="./lib/prettify.css" rel="stylesheet" />
+  <link href="./historicoStyle.css" rel="stylesheet" />
+  <link href="./cssAnimationsHistoryPage.css" rel="stylesheet" />
+
+  <!-- Sidebar required style -->
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+
+  <!-- Carousel required style -->
+  <link rel="stylesheet" href="./lib/slick.css">
+  <link rel="stylesheet" href="./lib/slick-theme.css">
+
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <script src="https://kit.fontawesome.com/fc3f8d6bba.js" crossorigin="anonymous"></script>
+
+
+  <!-- Hotjar Tracking Code for https://joaov230.github.io 
+   
+  <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:3730104,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  </script>
+  -->
+</head>
+
+
+<!-- Body -->
+
+<body>
+  <div class="popup-wrapper" style="display: none;">
+    <div class="popup">
+      <button class="popup-close">x</button>
+      <div class="popup-content">
+      </div>
+    </div>
+  </div>
+
+
+
+  <div id="sidebar-wrapper">
+    <div id="sidebar" class="w3-sidebar w3-bar-block w3-border-right">
+      <button onclick="w3_close()" class="w3-bar-item w3-large">Fechar</button>
+      <a id="parsons-problems-link" href="./parsonsProblemsPage.html" class="w3-bar-item w3-button">Exercícios</a>
+      <a id="historico-link" href="./historicoPage.html" class="w3-bar-item w3-button">Histórico</a>
+      <a id="sobre-link" href="./sobrePage.html" class="w3-bar-item w3-button">Sobre</a>
+      <a id="logout-link" href="#" class="w3-bar-item w3-button">Log out</a>
+    </div>
+  </div>
+
+
+  <div class="container">
+    <div class="navbar">
+      <div id="logo">
+        <a href="./parsonsProblemsPage.html">
+          <img src="./assets/logoicon.png" alt="Icone do site, dois pês, representando Parsons Puzzles" height="55px">
+        </a>
+      </div>
+
+      <div id="progress-bar">
+        <span class="current-level">Nivel 1</span>
+        <div class="progressbar-background">
+          <div class="progressbar-progress">
+            <span class="progressbar-progress-text">0</span>
+          </div>
+        </div>
+        <span class="next-level">Nivel 2</span>
+      </div>
+
+      <div id="menu">
+        <a class="menu-link" href="#" onclick="w3_open()">
+          <span>Menu</span>
+          <i class="menu-icon fa-solid fa-bars fa-2xl"></i>
+        </a>
+      </div>
+    </div>
+
+    <a class="return-to-main-page" href="./parsonsProblemsPage.html">
+      <i class="fa-solid fa-rotate-left"></i>
+      Voltar para exercícios
+    </a>
+
+    <div id="msg-carregando" style="display: none;">
+      <span class="loader"></span>
+      <span class="icon-text">Carregando...</span>
+    </div>
+
+
+    <!--
+      <div class="slider-wrapper">
+        <div class="slider-title">Nivel 0</div>
+        <div class="slider">
+          <div class="slider-item"> 
+            <a class="slider-item-link" href="#">
+              <p class="exercise-title">Exercício 1</p>
+              <p class="exercise-date">Horário de Início: 13:40</p>
+              <p class="exercise-date">Horário de Término: 13:45</p>
+              <p class="exercise-time">Tempo Levado: 5 minutos</p>
+              <p class="exercise-tries-count">Tentativas: 3</p>
+            </a>
+          </div>
+          <div class="slider-item"> Slide 2</div>
+      <div class="slider-item"> Slide 3</div>
+      <div class="slider-item"> Slide 4</div>
+    </div>
+  </div>
+-->
+
+  </div>
+</body>
+
+
+
+<script src="./lib/jquery-ui.min.js"></script>
+<script src="./lib/jquery.ui.touch-punch.min.js"></script>
+<script src="./lib/jquery.min.js"></script>
+<script src="./lib/slick.js"></script>
+<script src="./lib/underscore-min.js"></script>
+<script src="./lib/lis.js"></script>
+<script src="./parsons.js"></script>
+<script src="./lib/prettify.js"></script>
+<script src="../lib/skulpt.js"></script>
+<script src="../lib/skulpt-stdlib.js"></script>
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script src="https://unpkg.com/jwt-decode/build/cjs/index.js"></script>
+<!--<script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>-->
+<script src="./utils.js"></script>
+<script>
+  const userData = getCookie("userData");
+  const auth = getCookie("auth");
+  var allHistoryData = [];
+
+
+  if (userData === null || auth === null) {
+    accessDenied_returningToMain();
+  }
+
+  function getHistorico(authentication) {
+    return fetch(getHistoricoURL(authentication),
+      {
+        method: "GET",
+      }
+    ).then(response => {
+      return response.json();
+    });
+  }
+
+  function millisToMinutesAndSeconds(millis) {
+    var minutes = Math.floor(millis / 60000);
+    var seconds = ((millis % 60000) / 1000).toFixed(0);
+    return {
+      min: minutes,
+      sec: seconds
+    }
+    //    return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+  }
+
+  function stringToArray(str) {
+    return JSON.parse(str);
+  }
+
+  function sliderItemContent(data, nivel) {
+    for (var i = 0; i < data.length; i++) {
+
+      const startDate = new Date(data[i].startDate)
+      const submitDate = new Date(data[i].submitDate)
+      var dateDiff = submitDate - startDate; // milliseconds
+      dateDiff = millisToMinutesAndSeconds(dateDiff);
+      const tries = stringToArray(data[i].triesCount)
+
+
+      $(".slider.nivel" + nivel).append(
+        '<div class="slider-item">' +
+        '<a class="slider-item-link nivel' + nivel + ' index' + i + '" href="#">' +
+        '<p class="exercise-title">Exercício ' + data[i].exerciseEnum + '</p>' +
+        '<p class="exercise-date">Data: ' + startDate.getUTCDate() + '/' + (startDate.getUTCMonth() + 1) + '/' + startDate.getUTCFullYear() + '</p>' +
+        '<p class="exercise-date">Horário de Início: ' + startDate.getHours() + ':' + startDate.getMinutes() + ':' + startDate.getSeconds() + '</p>' +
+        '<p class="exercise-date">Horário de Término: ' + submitDate.getHours() + ':' + submitDate.getMinutes() + ':' + submitDate.getSeconds() + '</p>' +
+        '<p class="exercise-time">Tempo Levado: ' + dateDiff.min + ' minutos e ' + dateDiff.sec + ' segundos' + '</p>' +
+        '<p class="exercise-tries-count">Tentativas: ' + tries.length + '</p>' +
+        '</a>' +
+        '</div>'
+      );
+    }
+  }
+
+  function buildSliderItems(userHistory) {
+    // [ nivel 1: [ex1: {}, ex2: {}] , nivel 2: [ex1: {}] ]
+
+    for (var i = 0; i < userHistory.length; i++) {
+      if (typeof allHistoryData[(userHistory[i].exerciseDifficulty)] === 'undefined') {
+        allHistoryData.push([]);
+      }
+      allHistoryData[(userHistory[i].exerciseDifficulty)].push(userHistory[i]);
+    }
+
+    for (var i = 0; i < allHistoryData.length; i++) {
+      $(".container").append('<div class="slider-wrapper nivel' + i + '"></div>');
+      $(".slider-wrapper.nivel" + i).append('<div class="slider-title nivel' + i + '">Nivel ' + i + '</div>');
+      $(".slider-wrapper.nivel" + i).append('<div class="slider nivel' + i + '"></div>');
+
+      sliderItemContent(allHistoryData[i], i)
+
+      $('.slider.nivel' + i).slick({
+        easing: 'linear',
+        slidesToShow: 3,
+        infinite: false,
+        dots: true,
+        zIndex: 5
+      });
+    }
+  }
+
+  function getHistoryDataFromSliderClick(event) {
+    const className = event.currentTarget.className
+    var nivel = className.substring(className.indexOf('nivel') + 5)
+    nivel = parseInt(nivel.substring(0, nivel.indexOf(' ')))
+
+    var index = parseInt(className.substring(className.indexOf('index') + 5))
+
+    return {
+      "nivel": nivel,
+      "index": index
+    }
+  }
+
+  function populatePopup(thisData) {
+    const startDate = new Date(thisData.startDate)
+    const submitDate = new Date(thisData.submitDate)
+    var dateDiff = submitDate - startDate; // milliseconds
+    dateDiff = millisToMinutesAndSeconds(dateDiff);
+    const tries = stringToArray(thisData.triesCount)
+
+    $(".popup-content").append(
+      '<div class="popup-added">' +
+      '<p class="exercise-title">Exercício ' + thisData.exerciseEnum + '</p>' +
+      '<p class="exercise-date">Data: ' + startDate.getUTCDate() + '/' + (startDate.getUTCMonth() + 1) + '/' + startDate.getUTCFullYear() + '</p>' +
+      '<p class="exercise-date">Horário de Início: ' + startDate.getHours() + ':' + startDate.getMinutes() + ':' + startDate.getSeconds() + '</p>' +
+      '<p class="exercise-date">Horário de Término: ' + submitDate.getHours() + ':' + submitDate.getMinutes() + ':' + submitDate.getSeconds() + '</p>' +
+      '<p class="exercise-time">Tempo Levado: ' + dateDiff.min + ' minutos e ' + dateDiff.sec + ' segundos' + '</p>' +
+      '<p class="exercise-tries-count">Tentativas: ' + (tries.length + 1) + '</p>' +
+      '<pre><code>Enunciado: ' + thisData.enunciado + addTrinketIfHasTrinket(thisData) + '</code></pre>' +
+      '</div>');
+  }
+
+  function addTrinketIfHasTrinket(thisData) {
+    if (thisData.trinketHTML != 'null') {
+      return ('<div class="trinketHTML">' + thisData.trinketHTML + '</div>');
+    } else {
+      return (thisData.exercise);
+    }
+  }
+
+  function cleanPopupContent() {
+    $(".popup-added").remove();
+  }
+
+  $(document).ready(function () {
+
+    $("#msg-carregando").css("display", "flex");
+
+    (getHistorico(auth)).then(res => {
+      //////////////////////////////
+      $("#msg-carregando").css("display", "none");
+
+      setUserLevel(res.userLevelInfo);
+      buildSliderItems(res.userHistory);
+
+      $('#menu').click(function (e) {
+        e.stopPropagation();
+        w3_open();
+      });
+
+      $('#sidebar-wrapper').click(function (e) {
+        const $target = $(e.target)
+        const conditionalToCloseSidebar = (!$target.is("#sidebar") && !$target.is($("#sidebar").children()))
+
+        if (conditionalToCloseSidebar) {
+          w3_close();
+        }
+      });
+
+      $('.slider-item-link').click(function (e) {
+        const sliderClickData = getHistoryDataFromSliderClick(e);
+        populatePopup(allHistoryData[sliderClickData.nivel][sliderClickData.index]);
+
+        $(".popup-wrapper").css('display', 'block');
+      });
+
+      $(".popup-close").click(function (event) {
+        close_popup();
+      });
+
+      $('.popup-wrapper').click(function (e) {
+        const $target = $(e.target)
+        const conditionalToClosePopup = (!$target.is(".popup") && !$target.is($(".popup").children()) && !$target.is(".popup-content") && !$target.is($(".popup-content").children()) && !$target.is(".popup-added") && !$target.is($(".popup-added").children()) && !$target.is("pre code") && !$target.is($("pre code").children()))
+
+        if (conditionalToClosePopup) {
+          close_popup();
+        }
+      });
+
+      $('#logout-link').click(function (e) {
+        logout(e);
+      });
+      //////////////////////////////
+    });
+  });
+
+  // Sidebar
+  function w3_open() {
+    //$("#sidebar").css("display","block");
+    $("#sidebar").css("width", "20%");
+    $("#sidebar").css("visibility", "visible");
+    $("#sidebar").css("opacity", "1");
+    $("#sidebar-wrapper").css("visibility", "visible");
+    $("#sidebar-wrapper").css("opacity", "1");
+
+  }
+
+  function w3_close() {
+    //$("#sidebar").css("display","none");
+    $("#sidebar").css("width", "0%");
+    $("#sidebar").css("visibility", "hidden");
+    $("#sidebar").css("opacity", "0");
+    $("#sidebar-wrapper").css("visibility", "hidden");
+    $("#sidebar-wrapper").css("opacity", "0");
+  }
+
+  function close_popup() {
+    cleanPopupContent();
+    $(".popup-wrapper").css('display', 'none');
+  }
+</script>

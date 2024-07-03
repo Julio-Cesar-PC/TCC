@@ -1,0 +1,467 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Python Parsons Puzzles</title>
+
+  <link rel="icon" href="./assets/logoicon.png">
+
+  <link href="./parsons.css" rel="stylesheet" />
+  <link href="./lib/prettify.css" rel="stylesheet" />
+  <link href="./parsonsProblemsPageStyle.css" rel="stylesheet" />
+  <link href="./cssAnimations.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <!--
+    To use these fonts in style:
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Space Mono', monospace;
+  -->
+
+  <!-- Icons -->
+  <script src="https://kit.fontawesome.com/fc3f8d6bba.js" crossorigin="anonymous"></script>
+
+  <!-- Hotjar Tracking Code for https://joaov230.github.io -->
+   <!--
+    <script>
+      (function(h,o,t,j,a,r){
+          h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+          h._hjSettings={hjid:3730104,hjsv:6};
+          a=o.getElementsByTagName('head')[0];
+          r=o.createElement('script');r.async=1;
+          r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+          a.appendChild(r);
+      })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+    </head>
+  
+   -->
+
+
+<!-- Body -->
+
+<body>
+  <div class="popup-wrapper" style="display: none;">
+    <div class="popup">
+      <button class="popup-close">x</button>
+      <div class="popup-content">
+      </div>
+    </div>
+  </div>
+
+  <div id="sidebar-wrapper">
+    <div id="sidebar" class="w3-sidebar w3-bar-block w3-border-right">
+      <button onclick="w3_close()" class="w3-bar-item w3-large">Fechar</button>
+      <a id="parsons-problems-link" href="./parsonsProblemsPage.html" class="w3-bar-item w3-button">Exercícios</a>
+      <a id="historico-link" href="./historicoPage.html" class="w3-bar-item w3-button">Histórico</a>
+      <a id="sobre-link" href="./sobrePage.html" class="w3-bar-item w3-button">Sobre</a>
+      <a id="logout-link" href="#" class="w3-bar-item w3-button">Log out</a>
+    </div>
+  </div>
+
+
+  <div id="master-container">
+    <div class="container">
+      <div class="navbar">
+        <div id="logo">
+          <a href="./parsonsProblemsPage.html">
+            <img src="./assets/logoicon.png" alt="Icone do site, dois pês, representando Parsons Puzzles" height="55px">
+          </a>
+          <!-- Logo -->
+        </div>
+
+        <div id="progress-bar">
+          <span class="current-level">Nivel 1</span>
+          <div class="progressbar-background">
+            <div class="progressbar-progress">
+              <span class="progressbar-progress-text">0</span>
+            </div>
+          </div>
+          <span class="next-level">Nivel 2</span>
+        </div>
+
+        <div id="menu">
+          <a class="menu-link" href="#" onclick="w3_open()">
+            <span>Menu</span>
+            <i class="menu-icon fa-solid fa-bars fa-2xl"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="enunciado-area">
+        <div class="block-margin">
+          <h1>Enunciado:</h1>
+          <span id="enunciadoText">
+          </span>
+        </div>
+      </div>
+
+      <div class="code-area">
+        <div class="buttons-notch">
+          <div class="buttons">
+            <button class="button" id="btnChangeExercise">Resortear</button>
+            <button class="button" id="btnReset">Resetar</button>
+            <button class="button" id="btnTestYourself" hidden>
+              <img src="./assets/trinket-logo.png" height="15px">
+              Teste
+            </button>
+            <button class="button" id="btnNext" disabled="true" hidden>Continuar</button>
+            <div id="msg-salvando" style="display: none;">
+              <span class="loader"></span>
+              <span class="icon-text">Salvando...</span>
+            </div>
+            <div id="msg-carregando-continua" style="display: none;">
+              <span class="loader"></span>
+              <span class="icon-text">Carregando...</span>
+            </div>
+            <button class="button" id="btnSubmit">Run</button>
+          </div>
+        </div>
+        <div class="code-code-area">
+          <div id="msg-carregando" style="display: none;">
+            <span class="loader-carregando"></span>
+            <span class="icon-text">Carregando...</span>
+          </div>
+          <div id="sortableTrash" class="sortable-code"></div>
+          <div id="sortable" class="sortable-code"></div>
+        </div>
+      </div>
+
+      <div class="feedback-area">
+        <div class="block-margin">
+          <div class="feedback-title-area">
+            <h1 id="feedBackTitle">Feedback:</h1>
+          </div>
+
+          <div class="feedback-feedback-area">
+            <span id="feedbackText">
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>
+
+
+<script src="./lib/jquery.min.js"></script>
+<script src="./lib/jquery-ui.min.js"></script>
+<script src="./lib/jquery.ui.touch-punch.min.js"></script>
+<script src="./lib/underscore-min.js"></script>
+<script src="./lib/lis.js"></script>
+<script src="./parsons.js"></script>
+<script src="./lib/prettify.js"></script>
+<script src="../lib/skulpt.js"></script>
+<script src="../lib/skulpt-stdlib.js"></script>
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script src="https://unpkg.com/jwt-decode/build/cjs/index.js"></script>
+<!--<script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>-->
+<script src="./utils.js"></script>
+<script>
+  const userData = getCookie("userData");
+  const auth = getCookie("auth");
+
+  if (userData === null || auth === null) {
+    accessDenied_returningToMain();
+  }
+
+  var randEx;
+  var tentativasCont;
+  var tentativas = [];
+  var startDate;
+  var submitDate;
+  var parson;
+  var hasTrinket;
+
+  var disablePopupWrapperClick = false;
+
+
+  function displayFeedback(fb) {
+    function exercicioCorreto() {
+      $("#feedbackText").html("Parabéns, você acertou!");
+      saveProgress();
+    }
+
+    function atualizaTentativas() {
+      tentativas.push({
+        tentativa: tentativasCont,
+        horario: new Date()
+      });
+
+      tentativasCont++;
+    }
+
+    if (Array.isArray(fb)) {
+      if (fb.length > 0) {
+        $("#feedbackText").html(fb[0]);
+        atualizaTentativas();
+      } else {
+        exercicioCorreto();
+      }
+    } else if (fb.hasOwnProperty("feedback")) {
+      if (fb.success) {
+        exercicioCorreto();
+      } else {
+        $("#feedbackText").html(fb.feedback);
+        atualizaTentativas();
+      }
+    } else {
+      if (fb.success) {
+        exercicioCorreto();
+      }
+    }
+  }
+
+  function saveProgress() {
+    // Faz o submit do exercício -> 
+    // ----- 1. Retorna o feedback desse exercício
+    // -> 2. Caso esteja logado: Faz PUSH do banco de dados que o exercício foi realizado (PUSH dos dados no histórico)
+    // 3. Caso esteja logado: Atualiza a barra de progresso com os dados do banco (GET do nível atual do usuário)
+    // 4. Habilita o botão para o dar um get no novo exercício (GET do exercício)
+    //    4.1 Caso esteja logado: O backend consulta o nível do usuário e já retorna o exercício na dificuldade adequada
+    //    4.2 Caso não esteja logado: O front envia junto na request a dificuldade desejada
+    btnDisable("#btnSubmit");
+    $("#btnSubmit").hide();
+
+    $("#btnChangeExercise").prop('disabled', true);
+    $("#btnReset").prop('disabled', true);
+
+    $("#msg-salvando").css('display', 'flex');
+
+    submitDate = new Date();
+
+    var postData = {
+      "actionRequest": "postHistorico",
+      "payload": {
+        "userId": userData.id,
+        "startDate": startDate,
+        "submitDate": submitDate,
+        "state": "completo",
+        "exerciseId": randEx.id,
+        "triesCount": JSON.stringify(tentativas),
+        "exerciseDifficulty": randEx.dificuldade
+      },
+      "auth": auth
+    }
+
+    try {
+      fetch("https://script.google.com/macros/s/AKfycbwZKg-bWoZs_OgVkRUmvxxfrdQeSTWbk3lANkRDUPik-zAvLWfieRkhCgFrU415LYYg/exec",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+          },
+          redirect: "follow",
+          body: JSON.stringify(postData), // body data type must match "Content-Type" header
+        }
+      ).then(response => {
+        return response.json();
+      }).then(res => {
+        console.log(res);
+        if (typeof res.data != 'undefined') {
+          setUserLevel(res.data.userLevelInfo);
+
+          $("#btnChangeExercise").prop('disabled', false);
+
+          $("#msg-salvando").css('display', 'none');
+
+          btnEnable("#btnNext", "#50fa7b");
+          $("#btnNext").show();
+          if (hasTrinket) {
+            btnEnable("#btnTestYourself", "#b184c2");
+            $("#btnTestYourself").show();
+          }
+        } else {
+          window.alert("Algo deu errado :/\nRecarregue a página.");
+        }
+      });
+    } catch (error) {
+      window.alert("Algo deu errado :/\nRecarregue a página.");
+    }
+  }
+
+  function getExercicioAleatorio(userData) {
+    return fetch(getRandExURL(userData.id),
+      {
+        method: "GET",
+      }
+    ).then(response => {
+      return response.json();
+    });
+  }
+
+  // Seta um novo exercício no site e pega a hora atual
+  function setNovoExercicio(res) {
+    randEx = res.randExercise;
+    startDate = new Date();
+    tentativasCont = 1;
+
+    // Set enunciado
+    $(".added").remove();
+    $("#feedbackText").html(" ");
+    $("#enunciadoText").append('<div class="added">' + randEx.enunciado + '</div>');
+    // Set user level
+    setUserLevel(res.userLevelInfo);
+
+    $("#btnSubmit").show();
+
+    btnDisable("#btnTestYourself");
+    btnDisable("#btnNext");
+    $("#btnTestYourself").hide();
+    $("#btnNext").hide();
+
+    parson = new ParsonsWidget({
+      'sortableId': 'sortable',
+      'trashId': 'sortableTrash',
+      'max_wrong_lines': randEx.max_wrong_lines,
+      'lang': 'ptbr',
+      'initcode': isNullString(randEx.initcode),
+      'toggleTypeHandlers': isNullString(randEx.toggleTypeHandlers),
+      'unittests': isNullString(randEx.unittests),
+      'vartests': isNullString(randEx.vartests)
+    });
+    parson.init(randEx.exercicio);
+    parson.shuffleLines();
+
+    btnEnable("#btnChangeExercise", "#ffb86c");
+    btnEnable("#btnSubmit", "#dbfa50");
+    $("#btnReset").prop('disabled', false);
+
+    if (randEx.trinketHTML != "null") {
+      hasTrinket = true;
+      $(".popup-content").append('<div class="added">' + randEx.trinketHTML + '</div>');
+    } else {
+      hasTrinket = false;
+    }
+  }
+
+
+  $(document).ready(function () {
+    $("#msg-carregando").css("display", "flex");
+
+    getExercicioAleatorio(userData).then(res => {
+      //////////////////////////////
+      $("#msg-carregando").css("display", "none");
+
+      // TO DO / TODO
+      // Alerta de versão de testes
+      if (typeof res.randExercise == "undefined" || res.userLevelInfo.currentLevel == 2) {
+        showEndOfTestModeAlert(userData);
+      } else {
+        setNovoExercicio(res);
+      }
+
+      window.addEventListener("beforeunload", function (e) {
+        if (Object.keys(parson.states).length && $("#btnNext").prop('disabled') === true) {
+          e.preventDefault();
+        }
+      });
+
+
+      // Muda o exercício (GET de um novo exercício)
+      $("#btnChangeExercise").click(function (event) {
+        event.preventDefault();
+
+        btnDisable("#btnChangeExercise");
+
+        getExercicioAleatorio(userData).then(response => {
+          setNovoExercicio(response);
+        });
+      });
+
+      // Reembaralha as linhas
+      $("#btnReset").click(function (event) {
+        event.preventDefault();
+        parson.shuffleLines();
+      });
+
+
+      $("#btnSubmit").click(function (event) {
+        event.preventDefault();
+        var fb = parson.getFeedback();
+        displayFeedback(fb);
+      });
+
+
+      $("#btnNext").click(function (event) {
+        event.preventDefault();
+
+
+        btnDisable("#btnNext");
+        $("#btnNext").hide();
+        $("#msg-carregando-continua").css("display", "flex");
+
+        getExercicioAleatorio(userData).then(response => {
+          $("#msg-carregando-continua").css("display", "none");
+          setNovoExercicio(response);
+        });
+      });
+
+      $("#btnTestYourself").click(function (event) {
+        event.preventDefault();
+
+        if (hasTrinket) {
+          $(".popup-wrapper").css('display', 'block');
+        }
+      });
+
+      $(".popup-close").click(function (event) {
+        $(".popup-wrapper").css('display', 'none');
+      });
+
+      $('.popup-wrapper').click(function (e) {
+        if (!disablePopupWrapperClick) {
+          const $target = $(e.target)
+          const conditionalToClosePopup = (!$target.is(".popup") && !$target.is($(".popup").children()) && !$target.is(".popup-content") && !$target.is($(".popup-content").children()) && !$target.is(".added") && !$target.is($(".added").children()))
+
+          if (conditionalToClosePopup) {
+            $(".popup-wrapper").css('display', 'none');
+          }
+        }
+      });
+
+      $('#menu').click(function (e) {
+        e.stopPropagation();
+        w3_open();
+      });
+
+      $('#sidebar-wrapper').click(function (e) {
+        const $target = $(e.target)
+        const conditionalToCloseSidebar = (!$target.is("#sidebar") && !$target.is($("#sidebar").children()))
+
+        if (conditionalToCloseSidebar) {
+          w3_close();
+        }
+      });
+
+      $('#logout-link').click(function (e) {
+        logout(e);
+      });
+      //////////////////////////////
+    });
+  });
+
+  // Sidebar
+  function w3_open() {
+    //$("#sidebar").css("display","block");
+    $("#sidebar").css("width", "20%");
+    $("#sidebar").css("visibility", "visible");
+    $("#sidebar").css("opacity", "1");
+    $("#sidebar-wrapper").css("visibility", "visible");
+    $("#sidebar-wrapper").css("opacity", "1");
+
+  }
+
+  function w3_close() {
+    //$("#sidebar").css("display","none");
+    $("#sidebar").css("width", "0%");
+    $("#sidebar").css("visibility", "hidden");
+    $("#sidebar").css("opacity", "0");
+    $("#sidebar-wrapper").css("visibility", "hidden");
+    $("#sidebar-wrapper").css("opacity", "0");
+  }
+</script>

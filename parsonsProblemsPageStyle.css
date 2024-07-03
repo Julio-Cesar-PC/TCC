@@ -1,0 +1,488 @@
+
+
+body {
+  margin: 0px;
+  overflow-x:hidden;
+  background-color: #1a1c23;
+}
+
+h1 {
+  margin: 0px;
+  font-family: 'Space Mono', monospace !important;
+  color: #f0f0f0 !important;
+  font-weight: 700 !important;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+button:hover {
+  text-decoration: none;
+}
+
+button {
+  text-decoration: none;
+}
+
+code {
+  background-color: #676c88;
+  border-radius: 2px;
+}
+
+pre {
+  border: 1px solid #676c88;
+}
+
+
+/* MASTER CONTAINER */
+
+#master-container {
+  display: flex;
+}
+
+.container {  
+  display: grid;
+  grid-template-columns: 0.6fr 1fr 1fr;
+  /*
+
+  grid-template-rows: 60px minmax(2.1fr,fit-content) minmax(1fr,fit-content);
+  grid-template-rows: 0.1fr 40rem min-content(20rem);
+  
+  */
+  grid-template-rows: 0.1fr 2.1fr 1fr;
+  gap: 0px 0px;
+  width: 100vw;
+  height: 100vh;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "navbar navbar navbar"
+    "enunciado-area code-area code-area"
+    "enunciado-area feedback-area feedback-area";
+}
+
+/* NAVBAR RELATED */
+
+.navbar { 
+  grid-area: navbar; 
+  background-color: #282a36;
+  border-bottom: 1px solid #676c88;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#progress-bar {
+  padding: 30px 0px 30px 0px;
+}
+
+.progressbar-background {
+  display: inline-block;
+  border-radius: 60px;
+  width: 40rem;
+  background-color: #44475a;
+}
+
+.progressbar-progress {
+  display: inline-block;
+  border-radius: 60px;
+  height:15px;
+  width:3%;
+  background-color: #50fa7b;
+}
+
+.progressbar-progress-text {
+  display: flex;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: smaller;
+  font-weight: 600;
+  position: relative;
+}
+
+.current-level {
+  display: inline-block;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: smaller;
+  font-weight: 600;
+  color: #f0f0f0;
+  margin-right: 10px;
+}
+
+.next-level {
+  display: inline-block;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: smaller;
+  font-weight: 600;
+  color: #f0f0f0;
+  margin-left: 10px;
+}
+
+#logo {
+  margin-left: 3rem;
+}
+
+#menu {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-right: 3rem;
+}
+
+.menu-link {
+  color: #f1f1f1;
+  transition: ease 0.2s;
+}
+
+.menu-link:hover {
+  color: #a5b1e4;
+}
+
+.menu-link span {
+  margin-right: 1rem;
+}
+
+.menu-icon {
+  font-size: 2.3rem;
+}
+
+/* FEEDBACK RELATED */
+
+.feedback-area { 
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 0.3fr 20px;
+  gap: 0px 0px;
+  grid-auto-flow: row;
+  grid-template-areas:
+    "feedback-title-area"
+    "feedback-feedback-area";
+  grid-area: feedback-area; 
+  background-color: #1a1c23;
+  border-top: 1px solid #676c88;
+  font-family: 'Space Mono', monospace;
+}
+
+.feedback-title-area {
+  grid-area: feedback-title-area; 
+  display: flex;
+  justify-content: space-between;
+}
+
+.feedback-feedback-area { 
+  grid-area: feedback-feedback-area; 
+  font-weight: 400;
+  color: #f0f0f0;
+  margin-top: 20px;
+}
+
+#feedbackTitle {
+  font-family: 'Space Mono', monospace;
+  color: #f0f0f0;
+  font-weight: 700;
+}
+
+/* ENUNCIADO RELATED */
+
+.enunciado-area { 
+  grid-area: enunciado-area; 
+  background-color: #1a1c23;
+  border-right: 1px solid #676c88;
+  font-family: 'Space Mono', monospace;
+  font-weight: 400;
+  color: #f0f0f0;
+  max-height: fit-content;
+}
+
+#enunciadoText {
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.added pre {
+  padding-left: 5px;
+}
+
+/* CODE AREA RELATED */
+
+.code-area {
+  grid-area: code-area;
+  display: block;
+  background-color: #414658;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  color: #f0f0f0;
+}
+
+.code-code-area {
+  display: block;
+}
+
+/* CODE RELATED BUTTONS */
+
+.buttons-notch {
+  background-color: #313542;
+  padding: 10px;
+  border-bottom: 1px solid #676c88;
+  border-radius: 0px 0px 30px 30px;
+  margin: 0px 24% 0px 16%;
+  justify-content: center;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons button {
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  font-size: large;
+  color:#1b0722;
+  margin: 0px 10px 0px 10px;
+  padding: 5px 20px;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  transition: ease 0.2s;
+}
+
+.buttons button:hover {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px, rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
+#btnTestYourself {
+  background: #b184c2;
+}
+
+#btnTestYourself img {
+  position: relative;
+}
+
+#btnReset {
+  color: #dbdbdb;
+  background-color: #414658;
+  box-shadow: inset 0px 0px 0px 2px #929292;
+}
+
+#btnReset:hover {
+  box-shadow: inset 0px 0px 0px 2px #f1f1f1;
+
+}
+
+#btnChangeExercise {
+  background: #ffb86c;
+}
+
+#btnSubmit {
+  background: #dbfa50;
+}
+
+#msg-salvando {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: large;
+  color:#fafafa;
+  margin: 0px 10px 0px 10px;
+  padding: 5px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#msg-carregando-continua {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: large;
+  color:#fafafa;
+  margin: 0px 10px 0px 10px;
+  padding: 5px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#msg-carregando {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 2rem;
+  color:#fafafa;
+  margin: 5rem 10px 5rem 10px;
+  padding: 5px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#btnNext {
+  background: #50fa7b;
+}
+
+
+/* TEXT MARGIN (ENUNCIADO E FEEDBACK) */
+
+.block-margin {
+  margin-top: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+
+/* ICON/ANIMATION TEXT */
+
+.icon-text {
+  margin-left: 15px;
+}
+
+/* TRINKET HTML */
+
+.trinketHTML {
+  border-radius: 15px;
+}
+
+/* POPUP */
+
+.popup-wrapper {
+  display: none;
+  background: rgba(0,0,0,0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.popup {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: medium;
+  width: 100%;
+  max-width: 750px;
+  border-radius: 15px;
+  margin: 10% auto;
+  padding: 35px 15px 15px 15px;
+  background: #bc8fce;
+  position: relative;
+}
+
+.popup-close {
+  font-family: 'Montserrat', sans-serif;
+  font-size: large;
+  font-weight: 600;
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  color:#1b0722;
+  background: #ff4242;
+  transition: ease 0.2s;
+}
+
+
+.popup-close:hover {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px, rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
+.added i {
+  font-size: 2rem;
+  position: relative;
+  top: 0.7rem;
+  float: left; 
+  margin:12px 12px 20px 0;
+}
+
+.added h2 {
+  font-weight: 600;
+  color: #dfff0f;
+}
+
+
+.popup-buttons {
+  position: relative;
+  left: -2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-buttons button {
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  font-size: large;
+  color:#1b0722;
+  margin: 0px 10px 0px 10px;
+  padding: 5px 20px;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  transition: ease 0.2s;
+}
+
+.popup-buttons button:hover {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px, rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
+.popup-buttons #btnPopupLogOut {
+  background: #f76767;
+}
+
+/* SIDEBAR */
+
+#sidebar-wrapper {
+  visibility: hidden;
+  background: rgba(0,0,0,0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: visibility 0.2s ease, opacity 0.2s ease, width 0.2s ease;
+}
+
+#sidebar {
+  display: block; 
+  width: 0%; 
+  right: 0;
+
+  font-family: 'Montserrat', sans-serif;
+  font-size: medium;
+  font-weight: 600;
+
+  border-radius: 10px 0px 0px 10px;
+
+  background: #869ae4;
+
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.2s ease, opacity 0.2s ease, width 0.2s ease;
+}
+
+#sidebar button {
+  cursor: pointer;
+
+  background: #f7f7f7;
+  padding-top: 1.2rem;
+  padding-bottom: 1.2rem;
+
+  border-bottom: 1px solid #424b6e;
+}
+
+/* CANVAS */
+
+.my-canvas {
+  display: block;
+  position: absolute;
+  height: 300px;
+  width: 300px;
+}

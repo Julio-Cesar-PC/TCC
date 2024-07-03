@@ -1,0 +1,172 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sobre - Praticando Python Introdutório</title>
+
+  <link rel="icon" href="./assets/logoicon.png">
+
+  <link href="./parsons.css" rel="stylesheet" />
+  <link href="./lib/prettify.css" rel="stylesheet" />
+  <link href="./sobrePageStyle.css" rel="stylesheet" />
+  <link href="./cssAnimationsHistoryPage.css" rel="stylesheet" />
+
+  <!-- Sidebar required style -->
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+
+  <!-- Carousel required style -->
+  <link rel="stylesheet" href="./lib/slick.css">
+  <link rel="stylesheet" href="./lib/slick-theme.css">
+
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <!--
+    To use these fonts in style:
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Space Mono', monospace;
+  -->
+
+  <!-- Icons -->
+  <script src="https://kit.fontawesome.com/fc3f8d6bba.js" crossorigin="anonymous"></script>
+
+  <!-- Hotjar Tracking Code for https://joaov230.github.io
+  <script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:3730104,hjsv:6};
+        a=o.getElementsByTagName('head')[0];
+        r=o.createElement('script');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  </script>
+   
+  -->
+</head>
+
+
+<!-- Body -->
+
+<body>
+  <div class="popup-wrapper" style="display: none;">
+    <div class="popup">
+      <button class="popup-close">x</button>
+      <div class="popup-content">
+      </div>
+    </div>
+  </div>
+
+
+
+  <div id="sidebar-wrapper">
+    <div id="sidebar" class="w3-sidebar w3-bar-block w3-border-right">
+      <button onclick="w3_close()" class="w3-bar-item w3-large">Fechar</button>
+      <a id="parsons-problems-link" href="./parsonsProblemsPage.html" class="w3-bar-item w3-button">Exercícios</a>
+      <a id="historico-link" href="./historicoPage.html" class="w3-bar-item w3-button">Histórico</a>
+      <a id="sobre-link" href="./sobrePage.html" class="w3-bar-item w3-button">Sobre</a>
+      <a id="logout-link" href="#" class="w3-bar-item w3-button">Log out</a>
+    </div>
+  </div>
+
+
+  <div class="container">
+    <div class="navbar">
+
+      <div id="logo">
+        <a href="./parsonsProblemsPage.html">
+          <img src="./assets/logoicon.png" alt="Icone do site, dois pês, representando Parsons Puzzles" height="80px">
+          <p><span>Python</span> <span>Parsons</span> Puzzles</p>
+        </a>
+      </div>
+
+      <div id="menu">
+        <a class="menu-link" href="#" onclick="w3_open()">
+          <span>Menu</span>
+          <i class="menu-icon fa-solid fa-bars fa-2xl"></i>
+        </a>
+      </div>
+    </div>
+
+    <a class="return-to-main-page" href="./parsonsProblemsPage.html">
+      <i class="fa-solid fa-rotate-left"></i>
+      Voltar para exercícios
+    </a>
+
+    <p class="sobre-texto"><strong><span>Python</span> <span>Parsons</span> Puzzles</strong> surgiu a partir do projeto de Trabalho de Conclusão de Curso do aluno João Vitor Forgearini Beltrame, estudante de Ciência da Computação na Universidade Federal de Santa Maria, juntamente com sua orientadora e professora, Dra. Andrea Schwertner Charão.</p>
+    <p class="sobre-texto">O objetivo desta plataforma é apoiar os alunos iniciantes na programação nos seus estudos, disponibilizando exercícios de Python, histórico de exercícios e em torno de 20 níveis incrementáveis de dificuldade.</p>
+    <p class="sobre-texto">A plataforma utiliza a biblioteca <strong><a href="https://js-parsons.github.io/">js-parsons</a></strong> para correção de exercícios, proporcionando um tipo de correção diferente para níveis diferentes de dificuldade (alguns com testes unitários, outros com testes com variáveis e, para níveis mais simples, correspondência de strings). Já o back-end foi desenvolvido utilizando o <a href="https://www.google.com/script/start/">Google Apps Script</a> para gerenciamento de requests e <a href="https://www.google.com/sheets/about/">Google Sheets</a> para o armazenamento de dados, fazendo com que esta plataforma se mantenha online por um longo tempo de forma totalmente gratuita.</p>
+    <p class="sobre-texto">O <a href="https://github.com/joaov230/TCC-ParsonsPuzzles">repositório oficial desta plataforma (no momento, ainda privado)</a>, mostrando sua evolução e versão final, também como sua documentação, pode ser encontrando no <a href="https://github.com/joaov230">GitHub do João Vitor</a>.</p>
+  </div>
+</body>
+
+
+
+<script src="./lib/jquery-ui.min.js"></script>
+<script src="./lib/jquery.ui.touch-punch.min.js"></script>
+<script src="./lib/jquery.min.js"></script>
+<script src="./lib/slick.js"></script>
+<script src="./lib/underscore-min.js"></script>
+<script src="./lib/lis.js"></script>
+<script src="./parsons.js"></script>
+<script src="./lib/prettify.js"></script>
+<script src="../lib/skulpt.js"></script>
+<script src="../lib/skulpt-stdlib.js"></script>
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script src="https://unpkg.com/jwt-decode/build/cjs/index.js"></script>
+<!--<script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>-->
+<script src="./utils.js"></script>
+<script>
+  const userData = getCookie("userData");
+  const auth = getCookie("auth");
+
+  $(document).ready(function () {
+    if (userData === null || auth === null) {
+      $('#menu').css('display', 'none');
+      $('#parsons-problems-link').css('display', 'none');
+      $('#historico-link').css('display', 'none');
+      $(".return-to-main-page").attr("href", "./index.html");
+      $('.return-to-main-page').html('<i class="fa-solid fa-rotate-left"></i>Voltar para página de login');
+    }
+
+    $('#menu').click(function (e) {
+      e.stopPropagation();
+      w3_open();
+    });
+
+    $('#sidebar-wrapper').click(function (e) {
+      const $target = $(e.target)
+      const conditionalToCloseSidebar = (!$target.is("#sidebar") && !$target.is($("#sidebar").children()))
+
+      if (conditionalToCloseSidebar) {
+        w3_close();
+      }
+    });
+
+    $('#logout-link').click(function (e) {
+      logout(e);
+    });
+  });
+
+  // Sidebar
+  function w3_open() {
+    //$("#sidebar").css("display","block");
+    $("#sidebar").css("width", "20%");
+    $("#sidebar").css("visibility", "visible");
+    $("#sidebar").css("opacity", "1");
+    $("#sidebar-wrapper").css("visibility", "visible");
+    $("#sidebar-wrapper").css("opacity", "1");
+
+  }
+
+  function w3_close() {
+    //$("#sidebar").css("display","none");
+    $("#sidebar").css("width", "0%");
+    $("#sidebar").css("visibility", "hidden");
+    $("#sidebar").css("opacity", "0");
+    $("#sidebar-wrapper").css("visibility", "hidden");
+    $("#sidebar-wrapper").css("opacity", "0");
+  }
+
+</script>
