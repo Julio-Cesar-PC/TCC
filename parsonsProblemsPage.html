@@ -179,7 +179,6 @@
 
   var disablePopupWrapperClick = false;
 
-
   function displayFeedback(fb) {
     function exercicioCorreto() {
       $("#feedbackText").html("Parabéns, você acertou!");
@@ -360,6 +359,15 @@
           e.preventDefault();
         }
       });
+
+      
+
+  document.getElementById('sidebar').innerHTML = `
+    <p><strong>Name:</strong> ${userData.name}</p>
+    <p><strong>Email:</strong> ${userData.email}</p>
+    <p><img src="${userData.picture}" alt="Profile Picture"></p>
+            `;
+
 
 
       // Muda o exercício (GET de um novo exercício)
