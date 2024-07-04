@@ -57,6 +57,9 @@
   <div id="sidebar-wrapper">
     <div id="sidebar" class="w3-sidebar w3-bar-block w3-border-right">
       <button onclick="w3_close()" class="w3-bar-item w3-large">Fechar</button>
+      <p><img id="user-picture" alt="Profile Picture"></p>
+      <p><strong>Name:</strong> <span id="user-name"></span></p>
+      <p><strong>Email:</strong> <span id="user-email"></span></p>
       <a id="parsons-problems-link" href="./parsonsProblemsPage.html" class="w3-bar-item w3-button">Exercícios</a>
       <a id="historico-link" href="./historicoPage.html" class="w3-bar-item w3-button">Histórico</a>
       <a id="sobre-link" href="./sobrePage.html" class="w3-bar-item w3-button">Sobre</a>
@@ -360,14 +363,9 @@
         }
       });
 
-      
-
-  document.getElementById('sidebar').innerHTML = `
-    <p><strong>Name:</strong> ${userData.name}</p>
-    <p><strong>Email:</strong> ${userData.email}</p>
-    <p><img src="${userData.picture}" alt="Profile Picture"></p>
-            `;
-
+      document.getElementById('user-name').innerHTML = userData.name;
+      document.getElementById('user-email').innerHTML = userData.email;
+      document.getElementById('user-picture').src = userData.pic;
 
 
       // Muda o exercício (GET de um novo exercício)
