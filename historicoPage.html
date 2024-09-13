@@ -157,6 +157,7 @@
     return fetch(getHistoricoURL(authentication),
       {
         method: "GET",
+        mode: "cors",
       }
     ).then(response => {
       return response.json();
