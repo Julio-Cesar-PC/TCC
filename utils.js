@@ -45,7 +45,7 @@ function getRandExURL(userId = null, dificuldade = 0) {
 
 function getHistoricoURL(authentication = null) {
   //  var url = "https://script.google.com/macros/s/AKfycbwZKg-bWoZs_OgVkRUmvxxfrdQeSTWbk3lANkRDUPik-zAvLWfieRkhCgFrU415LYYg/exec?actionRequest=getHistorico";
-    var url = "https://script.google.com/macros/s/AKfycbwa7E775tlJisYJ-NWnLyOowDtjKQL3zi9YlCsKcm0H2eYAqg6DRDrTJePpXKNXHEs-6Q/exec?actionRequest=getHistorico";
+    var url = "https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w/exec?actionRequest=getHistorico";
     url = url + "&authentication=" + JSON.stringify(authentication);
 
     return url;
