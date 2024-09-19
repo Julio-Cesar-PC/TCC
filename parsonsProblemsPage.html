@@ -251,7 +251,7 @@
     }
 
     try {
-      fetch("https://script.google.com/macros/s/AKfycbwZKg-bWoZs_OgVkRUmvxxfrdQeSTWbk3lANkRDUPik-zAvLWfieRkhCgFrU415LYYg/exec",
+      fetch( process.env.GOOGLE_SCRIPT_URL + "/exec",
         {
           method: "POST",
           headers: {
