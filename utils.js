@@ -28,7 +28,7 @@ function checkIfSolutionIsCorrect(fb) {
 
 function getRandExURL(userId = null, dificuldade = 0) {
     //var url = "https://script.google.com/macros/s/AKfycbwZKg-bWoZs_OgVkRUmvxxfrdQeSTWbk3lANkRDUPik-zAvLWfieRkhCgFrU415LYYg/exec?actionRequest=getExercicioAleatorio";
-    var url = process.env.GOOGLE_SCRIPT_URL  + "/exec?actionRequest=getExercicioAleatorio";
+    var url = GOOGLE_SCRIPT_URL  + "/exec?actionRequest=getExercicioAleatorio";
     // Add dificuldade
     if (userId == null) {
         // NÃO FUNCIONA AINDA SEM ESTAR LOGADO
@@ -45,7 +45,7 @@ function getRandExURL(userId = null, dificuldade = 0) {
 
 function getHistoricoURL(authentication = null) {
   //  var url = "https://script.google.com/macros/s/AKfycbwZKg-bWoZs_OgVkRUmvxxfrdQeSTWbk3lANkRDUPik-zAvLWfieRkhCgFrU415LYYg/exec?actionRequest=getHistorico";
-    var url = process.env.GOOGLE_SCRIPT_URL + "/exec?actionRequest=getHistorico";
+    var url = GOOGLE_SCRIPT_URL + "/exec?actionRequest=getHistorico";
     url = url + "&authentication=" + JSON.stringify(authentication);
 
     return url;
