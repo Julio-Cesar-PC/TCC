@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create Python Parsons Puzzles</title>
+
+  <link rel="icon" href="./assets/logoicon.png">
+
+  <link href="./parsons.css" rel="stylesheet" />
+  <link href="./lib/prettify.css" rel="stylesheet" />
+  <link href="./cssAnimations.css" rel="stylesheet" />
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <!--
+    To use these fonts in style:
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Space Mono', monospace;
+  -->
+
+  <!-- Icons -->
+  <script src="https://kit.fontawesome.com/fc3f8d6bba.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+  
+  <div id="master-container">
+    <div class="container">
+      <div>
+        <h1>Create Python Parsons Puzzles</h1>
+        <p>Use the form below to create a new Parsons Puzzle.</p>
+        <h2>Criar Novo Puzzle</h2>
+        <form id="puzzleForm">
+          <label for="enunciado">Enunciado:</label><br>
+          <textarea id="enunciado" name="enunciado" rows="4" cols="50" required></textarea><br><br>
+
+          <label for="dificuldade">Dificuldade:</label><br>
+          <select id="dificuldade" name="dificuldade" required>
+            <option value="0">Fácil</option>
+            <option value="1">Médio</option>
+            <option value="2">Difícil</option>
+          </select><br><br>
+
+          <label for="exercicio">Exercício:</label><br>
+          <textarea id="exercicio" name="exercicio" rows="4" cols="50" required></textarea><br><br>
+
+          <label for="max_wrong_lines">Máximo de Linhas Erradas:</label><br>
+          <input type="number" min="0" id="max_wrong_lines" name="max_wrong_lines"><br><br>
+
+          <label for="unittests">Unit Tests (em JSON):</label><br>
+          <textarea id="unittests" name="unittests" rows="4" cols="50" ></textarea><br><br>
+
+          <label for="initcode">Código Inicial:</label><br>
+          <textarea id="initcode" name="initcode" rows="4" cols="50" ></textarea><br><br>
+
+          <label for="code">Código:</label><br>
+          <textarea id="code" name="code" rows="4" cols="50" ></textarea><br><br>
+
+          <label for="toggleTypeHandlers">Toggle Type Handlers (em JSON):</label><br>
+          <textarea id="toggleTypeHandlers" name="toggleTypeHandlers" rows="4" cols="50"></textarea><br><br>
+
+          <label for="vartests">Var Tests (em JSON):</label><br>
+          <textarea id="vartests" name="vartests" rows="4" cols="50"></textarea><br><br>
+
+          <label for="trinketHTML">Trinket HTML (se houver):</label><br>
+          <textarea id="trinketHTML" name="trinketHTML" rows="4" cols="50" required></textarea><br><br>
+
+          <input type="submit" value="Criar Puzzle">
+        </form>
+
+      </div>
+
+      
+    </div>
+  </div>
+</body>
+
+<script>
+  function newPuzzle() {
+    document.getElementById('puzzleForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Evita o comportamento padrão do formulário
+
+      // Função para retornar null caso o campo esteja vazio
+      function optionalFieldValue(field) {
+        return field.value === "" ? null : field.value;
+      }
+
+      function optionalFieldValueMaxGrongLines(field) {
+        return field.value === "" ? countDistractor(exercicio) : field.value;
+      }
+      
+      function distractor(field){
+        return field.value === "" ? countDistractor(exercicio) : field.value;
+      }
+
+      var enunciado = document.getElementById('enunciado').value;
+      var dificuldade = document.getElementById('dificuldade').value;
+      var exercicio = document.getElementById('exercicio').value;
+      var trinketHTML = document.getElementById('trinketHTML').value;
+      
+      // Campos opcionais usando a função optionalFieldValue
+      var max_wrong_lines = optionalFieldValueMaxGrongLines(document.getElementById('max_wrong_lines'));
+      var unittests = optionalFieldValue(document.getElementById('unittests'));
+      var initcode = optionalFieldValue(document.getElementById('initcode'));
+      var code = optionalFieldValue(document.getElementById('code'));
+      var toggleTypeHandlers = optionalFieldValue(document.getElementById('toggleTypeHandlers'));
+      var vartests = optionalFieldValue(document.getElementById('vartests'));
+
+      var auth = document.getElementById('auth').value;
+
+      var postData = {
+        "actionRequest": "postExercicio",
+        "payload": {
+          "enunciado" : enunciado,
+          "dificuldade" : dificuldade,
+          "exercicio" : exercicio,
+          "max_wrong_lines": max_wrong_lines,
+          "unittests": unittests,
+          "initcode": initcode,
+          "code": code,
+          "toggleTypeHandlers": toggleTypeHandlers,
+          "vartests": vartests,
+          "trinketHTML": trinketHTML
+        },
+        "auth": auth
+      }
+
+      try{
+        fetch("https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w" + "/exec", 
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8",
+          },
+          redirect: "follow",
+          body: JSON.stringify(postData), // body data type must match "Content-Type" header
+        })
+        .then(response => {
+          return response.json();
+        })
+        .then(res => {
+          console.log(res);
+          if (typeof res.data != 'undefined') {
+            window.alert("Exercício salvo com sucesso!");
+            // usarei para mostrar o que falta em cada um dos parametros para criacao do exercicio
+
+          } else {
+            window.alert("Algo deu errado :/\nRecarregue a página.");
+          }
+        });
+
+        }
+        catch (error) {
+          window.alert("Algo deu errado :/\nRecarregue a página.");
+        }
+    });
+  }  
+</script>
+</html>

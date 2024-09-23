@@ -6,6 +6,14 @@ function isNullString(value) {
     }
 }
 
+function countSubstring(string, substring) {
+    if (substring === "") return 0; // Evita divisão por 0 no caso de substring vazia
+    console.log(string)
+    console.log(substring)
+    console.log(string.split(substring))
+    return string.split(substring).length - 1;
+}
+
 function checkIfSolutionIsCorrect(fb) {
     if (Array.isArray(fb)) {
         if (fb.length > 0) {
