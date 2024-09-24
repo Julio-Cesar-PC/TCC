@@ -36,7 +36,10 @@
         <h1>Create Python Parsons Puzzles</h1>
         <p>Use the form below to create a new Parsons Puzzle.</p>
         <h2>Criar Novo Puzzle</h2>
-        <form id="puzzleForm">
+        <form 
+        id="puzzleForm"
+        onsubmit="newPuzzle()"
+        >
           <label for="enunciado">Enunciado:</label><br>
           <textarea id="enunciado" name="enunciado" rows="4" cols="50" required></textarea><br><br>
 
@@ -81,85 +84,104 @@
   </div>
 </body>
 
+
+
+<script src="./lib/jquery.min.js"></script>
+<script src="./lib/jquery-ui.min.js"></script>
+<script src="./lib/jquery.ui.touch-punch.min.js"></script>
+<script src="./lib/underscore-min.js"></script>
+<script src="./lib/lis.js"></script>
+<script src="./parsons.js"></script>
+<script src="./lib/prettify.js"></script>
+<script src="../lib/skulpt.js"></script>
+<script src="../lib/skulpt-stdlib.js"></script>
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script src="https://unpkg.com/jwt-decode/build/cjs/index.js"></script>
+<script src="./utils.js"></script>
 <script>
+  /*
+  const userData = getCookie("userData");
+  const auth = getCookie("auth");
+
+  if (userData === null || auth === null) {
+    accessDenied_returningToMain();
+  }
+    */
+
   function newPuzzle() {
-    document.getElementById('puzzleForm').addEventListener('submit', function(event) {
-      event.preventDefault(); // Evita o comportamento padrão do formulário
+    event.preventDefault(); // Evita o comportamento padrão do formulário
 
-      // Função para retornar null caso o campo esteja vazio
-      function optionalFieldValue(field) {
-        return field.value === "" ? null : field.value;
-      }
+    // Função para retornar null caso o campo esteja vazio
+    function optionalFieldValue(field) {
+      return field.value === ""  ?"null" : field.value;
+    }
 
-      function optionalFieldValueMaxGrongLines(field) {
-        return field.value === "" ? countDistractor(exercicio) : field.value;
-      }
-      
-      function distractor(field){
-        return field.value === "" ? countDistractor(exercicio) : field.value;
-      }
+    function optionalFieldValueMaxWrongLines(field) {
+      return field.value === "" ? countSubstring(exercicio, "#distractor") : field.value;
+    }
+    
+    var enunciado = document.getElementById('enunciado').value;
+    var dificuldade = document.getElementById('dificuldade').value;
+    var exercicio = document.getElementById('exercicio').value;
+    var trinketHTML = document.getElementById('trinketHTML').value;
+    
+    // Campos opcionais usando a função optionalFieldValue
+    var max_wrong_lines = optionalFieldValueMaxWrongLines(document.getElementById('max_wrong_lines'));
+    var unittests = optionalFieldValue(document.getElementById('unittests'));
+    var initcode = optionalFieldValue(document.getElementById('initcode'));
+    var code = optionalFieldValue(document.getElementById('code'));
+    var toggleTypeHandlers = optionalFieldValue(document.getElementById('toggleTypeHandlers'));
+    var vartests = optionalFieldValue(document.getElementById('vartests'));
 
-      var enunciado = document.getElementById('enunciado').value;
-      var dificuldade = document.getElementById('dificuldade').value;
-      var exercicio = document.getElementById('exercicio').value;
-      var trinketHTML = document.getElementById('trinketHTML').value;
-      
-      // Campos opcionais usando a função optionalFieldValue
-      var max_wrong_lines = optionalFieldValueMaxGrongLines(document.getElementById('max_wrong_lines'));
-      var unittests = optionalFieldValue(document.getElementById('unittests'));
-      var initcode = optionalFieldValue(document.getElementById('initcode'));
-      var code = optionalFieldValue(document.getElementById('code'));
-      var toggleTypeHandlers = optionalFieldValue(document.getElementById('toggleTypeHandlers'));
-      var vartests = optionalFieldValue(document.getElementById('vartests'));
+   // var auth = document.getElementById('auth').value;
 
-      var auth = document.getElementById('auth').value;
+    var postData = {
+      "actionRequest": "postExercicio",
+      "payload": {
+        "enunciado" : enunciado,
+        "dificuldade" : dificuldade,
+        "exercicio" : exercicio,
+        "max_wrong_lines": max_wrong_lines,
+        "unittests": unittests,
+        "initcode": initcode,
+        "code": code,
+        "toggleTypeHandlers": toggleTypeHandlers,
+        "vartests": vartests,
+        "trinketHTML": trinketHTML
+      },
+      //"auth": auth
+    }
 
-      var postData = {
-        "actionRequest": "postExercicio",
-        "payload": {
-          "enunciado" : enunciado,
-          "dificuldade" : dificuldade,
-          "exercicio" : exercicio,
-          "max_wrong_lines": max_wrong_lines,
-          "unittests": unittests,
-          "initcode": initcode,
-          "code": code,
-          "toggleTypeHandlers": toggleTypeHandlers,
-          "vartests": vartests,
-          "trinketHTML": trinketHTML
+    console.log(postData);
+
+    try{
+      fetch("https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w" + "/exec", 
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8",
         },
-        "auth": auth
-      }
-
-      try{
-        fetch("https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w" + "/exec", 
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8",
-          },
-          redirect: "follow",
-          body: JSON.stringify(postData), // body data type must match "Content-Type" header
-        })
-        .then(response => {
-          return response.json();
-        })
-        .then(res => {
-          console.log(res);
-          if (typeof res.data != 'undefined') {
-            window.alert("Exercício salvo com sucesso!");
-            // usarei para mostrar o que falta em cada um dos parametros para criacao do exercicio
-
-          } else {
-            window.alert("Algo deu errado :/\nRecarregue a página.");
-          }
-        });
-
-        }
-        catch (error) {
+        // redirect:"manual",
+        body: JSON.stringify(postData), // body data type must match "Content-Type" header
+      })
+      .then(response => {
+        return response.json();
+      })
+      .then(res => {
+        console.log(res);
+        if (res.status === "success") {
+          window.alert("Exercício salvo com sucesso!");
+        } 
+        else {
           window.alert("Algo deu errado :/\nRecarregue a página.");
         }
-    });
-  }  
+      });
+
+      }
+      catch (error) {
+        window.alert("CATCH! Algo deu errado :"+ error );
+      }
+  };
+    
 </script>
 </html>
