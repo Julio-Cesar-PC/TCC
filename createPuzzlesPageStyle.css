@@ -1,0 +1,163 @@
+/* ENUNCIADO RELATED */
+
+#enunciado-area { 
+  background-color: #1a1c23;
+  font-family: 'Space Mono', monospace;
+  font-weight: 400;
+  color: #f0f0f0;
+  max-height: fit-content;
+}
+
+#enunciadoText {
+  display: inline-block;
+  margin-top: 20px;
+}
+
+.added pre { /* Por enquanto nao usado */
+  padding-left: 5px;
+}
+
+/* CODE AREA RELATED */
+
+#code-area {
+  display: block;
+  background-color: #414658;
+  border-left: 1px solid #676c88;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  color: #f0f0f0;
+}
+
+.code-code-area {
+  display: block;
+}
+
+/* CODE RELATED BUTTONS */
+
+.buttons-notch {
+  background-color: #313542;
+  padding: 10px;
+  border-bottom: 1px solid #676c88;
+  border-radius: 0px 0px 30px 30px;
+  margin: 0px 24% 0px 16%;
+  justify-content: center;
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttons button {
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  font-size: large;
+  color:#1b0722;
+  margin: 0px 10px 0px 10px;
+  padding: 5px 20px;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  transition: ease 0.2s;
+}
+
+.buttons button:hover {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px, rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
+#btnTestYourself {
+  background: #b184c2;
+}
+
+#btnTestYourself img {
+  position: relative;
+}
+
+#btnReset {
+  color: #dbdbdb;
+  background-color: #414658;
+  box-shadow: inset 0px 0px 0px 2px #929292;
+}
+
+#btnReset:hover {
+  box-shadow: inset 0px 0px 0px 2px #f1f1f1;
+}
+
+#btnSubmit {
+  background: #dbfa50;
+}
+
+#msg-salvando {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: large;
+  color:#fafafa;
+  margin: 0px 10px 0px 10px;
+  padding: 5px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#msg-carregando-continua {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: large;
+  color:#fafafa;
+  margin: 0px 10px 0px 10px;
+  padding: 5px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#msg-carregando {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 2rem;
+  color:#fafafa;
+  margin: 5rem 10px 5rem 10px;
+  padding: 5px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* PREVIEW RELATED */
+
+#preview{
+  background-color: #1a1c23;
+}
+
+#useless{
+  background-color: #1a1c23;
+}
+
+/* FEEDBACK RELATED */
+
+#feedback-area { 
+  background-color: #1a1c23;
+  border-top: 1px solid #676c88;
+  border-left: 1px solid #676c88;
+  font-family: 'Space Mono', monospace;
+}
+
+.feedback-title-area {
+  display: flex;
+  justify-content: space-between;
+}
+
+.feedback-feedback-area { 
+  font-weight: 400;
+  color: #f0f0f0;
+  margin-top: 20px;
+}
+
+#feedbackTitle {
+  font-family: 'Space Mono', monospace;
+  color: #f0f0f0;
+  font-weight: 700;
+}
+

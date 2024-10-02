@@ -7,10 +7,13 @@
 
   <link rel="icon" href="./assets/logoicon.png">
 
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
   <link href="./parsons.css" rel="stylesheet" />
   <link href="./lib/prettify.css" rel="stylesheet" />
   <link href="./cssAnimations.css" rel="stylesheet" />
-
+  <link href="./createPuzzlesPageStyle.css" rel="stylesheet">
+  
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
 
 
@@ -31,8 +34,8 @@
 <body>
   
   <div id="master-container">
-    <div class="container">
-      <div>
+    <div class="row">
+      <div id="form" class="col-12">
         <h1>Create Python Parsons Puzzles</h1>
         <p>Use the form below to create a new Parsons Puzzle.</p>
         <h2>Criar Novo Puzzle</h2>
@@ -79,6 +82,58 @@
 
       </div>
 
+
+    </div>
+      
+    <div id="preview" class="row">
+      <div id="enunciado-area" class="col-4">
+        <div >
+          <h1>Enunciado:</h1>
+          <span id="enunciadoText">
+          </span>
+        </div>
+      </div>
+  
+      <div id="code-area" class="col-8">
+        <div class="buttons-notch">
+          <div class="buttons">
+            <button class="button" id="btnReset">Resetar</button>
+            <button class="button" id="btnTestYourself" hidden>
+              <img src="./assets/trinket-logo.png" height="15px">
+              Teste
+            </button>
+            <button class="button" id="btnSubmit">Run</button>
+          </div>
+        </div>
+        <div class="code-code-area">
+          <div id="msg-carregando" style="display: none;">
+            <span class="loader-carregando"></span>
+            <span class="icon-text">Carregando...</span>
+          </div>
+          <div id="sortableTrash" class="sortable-code"></div>
+          <div id="sortable" class="sortable-code"></div>
+        </div>
+      </div>
+    </div>
+    <div class="row" id="feedback-row">
+      <div class="col-4" id="useless">
+        
+      </div>
+
+      <div class="col-8" id="feedback-area">
+        <div class="block-margin">
+          <div class="feedback-title-area">
+            <h1 id="feedBackTitle">Feedback:</h1>
+          </div>
+
+          <div class="feedback-feedback-area">
+            <span id="feedbackText">
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
       
     </div>
   </div>
@@ -108,17 +163,21 @@
   }
     */
 
+
+  var parson;
+   // Função para retornar null caso o campo esteja vazio
+   function optionalFieldValue(field) {
+       return field.value === ""  ?"null" : field.value;
+   }
+     
+   function optionalFieldValueMaxWrongLines(field) {
+       return field.value === "" ? countSubstring(exercicio.value, "#distractor") : field.value;
+   }
+
   function newPuzzle() {
     event.preventDefault(); // Evita o comportamento padrão do formulário
 
-    // Função para retornar null caso o campo esteja vazio
-    function optionalFieldValue(field) {
-      return field.value === ""  ?"null" : field.value;
-    }
-
-    function optionalFieldValueMaxWrongLines(field) {
-      return field.value === "" ? countSubstring(exercicio, "#distractor") : field.value;
-    }
+    
     
     var enunciado = document.getElementById('enunciado').value;
     var dificuldade = document.getElementById('dificuldade').value;
@@ -182,6 +241,89 @@
         window.alert("CATCH! Algo deu errado :"+ error );
       }
   };
+
+  // Captura os campos do formulário
+  const previewDiv = document.getElementById('preview');
+    // Função para atualizar o conteúdo da div
+  function atualizarDiv() {
+    const enunciadoText = document.getElementById('enunciadoText');
+    enunciadoText.innerHTML = ` ${enunciado.value} `
+  }
+
+
+  function displayFeedback(fb) {
+    console.log("displayFeedback : " + fb);
+    function exercicioCorreto() {
+      $("#feedbackText").html("Parabéns, você acertou!");
+    }
+
+    if (Array.isArray(fb)) {
+      if (fb.length > 0) {
+        $("#feedbackText").html(fb[0]);
+      } 
+      else {
+        exercicioCorreto();
+      }
+    } 
+    else if (fb.hasOwnProperty("feedback")) {
+      if (fb.success) {
+        exercicioCorreto();
+      }
+      else {
+        $("#feedbackText").html(fb.feedback);
+      }
+    } 
+    else {
+      if (fb.success) {
+        exercicioCorreto();
+      }
+    }
+  }
+
+  function atualizarSorteableTrash(){
+    console.log("atualizarSorteableTrash");
+
+    var dificuldade = document.getElementById('dificuldade').value;
+    var exercicio = document.getElementById('exercicio').value;
+    var trinketHTML = document.getElementById('trinketHTML').value;
     
+    // Campos opcionais usando a função optionalFieldValue
+    var max_wrong_lines = optionalFieldValueMaxWrongLines(document.getElementById('max_wrong_lines'));
+    var unittests = optionalFieldValue(document.getElementById('unittests'));
+    var initcode = optionalFieldValue(document.getElementById('initcode'));
+    var code = optionalFieldValue(document.getElementById('code'));
+    var toggleTypeHandlers = optionalFieldValue(document.getElementById('toggleTypeHandlers'));
+    var vartests = optionalFieldValue(document.getElementById('vartests'));
+    
+    parson = new ParsonsWidget({
+      'sortableId': 'sortable',
+      'trashId': 'sortableTrash',
+      'max_wrong_lines': max_wrong_lines,
+      'lang': 'ptbr',
+      'initcode': isNullString(initcode),
+      'toggleTypeHandlers': isNullString(toggleTypeHandlers),
+      'unittests': isNullString(unittests),
+      'vartests': isNullString(vartests)
+    });
+    parson.init(exercicio);
+    parson.shuffleLines();
+  }
+
+  enunciado.addEventListener('input', atualizarDiv);
+ // dificuldade.addEventListener('input', atualizarDiv);
+  exercicio.addEventListener('change', atualizarSorteableTrash);
+  max_wrong_lines.addEventListener('input', atualizarSorteableTrash);
+
+  var btnRun = document.getElementById('btnSubmit');
+  btnRun.addEventListener('click', function() {
+    var fb = parson.getFeedback();
+    displayFeedback(fb);
+  });
+  var btnReset = document.getElementById('btnReset');
+  btnReset.addEventListener('click', function() {
+    parson.shuffleLines();
+    $("#feedbackText").html("");
+  });
+      
 </script>
 </html>

@@ -7,12 +7,14 @@ function isNullString(value) {
 }
 
 function countSubstring(string, substring) {
-    if (substring === "") return 0; // Evita divisão por 0 no caso de substring vazia
-    console.log(string)
-    console.log(substring)
-    console.log(string.split(substring))
+    console.log("sou: " +string)
+    console.log("quero: "+substring)
+    if (substring == "") return 0; // Evita divisão por 0 no caso de substring vazia
+    if(string == "") return 0;
     return string.split(substring).length - 1;
 }
+
+
 
 function checkIfSolutionIsCorrect(fb) {
     if (Array.isArray(fb)) {
