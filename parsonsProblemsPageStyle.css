@@ -205,6 +205,16 @@ pre {
   margin-top: 20px;
 }
 
+#enunciado-text a {
+  color: #0000FF; /* Cor do link */
+  text-decoration: underline;
+}
+
+#enunciado-text a:hover {
+  text-decoration: none;
+  cursor: pointer; 
+}
+
 .added pre {
   padding-left: 5px;
 }

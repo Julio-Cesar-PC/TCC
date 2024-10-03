@@ -1,3 +1,10 @@
+/* FORMULARIO RELATED*/
+
+#puzzle-form{
+  padding: auto;
+  margin: auto;
+}
+
 /* ENUNCIADO RELATED */
 
 #enunciado-area { 
@@ -161,3 +168,21 @@
   font-weight: 700;
 }
 
+/* QUILL RELATED*/
+
+/* Estilo básico do Quill */
+#editor {
+  height: 100px; /* Ajuste a altura conforme necessário */
+  width: 100%; /* Ajuste a largura conforme necessário */
+  background-color: white;
+  margin-bottom: 10px;
+}
+
+/* Remover margens adicionais do Quill para economizar espaço */
+.ql-container {
+  border: 1px solid #ccc; /* Ajusta a borda, se necessário */
+}
+
+.ql-toolbar {
+  border: 1px solid #ccc; /* Ajusta a borda da barra de ferramentas */
+}

@@ -16,6 +16,8 @@
   
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
 
+  <!-- Quill -->
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,22 +31,55 @@
 
   <!-- Icons -->
   <script src="https://kit.fontawesome.com/fc3f8d6bba.js" crossorigin="anonymous"></script>
+  <style>
+    /* Estilo básico do Quill */
+    #editor {
+      height: 100px; /* Ajuste a altura conforme necessário */
+      width: 100%; /* Ajuste a largura conforme necessário */
+      background-color: white;
+      margin-bottom: 10px;
+    }
 
+    /* Remover margens adicionais do Quill para economizar espaço */
+    .ql-container {
+      border: 1px solid #ccc; /* Ajusta a borda, se necessário */
+    }
+
+    .ql-toolbar {
+      border: 1px solid #ccc; /* Ajusta a borda da barra de ferramentas */
+    }
+  </style>
 </head>
 <body>
   
   <div id="master-container">
+    
     <div class="row">
-      <div id="form" class="col-12">
-        <h1>Create Python Parsons Puzzles</h1>
-        <p>Use the form below to create a new Parsons Puzzle.</p>
-        <h2>Criar Novo Puzzle</h2>
-        <form 
-        id="puzzleForm"
+      <h1>Create Python Parsons Puzzles</h1>
+      <p>Use the form below to create a new Parsons Puzzle.</p>
+      <h2>Criar Novo Puzzle</h2>
+      
+      <form
+        id="puzzle-form"
         onsubmit="newPuzzle()"
-        >
-          <label for="enunciado">Enunciado:</label><br>
-          <textarea id="enunciado" name="enunciado" rows="4" cols="50" required></textarea><br><br>
+        class="row"
+      >
+        
+        <div class="col-6" id="obrigatorias">
+          <!--
+            <label for="enunciado">Enunciado:</label><br>
+            <textarea id="enunciado" name="enunciado" rows="4" cols="50" required></textarea><br><br>
+          
+          -->
+
+          <div class="content">
+            <label for="enunciado">Enunciado:</label><br>
+            <div id="editor"></div>
+            <!-- Campo oculto para enviar o conteúdo do Quill -->
+            <input type="hidden" id="enunciado" name="enunciado">
+
+          </div>
+
 
           <label for="dificuldade">Dificuldade:</label><br>
           <select id="dificuldade" name="dificuldade" required>
@@ -56,6 +91,10 @@
           <label for="exercicio">Exercício:</label><br>
           <textarea id="exercicio" name="exercicio" rows="4" cols="50" required></textarea><br><br>
 
+          <label for="trinketHTML">Trinket HTML (se houver):</label><br>
+          <textarea id="trinketHTML" name="trinketHTML" rows="4" cols="50" required></textarea><br><br>
+        </div>
+        <div class="col-6" id="opcionais">
           <label for="max_wrong_lines">Máximo de Linhas Erradas:</label><br>
           <input type="number" min="0" id="max_wrong_lines" name="max_wrong_lines"><br><br>
 
@@ -73,23 +112,16 @@
 
           <label for="vartests">Var Tests (em JSON):</label><br>
           <textarea id="vartests" name="vartests" rows="4" cols="50"></textarea><br><br>
-
-          <label for="trinketHTML">Trinket HTML (se houver):</label><br>
-          <textarea id="trinketHTML" name="trinketHTML" rows="4" cols="50" required></textarea><br><br>
-
-          <input type="submit" value="Criar Puzzle">
-        </form>
-
-      </div>
-
-
+        </div>
+        <input type="submit" value="Criar Puzzle">
+      </form>
     </div>
       
     <div id="preview" class="row">
       <div id="enunciado-area" class="col-4">
         <div >
           <h1>Enunciado:</h1>
-          <span id="enunciadoText">
+          <span id="enunciado-text">
           </span>
         </div>
       </div>
@@ -179,7 +211,7 @@
 
     
     
-    var enunciado = document.getElementById('enunciado').value;
+    var enunciado = document.getElementById('enunciado-text').innerHTML;
     var dificuldade = document.getElementById('dificuldade').value;
     var exercicio = document.getElementById('exercicio').value;
     var trinketHTML = document.getElementById('trinketHTML').value;
@@ -242,13 +274,8 @@
       }
   };
 
-  // Captura os campos do formulário
-  const previewDiv = document.getElementById('preview');
-    // Função para atualizar o conteúdo da div
-  function atualizarDiv() {
-    const enunciadoText = document.getElementById('enunciadoText');
-    enunciadoText.innerHTML = ` ${enunciado.value} `
-  }
+
+
 
 
   function displayFeedback(fb) {
@@ -281,7 +308,6 @@
   }
 
   function atualizarSorteableTrash(){
-    console.log("atualizarSorteableTrash");
 
     var dificuldade = document.getElementById('dificuldade').value;
     var exercicio = document.getElementById('exercicio').value;
@@ -309,8 +335,7 @@
     parson.shuffleLines();
   }
 
-  enunciado.addEventListener('input', atualizarDiv);
- // dificuldade.addEventListener('input', atualizarDiv);
+ // enunciado.addEventListener('input', atualizarDiv);
   exercicio.addEventListener('change', atualizarSorteableTrash);
   max_wrong_lines.addEventListener('input', atualizarSorteableTrash);
 
@@ -326,4 +351,20 @@
   });
       
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<!-- Initialize Quill editor -->
+<script>
+  function atualizarEnunciado() {
+    var enunciadoHTML = quill.root.innerHTML;
+    document.getElementById('enunciado-text').innerHTML = enunciadoHTML;
+  }
+  const quill = new Quill('#editor', {
+    theme: 'snow'
+  });
+  // Capturando mudanças no editor e atualizando a div
+  quill.on('text-change', atualizarEnunciado);
+</script>
+
+
 </html>
