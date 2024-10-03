@@ -1,4 +1,8 @@
 /* FORMULARIO RELATED*/
+#master-container {
+  padding: 5px;
+  margin: 5px;
+}
 
 #puzzle-form{
   padding: auto;
@@ -96,6 +100,25 @@
   background: #dbfa50;
 }
 
+#btnTeste{
+  background: #50fa7b;
+  box-shadow: inset 0px 0px 0px 2px #6ece15;
+
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  font-size: large;
+  margin: 0px 10px 0px 10px;
+  padding: 5px 20px;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  transition: ease 0.2s;
+}
+#btnTeste:hover {
+  box-shadow: inset 0px 0px 0px 2px #15ce2d;
+}
+
 #msg-salvando {
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
@@ -154,6 +177,7 @@
 .feedback-title-area {
   display: flex;
   justify-content: space-between;
+  color: #f0f0f0;
 }
 
 .feedback-feedback-area { 
@@ -185,4 +209,29 @@
 
 .ql-toolbar {
   border: 1px solid #ccc; /* Ajusta a borda da barra de ferramentas */
+}
+
+#python-tutor{
+  color: #0d6efd;
+}
+
+/* ToolTip*/
+
+.tooltip-btn{
+  border-radius: 50%; /* Faz o botão ficar totalmente arredondado */
+  padding: 0;        /* Remove o padding padrão */
+  width: 1.25em;      /* Ajusta a largura com base na altura da fonte */
+  height: 1.25em;     /* Ajusta a altura com base na altura da fonte */
+  font-size: 1em;    /* Garante que o tamanho do ícone seja proporcional ao texto */
+  line-height: 1.5em;/* Centraliza o texto verticalmente */
+  display: inline-flex; /* Centraliza o conteúdo do botão */
+  justify-content: center;
+  align-items: center;
+  color: black; /* Cor de fundo do botão */
+  background-color: #e9a931; /* Cor do texto do botão */
+}
+
+.tooltip-btn:hover{
+  background-color: #339cd1; /* Cor de fundo do botão */
+  color: black; /* Cor do texto do botão */
 }
