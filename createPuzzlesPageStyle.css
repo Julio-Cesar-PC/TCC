@@ -96,7 +96,30 @@
   box-shadow: inset 0px 0px 0px 2px #f1f1f1;
 }
 
-#btnSubmit {
+
+#btnSubmit{
+  background: #ff42e6;
+  box-shadow: inset 0px 0px 0px 2px #ce1581;
+
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  font-size: large;
+  margin: 0px 10px 0px 10px;
+  padding: 5px 20px;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  transition: all 0.3s ease;
+
+}
+#btnSubmit:hover {
+  box-shadow: inset 0px 0px 0px 2px #ce15ce;
+}
+
+
+
+#btnRun {
   background: #dbfa50;
 }
 
@@ -165,6 +188,12 @@
   background-color: #1a1c23;
 }
 
+#imagePreview{
+  border: 1px solid #676c88;
+  display: flex;
+  justify-content: center;
+}
+
 /* FEEDBACK RELATED */
 
 #feedback-area { 
@@ -195,23 +224,37 @@
 /* QUILL RELATED*/
 
 /* Estilo básico do Quill */
-#editor {
-  height: 100px; /* Ajuste a altura conforme necessário */
+#quillEnunciado {
+  height: 150px; /* Ajuste a altura conforme necessário */
+  width: 100%; /* Ajuste a largura conforme necessário */
+  background-color: white;
+  margin-bottom: 10px;
+
+}
+#quillExercicio{
+  height: 200px; /* Ajuste a altura conforme necessário */
   width: 100%; /* Ajuste a largura conforme necessário */
   background-color: white;
   margin-bottom: 10px;
 }
-
+.q1-editor{
+  height: 20px; /* Ajuste a altura conforme necessário */
+  width: 100%; /* Ajuste a largura conforme necessário */
+  background-color: white;
+  margin-bottom: 10px;
+}
 /* Remover margens adicionais do Quill para economizar espaço */
 .ql-container {
   border: 1px solid #ccc; /* Ajusta a borda, se necessário */
+  height: 50%;
 }
 
 .ql-toolbar {
   border: 1px solid #ccc; /* Ajusta a borda da barra de ferramentas */
+  height: 50px; /* Ajusta a altura da barra de ferramentas */
 }
 
-#python-tutor{
+.link{
   color: #0d6efd;
 }
 
@@ -234,4 +277,11 @@
 .tooltip-btn:hover{
   background-color: #339cd1; /* Cor de fundo do botão */
   color: black; /* Cor do texto do botão */
+}
+
+textarea {
+  width: 100%;
+  max-width: 100%;
+  min-width: 100%;
+  box-sizing: border-box; /* para garantir que o padding não adicione largura extra */
 }

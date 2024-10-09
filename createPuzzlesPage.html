@@ -54,77 +54,126 @@
   
   <div id="master-container">
     
-    <div class="row">
+    
+    <div >
       <h1>Create Python Parsons Puzzles</h1>
       <p>Use the form below to create a new Parsons Puzzle.</p>
       <h2>Criar Novo Puzzle</h2>
       
       <form
         id="puzzle-form"
-        onsubmit="newPuzzle()"
-        class="row"
       >
         
-        <div class="col-6" id="obrigatorias">
-
-          <div class="content">
+        <div class="row">
+          <div class="col-1">
+            <label for="dificuldade">Dificuldade:</label><br>
+            <select id="dificuldade" name="dificuldade" required>
+              <option value="0">Fácil</option>
+              <option value="1">Médio</option>
+              <option value="2">Difícil</option>
+            </select><br><br>
+          </div>
+          <div class="col-2">
+            <label for="area">Área de Conhecimento:</label><br>
+            <select name="area" id="area" required>
+              <option value="logica">Lógica de Programação</option>
+              <option value="matematica">Matemática</option>
+              <option value="fisica">Física</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
             <label for="enunciado">Enunciado:</label><br>
-            <div id="editor"></div>
+            <div id="quillEnunciado" ></div>
             <!-- Campo oculto para enviar o conteúdo do Quill -->
             <input type="hidden" id="enunciado" name="enunciado">
           </div>
-
-          <label for="dificuldade">Dificuldade:</label><br>
-          <select id="dificuldade" name="dificuldade" required>
-            <option value="0">Fácil</option>
-            <option value="1">Médio</option>
-            <option value="2">Difícil</option>
-          </select><br><br>
-
-          <label for="exercicio">Exercício:
-            <button type="button" class="btn btn-secondary tooltip-btn" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Cada linha será um dos blocos arrastáveis e a ordem escrita será a ordem correta">
-              ?
-            </button>
-          </label>
-          
-          <br>
-          <textarea id="exercicio" name="exercicio" placeholder='print("Hello world")' rows="4" cols="50" required></textarea>
-          <br><br>
-
-          <label for="trinketHTML">Trinket HTML (se houver):</label><br>
-          <textarea id="trinketHTML" name="trinketHTML" rows="4" cols="50" required></textarea><br><br>
-        </div>
-
-        <div class="col-6">
-          <button class="button" id="btnTeste" data-bs-toggle="collapse" data-bs-target="#opcionais" aria-expanded="false" aria-controls="opcionais">Opcionais</button>
-
-          <div class="collapse" id="opcionais">
-            <label for="max_wrong_lines">Máximo de Linhas Erradas:</label><br>
-            <input type="number" min="0" id="max_wrong_lines" name="max_wrong_lines"><br><br>
-
-            <label for="python_tutor">Link do Python Tutor:</label>
-            <a id="python-tutor" href="https://pythontutor.com/render.html#mode=edit" target="_blank">Gere Link Permanente</a>
-            <textarea name="python_tutor" id="python_tutor" placeholder="Acesse o website, escreva seu código, clique em 'Generate permanente link', por fim coloque o link aqui" rows="4" cols="50"></textarea><br><br>
-
-            <label for="unittests">Unit Tests (em JSON):</label><br>
-            <textarea id="unittests" name="unittests" rows="4" cols="50" ></textarea><br><br>
-
-            <label for="initcode">Código Inicial:</label><br>
-            <textarea id="initcode" name="initcode" rows="4" cols="50" ></textarea><br><br>
-            
-            <label for="code">Código:</label><br>
-            <textarea id="code" name="code" rows="4" cols="50" ></textarea><br><br>
-            
-            <label for="toggleTypeHandlers">Toggle Type Handlers (em JSON):</label><br>
-            <textarea id="toggleTypeHandlers" name="toggleTypeHandlers" rows="4" cols="50"></textarea><br><br>
-            
-            <label for="vartests">Var Tests (em JSON):</label><br>
-            <textarea id="vartests" name="vartests" rows="4" cols="50"></textarea><br><br>
+      
+          <div class="col-8">
+            <label for="exercicio">Exercício:
+              <button type="button" class="btn btn-secondary tooltip-btn" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Cada linha será um dos blocos arrastáveis, a ordem escrita será a ordem correta e para usar identação basta um espaço">
+                ?
+              </button>
+            </label>
+            <div id="quillExercicio"></div>
           </div>
         </div>
+
+
+          
+
+          
+
+          <!--
+            <div class="content col-6">
+              <label for="exericio">Exercício:
+                <button type="button" class="btn btn-secondary tooltip-btn" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Cada linha será um dos blocos arrastáveis, a ordem escrita será a ordem correta e para usar identação basta um espaço">
+                  ?
+                </button>
+              </label><br>
+              <div id="editorExercicio"></div>
+              <input type="hidden" id="exercicio" name="exercicio">
+            </div>
+
+            <label for="exercicio">Exercício:
+              <button type="button" class="btn btn-secondary tooltip-btn" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Cada linha será um dos blocos arrastáveis, a ordem escrita será a ordem correta e para usar identação basta um espaço">
+                ?
+              </button>
+            </label>
+            <br>
+            <textarea id="exercicio" name="exercicio" placeholder='print("Hello world")' rows="4" cols="50" required></textarea>
+            <br><br>
+            -->
+        </div>
+        
+        <div class="row">
+          <div class="col-2">
+            <button class="button" id="btnTeste" type="button" data-bs-toggle="collapse" data-bs-target="#opcionais" aria-expanded="false" aria-controls="opcionais">Opcionais</button>
+          </div>
+          <div class="col-2">
+            <button class="button" id="btnSubmit" type="submit">Submit</button>
+          </div>
+        </div>
+        
+        <!-- Div colapsável -->
+        <div class="collapse" id="opcionais">
+          <label for="max_wrong_lines">Máximo de Linhas Erradas:</label><br>
+          <input type="number" min="0" id="max_wrong_lines" name="max_wrong_lines"><br><br>
+          
+          
+          <!-- Campo de upload de imagem -->
+          <label for="imageInput">Escolha uma imagem:</label>
+          <input type="file" id="imageInput" accept="image/*"><br><br>
+          
+          <!-- Outros campos -->
+          <label for="python_tutor">Link do Python Tutor:</label>
+          <a class="link" href="https://pythontutor.com/render.html#mode=edit" target="_blank">Gere Link Permanente</a>
+          <textarea name="python_tutor" id="python_tutor" placeholder="Acesse o website, escreva seu código, clique em 'Generate permanente link', por fim coloque o link aqui" rows="4" cols="50"></textarea><br><br>
+          
+          <label for="trinketHTML">Trinket HTML</label>
+          <a class="link" href="https://trinket.io/library/trinkets/create?lang=python" target="_blank" rel="noopener noreferrer">Gere seu TRinket HTML</a>
+          <textarea id="trinketHTML" name="trinketHTML" rows="4" cols="50"></textarea><br><br>
+        
+          <label for="unittests">Unit Tests (em JSON):</label><br>
+          <textarea id="unittests" name="unittests" rows="4" cols="50"></textarea><br><br>
+        
+          <label for="initcode">Código Inicial:</label><br>
+          <textarea id="initcode" name="initcode" rows="4" cols="50"></textarea><br><br>
+        
+          <label for="code">Código:</label><br>
+          <textarea id="code" name="code" rows="4" cols="50"></textarea><br><br>
+        
+          <label for="toggleTypeHandlers">Toggle Type Handlers (em JSON):</label><br>
+          <textarea id="toggleTypeHandlers" name="toggleTypeHandlers" rows="4" cols="50"></textarea><br><br>
+        
+          <label for="vartests">Var Tests (em JSON):</label><br>
+          <textarea id="vartests" name="vartests" rows="4" cols="50"></textarea><br><br>
+        </div>
+
+        
       </form>
-      
-      <input class="col-1" type="submit" value="Criar Puzzle">
+        
     </div>
     
     <div id="preview" class="row">
@@ -139,12 +188,12 @@
       <div id="code-area" class="col-8">
         <div class="buttons-notch">
           <div class="buttons">
-            <button class="button" id="btnReset">Resetar</button>
+            <button class="button" id="btnReset">Shuffle</button>
             <button class="button" id="btnTestYourself" hidden>
               <img src="./assets/trinket-logo.png" height="15px">
               Teste
             </button>
-            <button class="button" id="btnSubmit">Run</button>
+            <button class="button" id="btnRun">Run</button>
               
           </div>
         </div>
@@ -160,7 +209,9 @@
     </div>
     <div class="row" id="feedback-row">
       <div class="col-4" id="useless">
-        
+        <!-- Div onde a imagem será exibida -->
+        <div id="imagePreview">
+        </div>
       </div>
 
       <div class="col-8" id="feedback-area">
@@ -210,26 +261,41 @@
 
 
   var parson;
-   // Função para retornar null caso o campo esteja vazio
-   function optionalFieldValue(field) {
-       return field.value === ""  ?"null" : field.value;
-   }
-     
-   function optionalFieldValueMaxWrongLines(field) {
-       return field.value === "" ? countSubstring(exercicio.value, "#distractor") : field.value;
-   }
+  // Função para retornar null caso o campo esteja vazio
+  function optionalFieldValue(field) {
+      return field.value === ""  ?"null" : field.value;
+  }
+    
+  function optionalFieldValueMaxWrongLines(field) {
+    // pega o valor do exercicio a partir do quill.js
+    var valorExercicio = returnExercicio();
+    console.log("valor do exercicio: "+ valorExercicio);
+    return field.value === "" ? countSubstring(valorExercicio, "#distractor") : field.value;
+  }
+
+  function fieldImage(imageInput){
+    if (imageInput.files.length > 0) {
+      return imageInput.files[0];
+    }
+    return "null"
+  }
 
   function newPuzzle() {
+
     event.preventDefault(); // Evita o comportamento padrão do formulário
 
-    
-    
     var enunciado = document.getElementById('enunciado-text').innerHTML;
     var dificuldade = document.getElementById('dificuldade').value;
-    var exercicio = document.getElementById('exercicio').value;
-    var trinketHTML = document.getElementById('trinketHTML').value;
+    var exercicio = returnExercicio();
+    var area = document.getElementById('area').value;
+
     
     // Campos opcionais usando a função optionalFieldValue
+    var trinketHTML = optionalFieldValue(document.getElementById('trinketHTML'));
+    var pythonTutor = optionalFieldValue(document.getElementById('python_tutor'));
+
+    var imageInput = fieldImage(document.getElementById('imageInput'));
+
     var max_wrong_lines = optionalFieldValueMaxWrongLines(document.getElementById('max_wrong_lines'));
     var unittests = optionalFieldValue(document.getElementById('unittests'));
     var initcode = optionalFieldValue(document.getElementById('initcode'));
@@ -251,7 +317,10 @@
         "code": code,
         "toggleTypeHandlers": toggleTypeHandlers,
         "vartests": vartests,
-        "trinketHTML": trinketHTML
+        "trinketHTML": trinketHTML,
+        "area" : area,
+        "pythonTutor" : pythonTutor,
+        "imgEnunciado" : imageInput
       },
       //"auth": auth
     }
@@ -287,10 +356,6 @@
       }
   };
 
-
-
-
-
   function displayFeedback(fb) {
     console.log("displayFeedback : " + fb);
     function exercicioCorreto() {
@@ -321,9 +386,11 @@
   }
 
   function atualizarSorteableTrash(){
+    // pega o valor do exercicio a partir do quill.js
+    var exercicio = returnExercicio();
 
     var dificuldade = document.getElementById('dificuldade').value;
-    var exercicio = document.getElementById('exercicio').value;
+    //var exercicio = document.getElementById('exercicio').value;
     var trinketHTML = document.getElementById('trinketHTML').value;
     
     // Campos opcionais usando a função optionalFieldValue
@@ -348,11 +415,9 @@
     parson.shuffleLines();
   }
 
- // enunciado.addEventListener('input', atualizarDiv);
-  exercicio.addEventListener('change', atualizarSorteableTrash);
   max_wrong_lines.addEventListener('input', atualizarSorteableTrash);
 
-  var btnRun = document.getElementById('btnSubmit');
+  var btnRun = document.getElementById('btnRun');
   btnRun.addEventListener('click', function() {
     var fb = parson.getFeedback();
     displayFeedback(fb);
@@ -365,34 +430,39 @@
       
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
-<!-- Initialize Quill editor -->
-<script>
-  function atualizarEnunciado() {
-    var enunciadoHTML = quill.root.innerHTML;
-    document.getElementById('enunciado-text').innerHTML = enunciadoHTML;
-  }
 
-  var toolbarOptions = [
-    [{ 'header': [1, 2, 3, false] }],       // Títulos
-    ['bold', 'italic', 'underline'],        // Formatos de texto
-    [{ 'list': 'ordered'}, { 'list': 'bullet' }],  // Listas
-    ['code-block'],                         // Bloco de código
-    ['code']                                // Texto inline como código
-  ];
-
-  const quill = new Quill('#editor', {
-    theme: 'snow',
-    modules: {
-      toolbar: toolbarOptions
-    }
-  });
-  // Capturando mudanças no editor e atualizando a div
-  quill.on('text-change', atualizarEnunciado);
-</script>
 <script>
+  // para fazer o tooltip funcionar
   const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
   const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 </script>
+
+<script>
+  document.getElementById('imageInput').addEventListener('change', function(event) {
+    const imagePreview = document.getElementById('imagePreview');
+    const file = event.target.files[0];
+  
+    if (file) {
+      const reader = new FileReader();
+  
+      // Quando a imagem é carregada, exibe-a na div
+      reader.onload = function(e) {
+        imagePreview.innerHTML = ''; // Limpa qualquer conteúdo anterior
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        img.style.maxWidth = '80%'; // Ajusta a imagem ao tamanho da div
+        img.style.maxHeight = '80%';
+        imagePreview.appendChild(img); // Adiciona a imagem à div
+      };
+  
+      reader.readAsDataURL(file); // Converte o arquivo de imagem para URL
+    } else {
+      imagePreview.innerHTML = '<span>Imagem não selecionada</span>'; // Exibe uma mensagem se nenhuma imagem for selecionada
+    }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+<script src="quiil.js"></script>
 
 </html>

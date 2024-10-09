@@ -7,8 +7,8 @@ function isNullString(value) {
 }
 
 function countSubstring(string, substring) {
-    console.log("sou: " +string)
-    console.log("quero: "+substring)
+    //console.log("sou: " +string)
+    //console.log("quero: "+substring)
     if (substring == "") return 0; // Evita divisão por 0 no caso de substring vazia
     if(string == "") return 0;
     return string.split(substring).length - 1;
