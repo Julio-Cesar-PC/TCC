@@ -1,7 +1,16 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #282a36;
+}
+
 /* FORMULARIO RELATED*/
 #master-container {
   padding: 5px;
   margin: 5px;
+  background-color: #282a36;
+  color: #e9a931;
 }
 
 #puzzle-form{
@@ -9,7 +18,35 @@
   margin: auto;
 }
 
+#exercicio-col{
+  color: #e9a931;
+  border-right: 1px solid #676c88;
+  border-bottom: 1px solid #676c88;
+  background-color: #414658;
+}
+
+#labelExercicio{
+  background-color: #313542;
+  border-bottom: 1px solid #676c88;
+  border-radius: 0px 0px 30px 30px;
+  margin-bottom: 2px;
+}
+#labelExercicio label{
+  margin-left: 5%; 
+}
+
+#labelEnunciado{
+  margin-bottom: 3px;
+}
+
 /* ENUNCIADO RELATED */
+
+#enunciado-col{
+  color: #e9a931;
+  border-right: 1px solid #676c88;
+  border-bottom: 1px solid #676c88;
+  background-color: #1a1c23;
+}
 
 #enunciado-area { 
   background-color: #1a1c23;
@@ -229,29 +266,41 @@
   width: 100%; /* Ajuste a largura conforme necessário */
   background-color: white;
   margin-bottom: 10px;
-
+  color: black;
 }
+
+/* Estilo para os menus de cor */
+#enunciado-toolbar span  {
+  color: #0ea121; /* Cor do texto do menu */
+}
+
 #quillExercicio{
+  color: black;
   height: 200px; /* Ajuste a altura conforme necessário */
   width: 100%; /* Ajuste a largura conforme necessário */
-  background-color: white;
+  background-color: #c1c4d0;
   margin-bottom: 10px;
 }
-.q1-editor{
-  height: 20px; /* Ajuste a altura conforme necessário */
-  width: 100%; /* Ajuste a largura conforme necessário */
-  background-color: white;
+
+.quillExercicio .ql-editor{
+  background-color: #c1c4d0;
   margin-bottom: 10px;
+  border: 1px dashed #e278c1;
 }
+.quillExercicio .ql-container.ql-snow {
+  border: 10px solid #828aa7;
+  border-radius: 5px;
+}
+
 /* Remover margens adicionais do Quill para economizar espaço */
 .ql-container {
-  border: 1px solid #ccc; /* Ajusta a borda, se necessário */
   height: 50%;
 }
 
 .ql-toolbar {
   border: 1px solid #ccc; /* Ajusta a borda da barra de ferramentas */
   height: 50px; /* Ajusta a altura da barra de ferramentas */
+  background-color: #313542;
 }
 
 .link{
@@ -285,3 +334,32 @@ textarea {
   min-width: 100%;
   box-sizing: border-box; /* para garantir que o padding não adicione largura extra */
 }
+
+/* TAGIFY  Related*/
+.tagify{
+  border-color: rgb(53, 149, 246);
+  border-radius: 5px;
+  border-style: inset;
+}
+
+/* Define a altura mínima das tags e o tamanho da fonte para melhor visibilidade */
+.tagify__input {
+  min-height: 40px;  /* Aumenta a altura mínima */
+  font-size: 16px;   /* Aumenta o tamanho da fonte */
+  padding: 10px;     /* Adiciona espaçamento interno */
+
+}
+
+.tagify__tag__input {
+  white-space: nowrap; /* Impede que o input quebre em várias linhas */
+  width: auto; /* Permite que o input cresça conforme o texto */
+}
+
+/* Opcional: estilize as próprias tags */
+.tagify__tag {
+  border-radius: 4px;
+  padding: 5px;
+  font-size: 14px;
+  --tag-hover: var(--tag-bg);
+}
+

@@ -12,13 +12,17 @@ var toolbarOptions = [
   ['bold', 'italic', 'underline'],        // Formatos de texto
   [{ 'list': 'ordered'}, { 'list': 'bullet' }],  // Listas
   ['code-block'],                         // Bloco de código
-  ['code']                                // Texto inline como código
+  ['code'],                                // Texto inline como código
+
+  [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+  [{ 'font': [] }],
+  [{ 'align': [] }]
 ];
 
 const quillEnunciado = new Quill('#quillEnunciado', {
   theme: 'snow',
   modules: {
-    toolbar: toolbarOptions
+    toolbar: '#enunciado-toolbar'
   }
 });
 // Capturando mudanças no editor e atualizando a div
@@ -75,7 +79,5 @@ document.getElementById('btnSubmit').addEventListener('click', function(event) {
   
   // Removendo o destaque caso esteja preenchido
   newPuzzle();
-  // Se ambos os campos estão preenchidos, preenche os inputs ocultos
-  document.getElementById('enunciado').value = quillEnunciado.root.innerHTML;
-  document.getElementById('exercicio').value = quillExercicio.root.innerHTML;
+
 });
