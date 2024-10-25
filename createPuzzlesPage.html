@@ -65,7 +65,7 @@
         <div class="row" >
           <div class="col-2">
             <label for="dificuldade">Dificuldade:</label><br>
-            <select id="dificuldade" name="dificuldade" required>
+            <select id="dificuldade" name="dificuldade" required class="custom-select">
               <option value="0">Muito fácil</option>
               <option value="1">Fácil</option>
               <option value="2">Médio</option>
@@ -75,7 +75,7 @@
           </div>
           <div class="col-3">
             <label for="area">Área do exercício:</label><br>
-            <select name="area" id="area" required>
+            <select name="area" id="area" required class="custom-select">
               <option value="inputOutput">Entrada e saída</option>
               <option value="condicional">Condicional</option>
               <option value="lacos">Laços de repetição</option>
@@ -380,9 +380,9 @@
   };
 
   function displayFeedback(fb) {
-    console.log("displayFeedback : " + fb);
-    function exercicioCorreto() {
-      $("#feedbackText").html("Parabéns, você acertou!");
+    console.log("displayFeedback : " + fb.success + " : " + fb.feedback);
+    function exercicioCorreto(fb) {
+      $("#feedbackText").html("Parabéns, você acertou!" + "<br><br>" + fb.feedback);
     }
 
     if (Array.isArray(fb)) {
@@ -390,12 +390,12 @@
         $("#feedbackText").html(fb[0]);
       } 
       else {
-        exercicioCorreto();
+        exercicioCorreto(fb);
       }
     } 
     else if (fb.hasOwnProperty("feedback")) {
       if (fb.success) {
-        exercicioCorreto();
+        exercicioCorreto(fb);
       }
       else {
         $("#feedbackText").html(fb.feedback);
@@ -403,7 +403,7 @@
     } 
     else {
       if (fb.success) {
-        exercicioCorreto();
+        exercicioCorreto(fb);
       }
     }
   }
@@ -429,11 +429,16 @@
       'trashId': 'sortableTrash',
       'max_wrong_lines': max_wrong_lines,
       'lang': 'ptbr',
-      'initcode': isNullString(initcode),
-      'toggleTypeHandlers': isNullString(toggleTypeHandlers),
+      //'initcode': isNullString(initcode),
+      //'toggleTypeHandlers': isNullString(toggleTypeHandlers),
       'unittests': isNullString(unittests),
-      'vartests': isNullString(vartests)
+      //'vartests': isNullString(vartests)
     });
+
+    console.log("exercicio: " + exercicio);
+    console.log("unittests: " + isNullString(unittests));
+
+
     parson.init(exercicio);
     parson.shuffleLines();
   }
@@ -441,9 +446,16 @@
   max_wrong_lines.addEventListener('input', atualizarSorteableTrash);
 
   var btnRun = document.getElementById('btnRun');
-  btnRun.addEventListener('click', function() {
+  btnRun.addEventListener('click', function(event) {
+    //var fb = parson.getFeedback();
+    //displayFeedback(fb);
+    event.preventDefault();
     var fb = parson.getFeedback();
-    displayFeedback(fb);
+    console.log("displayFeedback : "+ fb + " : " + fb.success + " : " + fb.feedback);
+    $("#feedbackText").html("<h2>Feedback from testing your program:</h2>" +
+                        fb.feedback);
+    if (fb.success) { alert("Good, you solved the assignment!"); }
+      
   });
   var btnReset = document.getElementById('btnReset');
   btnReset.addEventListener('click', function() {

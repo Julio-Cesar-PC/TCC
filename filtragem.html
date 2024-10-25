@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtro de Exercícios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .filter-container {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+        }
+        select, input {
+            margin: 5px 0;
+            padding: 5px;
+            width: 100%;
+        }
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Filtrar Exercícios</h1>
+    <div class="filter-container">
+        <label for="dificuldade">Dificuldade:</label>
+        <select id="dificuldade">
+            <option value="">Selecione a dificuldade</option>
+            <option value="0">Muito fácil</option>
+            <option value="1">Fácil</option>
+            <option value="2">Médio</option>
+            <option value="3">Difícil</option>
+            <option value="4">Muito difícil</option>
+        </select><br>
+
+        <label for="area">Área do exercício:</label>
+        <select id="area">
+            <option value="">Selecione a área</option>
+            <option value="inputOutput">Entrada e saída</option>
+            <option value="condicional">Condicional</option>
+            <option value="lacos">Laços de repetição</option>
+            <option value="string">Manipulação de strings</option>
+            <option value="funcao">Funções</option>
+            <option value="arquivo">Manipulação de arquivos</option>
+            <option value="vetor">Manipulação de Vetores</option>
+            <option value="ordenacao">Ordenação</option>
+            <option value="busca">Busca</option>
+            <option value="dicionario">Manipulação de Dicionários</option>
+            <option value="matriz">Manipulação de Matrizes</option>
+            <option value="recursao">Recursão</option>
+        </select><br>
+
+        <label for="tags">Tags (separadas por vírgula):</label>
+        <input type="text" id="tags" placeholder="Exemplo: loops, strings"><br>
+
+        <button id="filterBtn">Filtrar Exercícios</button>
+    </div>
+
+    <div id="result-container">
+        <table id="resultTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Enunciado</th>
+                    <th>Dificuldade</th>
+                    <th>Exercício</th>
+                    <th>Área</th>
+                    <th>Tags</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.getElementById('filterBtn').addEventListener('click', function() {
+            // Capturar os filtros do usuário
+            var dificuldade = document.getElementById('dificuldade').value;
+            var area = document.getElementById('area').value;
+            var tags = document.getElementById('tags').value;
+
+            // Fazer a requisição GET usando os parâmetros de filtro
+            fetch(`https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w/exec?actionRequest=getExercicioFiltrado&dificuldade=${dificuldade}&area=${area}&tags=${tags}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    //console.log(data.data);
+                  displayResults(data.data); // Função que exibirá os resultados
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao buscar exercícios:', error);
+            });
+        });
+
+        function displayResults(exercicios) {
+          // Limpar a tabela de resultados anterior
+          var tableBody = document.querySelector('#resultTable tbody');
+          tableBody.innerHTML = '';
+
+          // Preencher a tabela com os novos resultados
+          exercicios.forEach(exercicio => {
+              var row = document.createElement('tr');
+              row.innerHTML = `
+                  <td>${exercicio.id}</td>
+                  <td>${exercicio.enunciado}</td>
+                  <td>${exercicio.dificuldade}</td>
+                  <td>${exercicio.exercicio}</td>
+                  <td>${exercicio.area}</td>
+                  <td>${exercicio.tags}</td>
+              `;
+              tableBody.appendChild(row);
+          });
+        }
+
+    </script>
+
+</body>
+</html>

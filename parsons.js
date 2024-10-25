@@ -1314,25 +1314,24 @@
     */
 
    ParsonsWidget.prototype.getFeedback = function() {
-     this.feedback_exists = true;
-     var fb = this.grader.grade();
-     if (this.options.feedback_cb) {
-       this.options.feedback_cb(fb); //TODO(petri): what is needed?
-     }
-     // if answer is correct, mark it in the UI
-     if (fb.success) {
-       $("#ul-" + this.options.sortableId).addClass("correct");
-       return { success: fb.success }
-     }
-     // log the feedback and return; based on the type of grader
-     if ('html' in fb) { // unittest/vartests type feedback
-       this.addLogEntry({type: "feedback", tests: fb.tests, success: fb.success});
-       return { feedback: fb.html, success: fb.success };
-     } else {
-       this.addLogEntry({type: "feedback", errors: fb.log_errors, success: fb.success});
-       return fb.errors;
-     }
-   };
+    this.feedback_exists = true;
+    var fb = this.grader.grade();
+    if (this.options.feedback_cb) {
+      this.options.feedback_cb(fb); //TODO(petri): what is needed?
+    }
+    // if answer is correct, mark it in the UI
+    if (fb.success) {
+      $("#ul-" + this.options.sortableId).addClass("correct");
+    }
+    // log the feedback and return; based on the type of grader
+    if ('html' in fb) { // unittest/vartests type feedback
+      this.addLogEntry({type: "feedback", tests: fb.tests, success: fb.success});
+      return { feedback: fb.html, success: fb.success };
+    } else {
+      this.addLogEntry({type: "feedback", errors: fb.log_errors, success: fb.success});
+      return fb.errors;
+    }
+  };
 
    ParsonsWidget.prototype.clearFeedback = function() {
      if (this.feedback_exists) {
