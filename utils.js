@@ -14,6 +14,10 @@ function countSubstring(string, substring) {
     return string.split(substring).length - 1;
 }
 
+function replaceHeight(str) {
+    // Expressão regular para encontrar o padrão height="algum_numero" e substituir por height="356"
+    return str.replace(/height="\d+"/, 'height="356"');
+}
 
 
 function checkIfSolutionIsCorrect(fb) {

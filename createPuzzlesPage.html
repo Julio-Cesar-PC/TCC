@@ -90,10 +90,7 @@
               <option value="recursao">Recursão</option>
             </select>
           </div>
-          <div class="col-5 tag-container">
-            <label for="tags">Adicione tags:</label><br>
-            <input id="tags" name="tags">
-          </div>
+          
         </div>
         <div class="row" style="margin-top: 10px;">
           <div class="col-4" id="enunciado-col">
@@ -135,9 +132,7 @@
           <div class="col-8" id="exercicio-col">
             <div id="labelExercicio">
               <label for="exercicio">Exercício:
-                <button type="button" class="btn btn-secondary tooltip-btn" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Cada linha será um dos blocos arrastáveis, a ordem escrita será a ordem correta e para usar identação basta um espaço">
-                  ?
-                </button>
+                <button type="button" class="btn btn-secondary tooltip-btn" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Cada linha será um dos blocos arrastáveis, a ordem escrita será a ordem correta e para usar identação basta um espaço">?</button>
               </label>
             </div>
             <div id="quillExercicio"></div>
@@ -156,37 +151,69 @@
         
         <!-- Div colapsável -->
         <div class="collapse" id="opcionais">
-          <label for="max_wrong_lines">Máximo de Linhas Erradas:</label><br>
-          <input type="number" min="0" id="max_wrong_lines" name="max_wrong_lines"><br><br>
+
+          <div class="row">
+            <div class="col-3">
+              <label for="max_wrong_lines">Máximo de Linhas Erradas:
+                <button type="button" class="btn btn-secondary tooltip-btn" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Representa a quantidade máxima de distratores gerados ao embaralhar o exercício">?</button>
+              </label>
+              <input type="number" min="0" id="max_wrong_lines" name="max_wrong_lines">
+            </div>
+            <div class="col-4">
+              <!-- Campo de upload de imagem -->
+              <label for="imageInput">Escolha uma imagem enunciado:</label>
+              <input type="file" id="imageInput" accept="image/*"><br><br>
+            </div>
+            
+            <div class="tag-container col-5">
+              <label for="tags">Adicione tags:</label><br>
+              <input id="tags" name="tags">
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- Links plataformas externas -->
+             <div class="col-6">
+               <label for="python_tutor">Link do Python Tutor:</label>
+               <a class="link" href="https://pythontutor.com/render.html#mode=edit" target="_blank">Gere Link Permanente</a>
+               <textarea name="python_tutor" id="python_tutor" placeholder="Acesse o website, escreva seu código, clique em 'Generate permanente link', por fim coloque o link aqui" rows="4" cols="50"></textarea>
+             </div>
+             <div class="col-6">
+               <label for="trinketHTML">Trinket HTML</label>
+               <a class="link" href="https://trinket.io/library/trinkets/create?lang=python" target="_blank" rel="noopener noreferrer">Gere seu TRinket HTML</a>
+               <textarea id="trinketHTML" name="trinketHTML" rows="4" cols="50" placeholder="Acesse o website, crie sua conta, clique em 'new trinket', escreva seu código correto, clique em save, por fim vá em share -> embed -> copie e cole o iframe aqui "></textarea>
+             </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <label for="initcode">Initcode:
+                <button type="button" class="btn btn-secondary tooltip-btn" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="É uma lista de valores iniciais de variáveis que serão testadas">?</button>
+              </label><br>
+              <textarea id="initcode" name="initcode" rows="4" cols="50" placeholder="Exemplo:&#10;variavel=valorInicial , variavel=valorInicial"></textarea>
+            </div>
+            <div class="col-6">
+              <label for="variables">Variables:
+                <button type="button" class="btn btn-secondary tooltip-btn" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="É uma lista de valores finais de variáveis que serão testadas">?</button>
+              </label><br>
+              <textarea id="variables" name="variables" rows="4" cols="50" placeholder="Exemplo:&#10;variavel=valorFinal, variavel=valorFinal"></textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <label for="unittests">Unit Tests:
+                <button type="button" class="btn btn-secondary tooltip-btn" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Escreva seus testes unitários abaixo, seguindo o formato do placeholder">?</button>
+              </label><br>
+              <textarea id="unittests" name="unittests" rows="8" cols="50" placeholder='assertEqual(maxindex([0, 2, 4]),2,"Calling function maxindex([0, 2, 4]).")'></textarea>
+            </div>
+          </div>
+        
           
-          
-          <!-- Campo de upload de imagem -->
-          <label for="imageInput">Escolha uma imagem:</label>
-          <input type="file" id="imageInput" accept="image/*"><br><br>
-          
-          <!-- Outros campos -->
-          <label for="python_tutor">Link do Python Tutor:</label>
-          <a class="link" href="https://pythontutor.com/render.html#mode=edit" target="_blank">Gere Link Permanente</a>
-          <textarea name="python_tutor" id="python_tutor" placeholder="Acesse o website, escreva seu código, clique em 'Generate permanente link', por fim coloque o link aqui" rows="4" cols="50"></textarea><br><br>
-          
-          <label for="trinketHTML">Trinket HTML</label>
-          <a class="link" href="https://trinket.io/library/trinkets/create?lang=python" target="_blank" rel="noopener noreferrer">Gere seu TRinket HTML</a>
-          <textarea id="trinketHTML" name="trinketHTML" rows="4" cols="50"></textarea><br><br>
-        
-          <label for="unittests">Unit Tests (em JSON):</label><br>
-          <textarea id="unittests" name="unittests" rows="4" cols="50"></textarea><br><br>
-        
-          <label for="initcode">Código Inicial:</label><br>
-          <textarea id="initcode" name="initcode" rows="4" cols="50"></textarea><br><br>
-        
-          <label for="code">Código:</label><br>
-          <textarea id="code" name="code" rows="4" cols="50"></textarea><br><br>
-        
-          <label for="toggleTypeHandlers">Toggle Type Handlers (em JSON):</label><br>
-          <textarea id="toggleTypeHandlers" name="toggleTypeHandlers" rows="4" cols="50"></textarea><br><br>
-        
-          <label for="vartests">Var Tests (em JSON):</label><br>
-          <textarea id="vartests" name="vartests" rows="4" cols="50"></textarea><br><br>
+          <!--
+            <label for="toggleTypeHandlers">Toggle Type Handlers (em JSON):</label><br>
+            <textarea id="toggleTypeHandlers" name="toggleTypeHandlers" rows="4" cols="50"></textarea><br><br>
+          -->
         </div>
 
         
@@ -284,7 +311,7 @@
   var parson;
   // Função para retornar null caso o campo esteja vazio
   function optionalFieldValue(field) {
-      return field.value === ""  ?"null" : field.value;
+    return field.value === ""  ?"null" : field.value;
   }
     
   function optionalFieldValueMaxWrongLines(field) {
@@ -299,6 +326,87 @@
     }
     return "null"
   }
+  // funcao para criar Vartests, uma lista de dicionarios, a partir de um initcode e variaveis
+  function generateVartests() {
+
+    var initcodeList = document.getElementById('initcode').value.split('\n')
+    console.log(initcodeList);
+    if(initcodeList[0] ===""){
+      return "null";
+    }
+    var variablesList = document.getElementById('variables').value.split('\n')
+    console.log(variablesList);
+    if(variablesList[0] ===""){
+      return "null";
+    }
+
+    // pensar em como melhorar isso
+    if (initcodeList.length !== variablesList.length) {
+        return "null";
+    }
+
+    let vartests = [];
+    initcodeList.forEach((initcode, index) => {
+        let varsStringArray = variablesList[index].split(",");
+        
+        let variablesDict = {};
+        varsStringArray.forEach(variable => {
+            let [key, value] = variable.split("=");
+            key = key.trim();
+            value = value.trim();
+            
+            // Verifica se o valor é numérico ou uma string entre aspas
+            if (value.startsWith('"') && value.endsWith('"')) {
+                variablesDict[key] = value.slice(1, -1); // Remove as aspas
+            } else if (isNaN(value)) {
+                variablesDict[key] = value; // Mantém como string se não for numérico
+            } else {
+                variablesDict[key] = parseFloat(value); // Converte para número
+            }
+        });
+        
+        let vartest = {
+            initcode: initcode.replace(',', '\n'),
+            code: "",
+            message: "Testando",
+            variables: variablesDict
+        };
+        
+        vartests.push(vartest);
+      });
+      console.log("vartests: " +vartests)
+      return vartests;
+  }
+
+  function generateUnittests() {
+    var unittests = document.getElementById('unittests').value;
+
+    if (unittests === "") {
+      return "null";
+    }
+    
+    // Divide 'unittests' em um array de linhas
+    const lines = unittests.split('\n');
+    
+    // Inicia a construção da string de testes
+    let unittestCode = 'import unittestparson\n' +
+    'class myTests(unittestparson.unittest):\n' +
+    '  def testOne(self):\n';
+    
+    // Itera sobre cada linha e a adiciona como um teste
+    lines.forEach(line => {
+      unittestCode += `    self.${line}\n`;
+    });
+    
+    // Adiciona a linha final para executar os testes
+    unittestCode += '_test_result = myTests().main()';
+    
+    console.log("unittest:" +unittests);
+    return unittestCode;
+  }
+
+
+
 
   function newPuzzle() {
 
@@ -308,7 +416,6 @@
     var dificuldade = document.getElementById('dificuldade').value;
     var exercicio = returnExercicio();
     var area = document.getElementById('area').value;
-
     
     // Campos opcionais usando a função optionalFieldValue
     var trinketHTML = optionalFieldValue(document.getElementById('trinketHTML'));
@@ -317,12 +424,11 @@
     var imageInput = fieldImage(document.getElementById('imageInput'));
 
     var max_wrong_lines = optionalFieldValueMaxWrongLines(document.getElementById('max_wrong_lines'));
-    var unittests = optionalFieldValue(document.getElementById('unittests'));
-    var initcode = optionalFieldValue(document.getElementById('initcode'));
-    var code = optionalFieldValue(document.getElementById('code'));
-    var toggleTypeHandlers = optionalFieldValue(document.getElementById('toggleTypeHandlers'));
-    var vartests = optionalFieldValue(document.getElementById('vartests'));
-
+    // var unittest = optionalFieldValue(document.getElementById('unittests'));
+    //var toggleTypeHandlers = optionalFieldValue(document.getElementById('toggleTypeHandlers'));
+    
+    var unittests = generateUnittests();
+    var vartests = generateVartests();
     var tags = tagsString();
 
    // var auth = document.getElementById('auth').value;
@@ -334,11 +440,7 @@
         "dificuldade" : dificuldade,
         "exercicio" : exercicio,
         "max_wrong_lines": max_wrong_lines,
-        "unittests": unittests,
-        "initcode": initcode,
-        "code": code,
-        "toggleTypeHandlers": toggleTypeHandlers,
-        "vartests": vartests,
+       // "toggleTypeHandlers": toggleTypeHandlers,
         "trinketHTML": trinketHTML,
         "area" : area,
         "pythonTutor" : pythonTutor,
@@ -346,6 +448,13 @@
         "tags" : tags
       },
       //"auth": auth
+    }
+    // Adiciona vartests se não estiver vazio
+    if (vartests != "null") {
+      postData['vartests'] = vartests;
+    }
+    if(unittests != "null"){
+      postData['unittests'] = unittests;
     }
 
     console.log(postData);
@@ -382,7 +491,12 @@
   function displayFeedback(fb) {
     console.log("displayFeedback : " + fb.success + " : " + fb.feedback);
     function exercicioCorreto(fb) {
-      $("#feedbackText").html("Parabéns, você acertou!" + "<br><br>" + fb.feedback);
+      if(!fb.hasOwnProperty("feedback")){
+        $("#feedbackText").html("Parabéns, você acertou!");
+      }
+      else{
+        $("#feedbackText").html("Parabéns, você acertou!"+ fb.feedback);
+      }
     }
 
     if (Array.isArray(fb)) {
@@ -413,32 +527,31 @@
     var exercicio = returnExercicio();
 
     var dificuldade = document.getElementById('dificuldade').value;
-    //var exercicio = document.getElementById('exercicio').value;
-    var trinketHTML = document.getElementById('trinketHTML').value;
-    
-    // Campos opcionais usando a função optionalFieldValue
+    var trinketHTML = optionalFieldValue(document.getElementById('trinketHTML'));    
     var max_wrong_lines = optionalFieldValueMaxWrongLines(document.getElementById('max_wrong_lines'));
-    var unittests = optionalFieldValue(document.getElementById('unittests'));
-    var initcode = optionalFieldValue(document.getElementById('initcode'));
-    var code = optionalFieldValue(document.getElementById('code'));
-    var toggleTypeHandlers = optionalFieldValue(document.getElementById('toggleTypeHandlers'));
-    var vartests = optionalFieldValue(document.getElementById('vartests'));
-    
-    parson = new ParsonsWidget({
-      'sortableId': 'sortable',
-      'trashId': 'sortableTrash',
-      'max_wrong_lines': max_wrong_lines,
-      'lang': 'ptbr',
-      //'initcode': isNullString(initcode),
-      //'toggleTypeHandlers': isNullString(toggleTypeHandlers),
-      'unittests': isNullString(unittests),
-      //'vartests': isNullString(vartests)
-    });
+    var unittests = generateUnittests();
+    var vartests = generateVartests();
 
-    console.log("exercicio: " + exercicio);
-    console.log("unittests: " + isNullString(unittests));
+    //var toggleTypeHandlers = optionalFieldValue(document.getElementById('toggleTypeHandlers'));
+    // Configurações do ParsonsWidget
+    let parsonsConfig = {
+        'sortableId': 'sortable',
+        'trashId': 'sortableTrash',
+        'max_wrong_lines': max_wrong_lines,
+        'lang': 'ptbr',
+        //esta incorreto
+        //'toggleTypeHandlers': isNullString(toggleTypeHandlers),
+    };
+    // Adiciona vartests se não estiver vazio
+    if (vartests != "null") {
+        parsonsConfig['vartests'] = vartests;
+    }
+    if(unittests != "null"){
+      parsonsConfig['unittests'] = unittests;
+    }
 
-
+    // Instância do ParsonsWidget com a configuração final
+    parson = new ParsonsWidget(parsonsConfig);
     parson.init(exercicio);
     parson.shuffleLines();
   }
@@ -447,15 +560,9 @@
 
   var btnRun = document.getElementById('btnRun');
   btnRun.addEventListener('click', function(event) {
-    //var fb = parson.getFeedback();
-    //displayFeedback(fb);
     event.preventDefault();
     var fb = parson.getFeedback();
-    console.log("displayFeedback : "+ fb + " : " + fb.success + " : " + fb.feedback);
-    $("#feedbackText").html("<h2>Feedback from testing your program:</h2>" +
-                        fb.feedback);
-    if (fb.success) { alert("Good, you solved the assignment!"); }
-      
+    displayFeedback(fb);
   });
   var btnReset = document.getElementById('btnReset');
   btnReset.addEventListener('click', function() {

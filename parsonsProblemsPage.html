@@ -339,10 +339,11 @@
       'trashId': 'sortableTrash',
       'max_wrong_lines': randEx.max_wrong_lines,
       'lang': 'ptbr',
-      'initcode': isNullString(randEx.initcode),
-      'toggleTypeHandlers': isNullString(randEx.toggleTypeHandlers),
-      'unittests': isNullString(randEx.unittests),
-      'vartests': isNullString(randEx.vartests)
+      'unittests': isNullString(randEx.unittests)
+      //estão incorretos!:
+      // 'initcode': isNullString(randEx.initcode),
+      //'toggleTypeHandlers': isNullString(randEx.toggleTypeHandlers),
+      //'vartests': isNullString(randEx.vartests)
     });
     parson.init(randEx.exercicio);
     parson.shuffleLines();
