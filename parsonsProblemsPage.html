@@ -339,12 +339,19 @@
       'trashId': 'sortableTrash',
       'max_wrong_lines': randEx.max_wrong_lines,
       'lang': 'ptbr',
-      'unittests': isNullString(randEx.unittests)
       //estão incorretos!:
+      // 'unittests': isNullString(randEx.unittests)
       // 'initcode': isNullString(randEx.initcode),
-      //'toggleTypeHandlers': isNullString(randEx.toggleTypeHandlers),
-      //'vartests': isNullString(randEx.vartests)
+      // 'toggleTypeHandlers': isNullString(randEx.toggleTypeHandlers),
+      // 'vartests': isNullString(randEx.vartests)
     });
+    // Adiciona vartests se não estiver vazio
+    if (randEx.vartests != "null") {
+      parson['vartests'] = randEx.vartests;
+    }
+    if(randEx.unittests != "null"){
+      parson['unittests'] = randEx.unittests;
+    }
     parson.init(randEx.exercicio);
     parson.shuffleLines();
 
@@ -370,7 +377,7 @@
 
       // TO DO / TODO
       // Alerta de versão de testes
-      if (typeof res.randExercise == "undefined" || res.userLevelInfo.currentLevel == 2) {
+      if (typeof res.randExercise == "undefined" || res.userLevelInfo.currentLevel == 5) {
         showEndOfTestModeAlert(userData);
       } else {
         setNovoExercicio(res);
@@ -397,6 +404,7 @@
           setNovoExercicio(response);
         });
       });
+      /// BOTOES ///
 
       // Reembaralha as linhas
       $("#btnReset").click(function (event) {
@@ -404,14 +412,14 @@
         parson.shuffleLines();
       });
 
-
+      // Retorna o feedback do exercício
       $("#btnSubmit").click(function (event) {
         event.preventDefault();
         var fb = parson.getFeedback();
         displayFeedback(fb);
       });
 
-
+      // Pega um novo exercício e seta ele no site
       $("#btnNext").click(function (event) {
         event.preventDefault();
 
@@ -426,6 +434,7 @@
         });
       });
 
+      // Abre o trinket se houver
       $("#btnTestYourself").click(function (event) {
         event.preventDefault();
 
@@ -448,7 +457,7 @@
           }
         }
       });
-
+      // abre o menu
       $('#menu').click(function (e) {
         e.stopPropagation();
         w3_open();
