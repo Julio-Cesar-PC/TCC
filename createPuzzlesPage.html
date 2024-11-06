@@ -451,10 +451,10 @@
     }
     // Adiciona vartests se não estiver vazio
     if (vartests != "null") {
-      postData['vartests'] = vartests;
+      postData.payload['vartests'] = vartests;
     }
     if(unittests != "null"){
-      postData['unittests'] = unittests;
+      postData.payload['unittests'] = unittests;
     }
 
     console.log(postData);
