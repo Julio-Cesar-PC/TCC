@@ -3,80 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="./filtragem.css" rel="stylesheet">
+    <script src="./components/dropdownArea.js"></script>
+    <script src="./components/dropdownDificuldade.js"></script>
     <title>Filtro de Exercícios</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .filter-container {
-            margin-bottom: 20px;
-        }
-        label {
-            font-weight: bold;
-        }
-        select, input {
-            margin: 5px 0;
-            padding: 5px;
-            width: 100%;
-        }
-        button {
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
 </head>
 <body>
-
     <h1>Filtrar Exercícios</h1>
     <div class="filter-container">
-        <label for="dificuldade">Dificuldade:</label>
-        <select id="dificuldade">
-            <option value="">Selecione a dificuldade</option>
-            <option value="0">Muito fácil</option>
-            <option value="1">Fácil</option>
-            <option value="2">Médio</option>
-            <option value="3">Difícil</option>
-            <option value="4">Muito difícil</option>
-        </select><br>
+        <!-- É o componente dropDownDificuldade-->
+        <div id="dropdownDificuldade"></div>
 
-        <label for="area">Área do exercício:</label>
-        <select id="area">
-            <option value="">Selecione a área</option>
-            <option value="inputOutput">Entrada e saída</option>
-            <option value="condicional">Condicional</option>
-            <option value="lacos">Laços de repetição</option>
-            <option value="string">Manipulação de strings</option>
-            <option value="funcao">Funções</option>
-            <option value="arquivo">Manipulação de arquivos</option>
-            <option value="lista">Manipulação de Listas</option>
-            <option value="ordenacao">Ordenação</option>
-            <option value="busca">Busca</option>
-            <option value="dicionario">Manipulação de Dicionários</option>
-            <option value="matriz">Manipulação de Matrizes</option>
-            <option value="recursao">Recursão</option>
-        </select><br>
+        <!-- É o componente dropDownArea -->
+        <div id = "dropdownArea"></div>
 
         <label for="tags">Tags (separadas por vírgula):</label>
-        <input type="text" id="tags" placeholder="Exemplo: loops, strings"><br>
+        <input type="text" id="tags" placeholder="Exemplo: fisica, matematica"><br>
 
         <button id="filterBtn">Filtrar Exercícios</button>
     </div>
@@ -141,6 +83,15 @@
           });
         }
 
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Código a ser executado após o carregamento do DOM
+            appendAreaDropdown("#dropdownArea");
+            appendDificuldadeDropdown("#dropdownDificuldade");
+        });
+        document
     </script>
 
 </body>

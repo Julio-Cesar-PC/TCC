@@ -40,6 +40,26 @@ quillExercicio.on('text-change', atualizarSorteableTrash );
 document.getElementById('btnSubmit').addEventListener('click', function(event) {
   // var para campos obrigatorios preenchidos
   var enviar = true;
+
+  var area = document.getElementById('area').value;
+  var dificuldade = document.getElementById('dificuldade').value;
+
+  if(area === ""){
+    document.getElementById('area').style.border = '2px solid red';
+    enviar = false;
+  }
+  else{
+    document.getElementById('area').style.border = '';
+  }
+  
+  if (dificuldade === "") {
+    document.getElementById('dificuldade').style.border = '2px solid red';
+    enviar = false;
+  }
+  else{
+    document.getElementById('dificuldade').style.border = '';
+  }
+
   // Pegando o texto dos editores (sem formatação)
   var enunciadoText = quillEnunciado.getText().trim();
   var exercicioText = quillExercicio.getText().trim();

@@ -50,6 +50,10 @@
 
     gtag('config', 'G-G06DV4YV0P');
   </script>
+  <!--Componentes-->
+  <script src="./components/dropdownArea.js"></script>
+  <script src="./components/dropdownDificuldade.js"></script>
+
 </head>
 <body>
   
@@ -63,32 +67,13 @@
         id="puzzle-form"
       >
         <div class="row" >
-          <div class="col-2">
-            <label for="dificuldade">Dificuldade:</label><br>
-            <select id="dificuldade" name="dificuldade" required class="custom-select">
-              <option value="0">Muito fácil</option>
-              <option value="1">Fácil</option>
-              <option value="2">Médio</option>
-              <option value="3">Difícil</option>
-              <option value="4">Muito difícil</option>
-            </select><br><br>
+          <!--Aqui to usando componentes-->
+          <div class="col-3">
+            <div id="dropdownDificuldade"></div>
           </div>
           <div class="col-3">
-            <label for="area">Área do exercício:</label><br>
-            <select name="area" id="area" required class="custom-select">
-              <option value="inputOutput">Entrada e saída</option>
-              <option value="condicional">Condicional</option>
-              <option value="lacos">Laços de repetição</option>
-              <option value="string">Manipulação de strings</option>
-              <option value="funcao">Funções</option>
-              <option value="arquivo">Manipulação de arquivos</option>
-              <option value="vetor">Manipulação de Vetores</option>
-              <option value="ordenacao">Ordenação</option>
-              <option value="busca">Busca</option>
-              <option value="dicionario">Manipulação de Dicionários</option>
-              <option value="matriz">Manipulação de Matrizes</option>
-              <option value="recursao">Recursão</option>
-            </select>
+            <div id="dropdownArea">
+            </div>
           </div>
           
         </div>
@@ -411,11 +396,11 @@
   function newPuzzle() {
 
     event.preventDefault(); // Evita o comportamento padrão do formulário
-
-    var enunciado = document.getElementById('enunciado-text').innerHTML;
+    
     var dificuldade = document.getElementById('dificuldade').value;
-    var exercicio = returnExercicio();
     var area = document.getElementById('area').value;
+    var enunciado = document.getElementById('enunciado-text').innerHTML;
+    var exercicio = returnExercicio();
     
     // Campos opcionais usando a função optionalFieldValue
     var trinketHTML = optionalFieldValue(document.getElementById('trinketHTML'));
@@ -578,6 +563,16 @@
   const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
   const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Código a ser executado após o carregamento do DOM
+    appendAreaDropdown("#dropdownArea");
+    appendDificuldadeDropdown("#dropdownDificuldade");
+  });
+
+</script>
+
 
 <script>
   document.getElementById('imageInput').addEventListener('change', function(event) {
