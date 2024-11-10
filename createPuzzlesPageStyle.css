@@ -286,8 +286,7 @@ body {
   border: 10px solid #828aa7;
   border-radius: 5px;
 }
-#quillExercicio .ql-container.ql-snow {
-}
+
 
 /* Remover margens adicionais do Quill para economizar espaço */
 .ql-container {
@@ -404,4 +403,66 @@ select::-moz-focus-inner {
 
 #opcionais{
   margin-top: 10px;
+}
+
+
+/* NAVBAR RELATED */
+/*Só tá com esse nome pq uso bootstrap, mas nao quero a navbar dele*/
+.python-parson-navbar {
+  background-color: #282a36;
+  border-bottom: 1px solid #676c88;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: fit-content;
+  padding: 0px 0px 0px 0px;
+}
+
+#logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin: 20px auto 20px auto;
+}
+
+#logo p {
+  display: inline-block;
+  font-family: 'Montserrat', sans-serif;
+  font-size: x-large;
+  font-weight: 600;
+  margin: 0px 0px 0px 2rem !important;
+  color: #f0f0f0;
+}
+
+#logo p span:nth-child(1) {
+  color: #339cd1;
+}
+
+#logo p span:nth-child(2) {
+  color: #e9a931;
+}
+
+#menu {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-right: 3rem;
+}
+
+.menu-link {
+  color: #f1f1f1;
+  transition: ease 0.2s;
+}
+
+.menu-link:hover {
+  color: #a5b1e4;
+}
+
+.menu-link span {
+  margin-right: 1rem;
+}
+
+.menu-icon {
+  font-size: 2.3rem;
 }

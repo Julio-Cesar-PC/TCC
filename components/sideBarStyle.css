@@ -1,0 +1,48 @@
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: none;
+}
+/* SIDEBAR */
+
+#sidebar-wrapper {
+  z-index: 1000;
+  visibility: hidden;
+  background: rgba(0,0,0,0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: visibility 0.2s ease, opacity 0.2s ease, width 0.2s ease;
+}
+
+#sidebar {
+  display: block; 
+  width: 0%; 
+  right: 0;
+
+  font-family: 'Montserrat', sans-serif;
+  font-size: medium;
+  font-weight: 600;
+
+  border-radius: 10px 0px 0px 10px;
+
+  background: #869ae4;
+
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.2s ease, opacity 0.2s ease, width 0.2s ease;
+}
+
+#sidebar button {
+  cursor: pointer;
+  color: black;
+
+  background: #f7f7f7;
+  padding-top: 1.2rem;
+  padding-bottom: 1.2rem;
+
+  border-bottom: 1px solid #424b6e;
+}

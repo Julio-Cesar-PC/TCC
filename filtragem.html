@@ -3,12 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./filtragem.css" rel="stylesheet">
+    <link href="./filtragemStyle.css" rel="stylesheet">
+    <link rel="stylesheet" href="/components/sideBarStyle.css">
+    
+    <!-- Componentes -->
     <script src="./components/dropdownArea.js"></script>
     <script src="./components/dropdownDificuldade.js"></script>
+    <script src="components/sideBar.js"></script>
+
+    <!-- Icons -->
+    <script src="https://kit.fontawesome.com/fc3f8d6bba.js" crossorigin="anonymous"></script>
     <title>Filtro de Exercícios</title>
 </head>
 <body>
+    <div class="container">
+        <div class="navbar">
+    
+          <div id="logo">
+            <a href="./parsonsProblemsPage.html">
+              <img src="./assets/logoicon.png" alt="Icone do site, dois pês, representando Parsons Puzzles" height="80px">
+              <p><span>Python</span> <span>Parsons</span> Puzzles</p>
+            </a>
+          </div>
+    
+            <!-- Contêiner para o sidebar -->
+            <div id="sidebar-container"></div>
+        </div>        
+    </div>
+
+
     <h1>Filtrar Exercícios</h1>
     <div class="filter-container">
         <!-- É o componente dropDownDificuldade-->
@@ -22,6 +45,8 @@
 
         <button id="filterBtn">Filtrar Exercícios</button>
     </div>
+
+    
 
     <div id="result-container">
         <table id="resultTable">
@@ -93,6 +118,5 @@
         });
         document
     </script>
-
 </body>
 </html>
