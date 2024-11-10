@@ -10,6 +10,10 @@
   <link href="./sobrePageStyle.css" rel="stylesheet" />
   <link href="./cssAnimationsHistoryPage.css" rel="stylesheet" />
 
+  <!-- Componentes -->
+  <link href="./components/sideBarStyle.css" rel="stylesheet">
+  <script src="./sideBar.js"></script>
+
   <!-- Sidebar required style -->
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
 
@@ -73,19 +77,6 @@
     </div>
   </div>
 
-
-
-  <div id="sidebar-wrapper">
-    <div id="sidebar" class="w3-sidebar w3-bar-block w3-border-right">
-      <button onclick="w3_close()" class="w3-bar-item w3-large">Fechar</button>
-      <a id="parsons-problems-link" href="./parsonsProblemsPage.html" class="w3-bar-item w3-button">Exercícios</a>
-      <a id="historico-link" href="./historicoPage.html" class="w3-bar-item w3-button">Histórico</a>
-      <a id="sobre-link" href="./sobrePage.html" class="w3-bar-item w3-button">Sobre</a>
-      <a id="logout-link" href="#" class="w3-bar-item w3-button">Log out</a>
-    </div>
-  </div>
-
-
   <div class="container">
     <div class="navbar">
 
@@ -96,14 +87,9 @@
         </a>
       </div>
 
-      <div id="menu">
-        <a class="menu-link" href="#" onclick="w3_open()">
-          <span>Menu</span>
-          <i class="menu-icon fa-solid fa-bars fa-2xl"></i>
-        </a>
-      </div>
+        <!-- Contêiner para o sidebar -->
+        <div id="sidebar-container"></div>
     </div>
-
     <a class="return-to-main-page" href="./parsonsProblemsPage.html">
       <i class="fa-solid fa-rotate-left"></i>
       Voltar para exercícios
