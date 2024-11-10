@@ -20,15 +20,15 @@ function w3_close() {
 // Carregar o conteúdo do sidebar.html
 async function loadSidebar() {
   try {
-    const response = await fetch("/components/sideBar.html"); // Ajuste o caminho conforme necessário
+    const response = await fetch("./sideBar.html"); // Ajuste o caminho conforme necessário
     const sidebarHTML = await response.text();
     document.getElementById('sidebar-container').innerHTML = sidebarHTML;
 
     // Vincula eventos ao conteúdo carregado
-    document.getElementById('menu').onclick = w3_open;
+    //document.getElementById('menu').onclick = w3_open;
     document.getElementById('logout-link').onclick = (e) => {
       e.preventDefault();
-      logout(); // Defina a função de logout se necessário
+      logout(); 
     };
 
     // Fecha o sidebar se clicar fora dele
