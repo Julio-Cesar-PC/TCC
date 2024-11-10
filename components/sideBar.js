@@ -20,7 +20,8 @@ function w3_close() {
 // Carregar o conteúdo do sidebar.html
 async function loadSidebar() {
   try {
-    const response = await fetch("../components/sideBar.html"); // Ajuste o caminho conforme necessário
+    //const response = await fetch("../components/sideBar.html"); // Ajuste o caminho conforme necessário
+    const response = await fetch("/TCC/components/sideBar.html"); // Substitua "TCC" pelo nome do seu repositório
     const sidebarHTML = await response.text();
     document.getElementById('sidebar-container').innerHTML = sidebarHTML;
 
