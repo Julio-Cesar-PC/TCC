@@ -200,11 +200,12 @@
     function exercicioCorreto(fb) {
       if(!fb.hasOwnProperty("feedback")){
         $("#feedbackText").html("Parabéns, você acertou!");
-        saveProgress();
       }
       else{
         $("#feedbackText").html("Parabéns, você acertou!"+ fb.feedback);
       }
+      saveProgress();
+
     }
 
     function atualizaTentativas() {
