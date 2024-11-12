@@ -343,7 +343,7 @@
     });
     // Adiciona vartests se não estiver vazio
     if (randEx.vartests != "null") {
-      parson['vartests'] = randEx.vartests;
+      parson['vartests'] = JSON.parse(randEx.vartests);  ;
     }
     if(randEx.unittests != "null"){
       parson['unittests'] = randEx.unittests;

@@ -402,7 +402,7 @@ select::-moz-focus-inner {
 }
 
 #opcionais{
-  margin-top: 10px;
+  margin: 10px
 }
 
 
@@ -465,4 +465,12 @@ select::-moz-focus-inner {
 
 .menu-icon {
   font-size: 2.3rem;
+}
+
+#vartests{
+  color: #e9a931;
+  margin: 5px;
+  background-color: #c1c4d0;
+  border: 10px solid #828aa7;
+  border-radius: 5px;
 }

@@ -45,7 +45,7 @@ document.getElementById('btnSubmit').addEventListener('click', function(e) {
   // Converte o array de tags em uma string ou um array de valores simples (apenas as tags)
   var tagsArray = tags.map(tag => tag.value);
 
-  console.log('Tags: ' + tagsArray + 'typeof: ' + typeof tagsArray);
-  console.log('Tags: ' + tagsString(tagsArray) + 'typeof: ' + typeof tagsString(tagsArray));
+ // console.log('Tags: ' + tagsArray + 'typeof: ' + typeof tagsArray);
+ // console.log('Tags: ' + tagsString(tagsArray) + 'typeof: ' + typeof tagsString(tagsArray));
 
 });

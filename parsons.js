@@ -75,6 +75,42 @@
        return "Expected value of variable " + varname + ": <span class='expected'>" + expected + "</span><br>" +
              "Actual value: <span class='actual'>" + actual + "</span>";
       }
+    },
+    ptbr: {
+      trash_label: 'Arraste daqui',
+      solution_label: 'Construa solução aqui',
+      order: function() {
+        return "Os blocos do código estão errados, ou na ordem errada. Isso pode ser corrigido movendo, removendo, ou trocando os blocos destacados.";},
+      lines_missing: function() {
+        return "Seu código tem menos blocos que o necessário.";},
+      lines_too_many: function() {
+        return "Seu código tem blocos além do necessário.";},
+      no_matching: function(lineNro) {
+        return "Baseado na sintaxe da linguagem, o bloco (" + lineNro + ") não está identado corretamente."; },
+      no_matching_open: function(lineNro, block) {
+        return "Bloco " + block + " finalizado na linha " + lineNro + " nunca foi inicializado."; },
+      no_matching_close: function(lineNro, block) {
+        return "Bloco " + block + " definido na linha " + lineNro + " não finalizou corretamente.";
+      },
+      block_close_mismatch: function(closeLine, closeBlock, openLine, inBlock) {
+        return "Não pode finalizar o bloco " + closeBlock + " na linha " + closeLine + " enquanto ainda está dentro do bloco " + inBlock + " que começou na linha " + openLine;
+      },
+      block_structure: function(lineNro) { return "O bloco destacado " + lineNro + " está em um bloco de código errado (i.e. identação)."; },
+      unittest_error: function(errormsg) {
+        return "<span class='msg'>Erro no parsing/execução do seu programa</span><br/> <span class='errormsg'>" + errormsg + "</span>";
+      },
+      unittest_output_assertion: function(expected, actual) {
+       return "Saída esperada: <span class='expected output'>" + expected + "</span>" +
+             "Saída do programa: <span class='actual output'>" + actual + "</span>";
+      },
+      unittest_assertion: function(expected, actual) {
+       return "Valor esperado: <span class='expected'>" + expected + "</span><br>" +
+             "Valor atual: <span class='actual'>" + actual + "</span>";
+      },
+      variabletest_assertion: function(varname, expected, actual) {
+       return "Valor esperado da variável  " + varname + ": <span class='expected'>" + expected + "</span><br>" +
+             "Valor atual: <span class='actual'>" + actual + "</span>";
+      }
     }
   };
 

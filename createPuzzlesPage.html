@@ -184,7 +184,8 @@
              </div>
           </div>
 
-          <div class="row">
+          Teste de Variáveis:
+          <div class="row" id="vartests">
             <div class="col-6">
               <label for="initcode">Initcode:
                 <button type="button" class="btn btn-secondary tooltip-btn" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="É uma lista de valores iniciais de variáveis que serão testadas">?</button>
@@ -326,23 +327,50 @@
     return "null"
   }
   // funcao para criar Vartests, uma lista de dicionarios, a partir de um initcode e variaveis
-  function generateVartests() {
+  function generateVartests(event) {
 
-    var initcodeList = document.getElementById('initcode').value.split('\n')
-    console.log(initcodeList);
+    // Pega os valores dos campos e os divide em listas
+    var initcodeList = document.getElementById('initcode').value.split('\n') .map(line => line.replace(/\s+/g, '')).filter(line => line.length > 0);
+
+    var variablesList = document.getElementById('variables').value
+    .split('\n')
+    .map(line => line.replace(/\s+/g, ''))
+    .filter(line => line.length > 0);
+    // elementos
+    var initcodeElement = document.getElementById('initcode');
+    var variablesElement = document.getElementById('variables');
+    
+    // verificar tamanhos diferentes no initcode e no variables, contanto que não sejam vazios
+    if (initcodeList[0] !== "" && variablesList[0] !== "" && initcodeList.length !== variablesList.length) {
+        console.log("tamanhos diferentes");
+        // Define a borda vermelha no campo menor
+        if (initcodeList.length < variablesList.length) {
+          initcodeElement.style.border = "2px solid red";
+          variablesElement.style.border = "";
+        } 
+        else {
+          variablesElement.style.border = "2px solid red";
+          initcodeElement.style.border = "";
+        }
+        // Exibe um alerta informando o usuário
+        window.alert("Por favor, preencha ambos os campos de maneira que tenham o mesmo número de linhas.");
+        event.preventDefault();
+        return "null";
+    } 
+    else {
+      // Remove bordas se os tamanhos forem iguais
+      initcodeElement.style.border = "";
+      variablesElement.style.border = "";
+    }
+    console.log("inicode list:", initcodeList);
     if(initcodeList[0] ===""){
       return "null";
     }
-    var variablesList = document.getElementById('variables').value.split('\n')
-    console.log(variablesList);
+    console.log("variable list:", variablesList);
     if(variablesList[0] ===""){
       return "null";
     }
 
-    // pensar em como melhorar isso
-    if (initcodeList.length !== variablesList.length) {
-        return "null";
-    }
 
     let vartests = [];
     initcodeList.forEach((initcode, index) => {
@@ -373,7 +401,7 @@
         
         vartests.push(vartest);
       });
-      console.log("vartests: " +vartests)
+      console.log("vartests: ",vartests)
       return vartests;
   }
 
@@ -400,7 +428,7 @@
     // Adiciona a linha final para executar os testes
     unittestCode += '_test_result = myTests().main()';
     
-    console.log("unittest:" +unittests);
+   // console.log("unittest:" +unittests);
     return unittestCode;
   }
 
@@ -450,7 +478,7 @@
     }
     // Adiciona vartests se não estiver vazio
     if (vartests != "null") {
-      postData.payload['vartests'] = vartests;
+      postData.payload['vartests'] = JSON.stringify(vartests);;
     }
     if(unittests != "null"){
       postData.payload['unittests'] = unittests;
@@ -472,7 +500,7 @@
         return response.json();
       })
       .then(res => {
-        console.log(res);
+       // console.log(res);
         if (res.status === "success") {
           window.alert("Exercício salvo com sucesso!");
         } 
@@ -488,7 +516,7 @@
   };
 
   function displayFeedback(fb) {
-    console.log("displayFeedback : " + fb.success + " : " + fb.feedback);
+   // console.log("displayFeedback : " + fb.success + " : " + fb.feedback);
     function exercicioCorreto(fb) {
       if(!fb.hasOwnProperty("feedback")){
         $("#feedbackText").html("Parabéns, você acertou!");
