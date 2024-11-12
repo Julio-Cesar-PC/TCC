@@ -197,8 +197,12 @@
   var disablePopupWrapperClick = false;
 
   function displayFeedback(fb) {
+    console.log(fb);
+    console.log("displayFeedback : " + fb.success + " : " + fb.feedback);
     function exercicioCorreto(fb) {
-      if(fb && !fb.hasOwnProperty("feedback")){
+      console.log("denttro do exercicio correto",fb);
+      console.log("dentro do exercicio correto displayFeedback : " + fb.success + " : " + fb.feedback);
+      if(fb === undefined || fb.feedback === undefined){
         $("#feedbackText").html("Parabéns, você acertou!");
       }
       else{

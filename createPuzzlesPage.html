@@ -331,7 +331,6 @@
 
     // Pega os valores dos campos e os divide em listas
     var initcodeList = document.getElementById('initcode').value.split('\n') .map(line => line.replace(/\s+/g, '')).filter(line => line.length > 0);
-
     var variablesList = document.getElementById('variables').value
     .split('\n')
     .map(line => line.replace(/\s+/g, ''))
@@ -362,12 +361,10 @@
       initcodeElement.style.border = "";
       variablesElement.style.border = "";
     }
-    console.log("inicode list:", initcodeList);
-    if(initcodeList[0] ===""){
+    if(initcodeList.length === 0){
       return "null";
     }
-    console.log("variable list:", variablesList);
-    if(variablesList[0] ===""){
+    if(variablesList.length === 0){
       return "null";
     }
 
@@ -401,7 +398,6 @@
         
         vartests.push(vartest);
       });
-      console.log("vartests: ",vartests)
       return vartests;
   }
 
@@ -516,9 +512,11 @@
   };
 
   function displayFeedback(fb) {
-   // console.log("displayFeedback : " + fb.success + " : " + fb.feedback);
+    console.log(fb);
+    console.log("displayFeedback : " + fb.success + " : " + fb.feedback);
+
     function exercicioCorreto(fb) {
-      if(!fb.hasOwnProperty("feedback")){
+      if(fb === undefined || fb.feedback === undefined){
         $("#feedbackText").html("Parabéns, você acertou!");
       }
       else{
@@ -579,7 +577,6 @@
 
     // Instância do ParsonsWidget com a configuração final
     parson = new ParsonsWidget(parsonsConfig);
-    console.log("Configuraçõse do parsons: ", parson);
     parson.init(exercicio);
     parson.shuffleLines();
   }
