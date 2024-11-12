@@ -197,9 +197,14 @@
   var disablePopupWrapperClick = false;
 
   function displayFeedback(fb) {
-    function exercicioCorreto() {
-      $("#feedbackText").html("Parabéns, você acertou!");
-      saveProgress();
+    function exercicioCorreto(fb) {
+      if(!fb.hasOwnProperty("feedback")){
+        $("#feedbackText").html("Parabéns, você acertou!");
+        saveProgress();
+      }
+      else{
+        $("#feedbackText").html("Parabéns, você acertou!"+ fb.feedback);
+      }
     }
 
     function atualizaTentativas() {
@@ -220,14 +225,14 @@
       }
     } else if (fb.hasOwnProperty("feedback")) {
       if (fb.success) {
-        exercicioCorreto();
+        exercicioCorreto(fb);
       } else {
         $("#feedbackText").html(fb.feedback);
         atualizaTentativas();
       }
     } else {
       if (fb.success) {
-        exercicioCorreto();
+        exercicioCorreto(fb);
       }
     }
   }
@@ -331,24 +336,25 @@
     $("#btnTestYourself").hide();
     $("#btnNext").hide();
 
-    parson = new ParsonsWidget({
-      'sortableId': 'sortable',
-      'trashId': 'sortableTrash',
-      'max_wrong_lines': randEx.max_wrong_lines,
-      'lang': 'ptbr',
-      //estão incorretos!:
-      // 'unittests': isNullString(randEx.unittests)
-      // 'initcode': isNullString(randEx.initcode),
-      // 'toggleTypeHandlers': isNullString(randEx.toggleTypeHandlers),
-      // 'vartests': isNullString(randEx.vartests)
-    });
+    let parsonsConfig = {
+        'sortableId': 'sortable',
+        'trashId': 'sortableTrash',
+        'max_wrong_lines': randEx.max_wrong_lines,
+        'lang': 'ptbr',
+        //esta incorreto
+        //'toggleTypeHandlers': isNullString(toggleTypeHandlers),
+    };
     // Adiciona vartests se não estiver vazio
     if (randEx.vartests != "null") {
-      parson['vartests'] = JSON.parse(randEx.vartests);  ;
+        parsonsConfig['vartests'] = JSON.parse(randEx.vartests);
     }
-    if(randEx.unittests != "null"){
-      parson['unittests'] = randEx.unittests;
+    if(randEx.unittests  != "null"){
+        parsonsConfig['unittests'] = unittests;
     }
+
+    // Instância do ParsonsWidget com a configuração final
+    parson = new ParsonsWidget(parsonsConfig);
+
     console.log("Configuracoes do parson",parson);
     parson.init(randEx.exercicio);
     parson.shuffleLines();
