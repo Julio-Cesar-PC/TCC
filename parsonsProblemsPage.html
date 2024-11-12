@@ -198,7 +198,7 @@
 
   function displayFeedback(fb) {
     function exercicioCorreto(fb) {
-      if(!fb.hasOwnProperty("feedback")){
+      if(fb && !fb.hasOwnProperty("feedback")){
         $("#feedbackText").html("Parabéns, você acertou!");
       }
       else{
@@ -222,7 +222,7 @@
         $("#feedbackText").html(fb[0]);
         atualizaTentativas();
       } else {
-        exercicioCorreto();
+        exercicioCorreto(fb);
       }
     } else if (fb.hasOwnProperty("feedback")) {
       if (fb.success) {
