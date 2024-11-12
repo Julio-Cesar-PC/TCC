@@ -312,6 +312,7 @@
 
   // Seta um novo exercício no site e pega a hora atual
   function setNovoExercicio(res) {
+    console.log("resposta do setNovoExercicio: ", res);
     randEx = res.randExercise;
     startDate = new Date();
     tentativasCont = 1;
@@ -348,6 +349,7 @@
     if(randEx.unittests != "null"){
       parson['unittests'] = randEx.unittests;
     }
+    console.log("Configuracoes do parson",parson);
     parson.init(randEx.exercicio);
     parson.shuffleLines();
 
