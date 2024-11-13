@@ -186,7 +186,7 @@
     accessDenied_returningToMain();
   }
 
-  var randEx;
+  var selectedEx;
   var tentativasCont;
   var tentativas = [];
   var startDate;
@@ -267,9 +267,9 @@
         "startDate": startDate,
         "submitDate": submitDate,
         "state": "completo",
-        "exerciseId": randEx.id,
+        "exerciseId": selectedEx.id,
         "triesCount": JSON.stringify(tentativas),
-        "exerciseDifficulty": randEx.dificuldade
+        "exerciseDifficulty": selectedEx.dificuldade
       },
       "auth": auth
     }
@@ -335,14 +335,14 @@
   // Seta um novo exercício no site e pega a hora atual
   function setNovoExercicio(res) {
     console.log("resposta do setNovoExercicio: ", res);
-    randEx = res.randExercise;
+    selectedEx = res.exercicio;
     startDate = new Date();
     tentativasCont = 1;
 
     // Set enunciado
     $(".added").remove();
     $("#feedbackText").html(" ");
-    $("#enunciadoText").append('<div class="added">' + randEx.enunciado + '</div>');
+    $("#enunciadoText").append('<div class="added">' + selectedEx.enunciado + '</div>');
     // Set user level
     setUserLevel(res.userLevelInfo);
 
@@ -356,32 +356,32 @@
     let parsonsConfig = {
         'sortableId': 'sortable',
         'trashId': 'sortableTrash',
-        'max_wrong_lines': randEx.max_wrong_lines,
+        'max_wrong_lines': selectedEx.max_wrong_lines,
         'lang': 'ptbr',
         //esta incorreto
         //'toggleTypeHandlers': isNullString(toggleTypeHandlers),
     };
     // Adiciona vartests se não estiver vazio
-    if (randEx.vartests != "null") {
-        parsonsConfig['vartests'] = JSON.parse(randEx.vartests);
+    if (selectedEx.vartests != "null") {
+        parsonsConfig['vartests'] = JSON.parse(selectedEx.vartests);
     }
-    if(randEx.unittests  != "null"){
+    if(selectedEx.unittests  != "null"){
         parsonsConfig['unittests'] = unittests;
     }
 
     // Instância do ParsonsWidget com a configuração final
     parson = new ParsonsWidget(parsonsConfig);
 
-    parson.init(randEx.exercicio);
+    parson.init(selectedEx.exercicio);
     parson.shuffleLines();
 
     btnEnable("#btnChangeExercise", "#ffb86c");
     btnEnable("#btnSubmit", "#dbfa50");
     $("#btnReset").prop('disabled', false);
 
-    if (randEx.trinketHTML != "null") {
+    if (selectedEx.trinketHTML != "null") {
       hasTrinket = true;
-      $(".popup-content").append('<div class="added">' + randEx.trinketHTML + '</div>');
+      $(".popup-content").append('<div class="added">' + selectedEx.trinketHTML + '</div>');
     } else {
       hasTrinket = false;
     }
@@ -409,7 +409,7 @@
 
         // TO DO / TODO
         // Alerta de versão de testes
-        if (typeof res.randExercise == "undefined" || res.userLevelInfo.currentLevel == 5) {
+        if (typeof res.exercicio == "undefined" || res.userLevelInfo.currentLevel == 5) {
           showEndOfTestModeAlert(userData);
         } else {
           setNovoExercicio(res);
