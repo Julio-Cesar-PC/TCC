@@ -162,9 +162,9 @@
             .then(data => {
                 if (data.status === 'success') {
                     console.log(data.exercicio);
-                    window.location.href = `parsonsProblemsPage.html?id=${data.exercicio.id}`;
-                    // adicionar load para nova página com o exercicio
-
+                    localStorage.setItem('exerciseId', data.exercicio.id); // Salva o ID no localStorage
+                    window.location.href = "parsonsProblemsPage.html";
+                    
                 } 
                 else {
                     alert(data.message);

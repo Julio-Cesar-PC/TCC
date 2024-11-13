@@ -311,6 +311,7 @@
   }
 
   function getExercicioAleatorio(userData) {
+    localStorage.removeItem('exerciseId');
     return fetch(getRandExURL(userData.id),
       {
         method: "GET",
@@ -321,6 +322,7 @@
   }
 
   function getExercicioById(userData, id) {
+    
     return fetch(getExercicioByIdURL(userData, id),
       {
         method: "GET",
@@ -389,11 +391,10 @@
   $(document).ready(function () {
     $("#msg-carregando").css("display", "flex");
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const id = urlParams.get('id');
+    var id = localStorage.getItem('exerciseId');
     console.log("id do exercicio: ",id);
     if (id) {
-      getExercicioById(userData,id).then(res => {
+      getExercicioById(userData, id).then(res => {
         //////////////////////////////
         $("#msg-carregando").css("display", "none");
         console.log("resposta do getExercicioById: ", res);
