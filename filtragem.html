@@ -3,21 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./filtragemStyle.css" rel="stylesheet">
-    <link href="./components/sideBarStyle.css" rel="stylesheet">
+    <!-- Tagify CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
     
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="./components/sideBarStyle.css" rel="stylesheet">
+    <link rel="stylesheet" href="./components/dropdownDificuldade.css">
     <!-- Componentes -->
     <script src="./components/dropdownArea.js"></script>
     <script src="./components/dropdownDificuldade.js"></script>
     <script src="./sideBar.js"></script>
 
+    <link href="./filtragemStyle.css" rel="stylesheet">
     <!-- Icons -->
     <script src="https://kit.fontawesome.com/fc3f8d6bba.js" crossorigin="anonymous"></script>
     <title>Filtro de Exercícios</title>
 </head>
 <body>
-    <div class="container">
-        <div class="navbar">
+    <div class="navbar-container">
+        <div class="python-parson-navbar">
     
           <div id="logo">
             <a href="./parsonsProblemsPage.html">
@@ -31,47 +35,79 @@
         </div>        
     </div>
 
+    <div class="container-fluid">
+        <h1>Filtrar Exercícios</h1>
+        <div class="filter-container">
+            <div class="row justify-content-between" >
+                <!--Aqui to usando componentes-->
+                <div class="col-3">
+                  <div id="dropdownDificuldade"></div>
+                </div>
+                <div class="col-3">
+                  <div id="dropdownArea">
+                  </div>
+                </div>
+                <div class="tag-container col-5">
+                    <label for="tags">Adicione tags:</label><br>
+                    <input id="tags" name="tags" type="text" placeholder="física, matemática">
+                </div>
+            </div>
+            <div class="row d-flex justify-content-end">
+                <div class="col-2">
+                    <button class="button" id="cleanFilterBtn" type="button">Limpar Filtros</button>
+                </div>
+                <div class="col-1">
+                    <button class="button" id="filterBtn" type="button">Filtrar</button>
+                </div>
+            </div>
+        </div>
 
-    <h1>Filtrar Exercícios</h1>
-    <div class="filter-container">
-        <!-- É o componente dropDownDificuldade-->
-        <div id="dropdownDificuldade"></div>
-
-        <!-- É o componente dropDownArea -->
-        <div id = "dropdownArea"></div>
-
-        <label for="tags">Tags (separadas por vírgula):</label>
-        <input type="text" id="tags" placeholder="Exemplo: fisica, matematica"><br>
-
-        <button id="filterBtn">Filtrar Exercícios</button>
-    </div>
-
+        <div>
+            <button id="test" type="button">
+                Bora testar
+            </button>
+        </div>
     
+        
+    
+        <div id="result-container">
+            <table id="resultTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Enunciado</th>
+                        <th>Dificuldade</th>
+                        <th>Exercício</th>
+                        <th>Área</th>
+                        <th>Tags</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
 
-    <div id="result-container">
-        <table id="resultTable">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Enunciado</th>
-                    <th>Dificuldade</th>
-                    <th>Exercício</th>
-                    <th>Área</th>
-                    <th>Tags</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Tagify JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="tagify.js"></script>
 
     <script>
+
+        document.getElementById('test').addEventListener('click', function() {
+            console.log('Clicou no botão de teste');
+            setNovoExercicio(1);
+        });
+
+        
+
+
         document.getElementById('filterBtn').addEventListener('click', function() {
             // Capturar os filtros do usuário
             var dificuldade = document.getElementById('dificuldade').value;
             var area = document.getElementById('area').value;
-            var tags = document.getElementById('tags').value;
-
+            var tags = tagsString();
             // Fazer a requisição GET usando os parâmetros de filtro
             fetch(`https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w/exec?actionRequest=getExercicioFiltrado&dificuldade=${dificuldade}&area=${area}&tags=${tags}`)
             .then(response => response.json())
@@ -95,18 +131,55 @@
 
           // Preencher a tabela com os novos resultados
           exercicios.forEach(exercicio => {
-              var row = document.createElement('tr');
-              row.innerHTML = `
-                  <td>${exercicio.id}</td>
-                  <td>${exercicio.enunciado}</td>
-                  <td>${exercicio.dificuldade}</td>
-                  <td>${exercicio.exercicio}</td>
-                  <td>${exercicio.area}</td>
-                  <td>${exercicio.tags}</td>
-              `;
-              tableBody.appendChild(row);
+            var row = document.createElement('tr');
+
+            // Cria a célula ID como um link clicável
+            const idCell = document.createElement('td');
+            const idButton = document.createElement('button');
+            idButton.setAttribute('type', 'button');
+            idButton.setAttribute('id', `idButton${exercicio.id}`);
+            idButton.textContent = exercicio.id;
+            
+            idCell.appendChild(idButton);
+            row.appendChild(idCell);
+            
+            row.innerHTML += `
+                <td>${exercicio.enunciado}</td>
+                <td>${exercicio.dificuldade}</td>
+                <td>${exercicio.exercicio}</td>
+                <td>${exercicio.area}</td>
+                <td>${exercicio.tags}</td>
+            `;
+            tableBody.appendChild(row);
           });
         }
+
+        // Função para carregar o exercício com base no ID
+        async function setNovoExercicio(id) {
+            // Fazer a requisição GET usando os parâmetros de filtro
+            fetch(`https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w/exec?actionRequest=getExercicioById&id=${id}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    console.log(data.exercicio);
+                    // adicionar load para nova página com o exercicio
+
+                } 
+                else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao buscar exercícios:', error);
+            });
+        }
+
+        document.getElementById('resultTable').addEventListener('click', function(event) {
+            const id = event.target.textContent;
+            if (event.target.id === `idButton${id}`) {
+                setNovoExercicio(id);
+            }
+        });
 
     </script>
 
@@ -117,6 +190,11 @@
             appendDificuldadeDropdown("#dropdownDificuldade");
         });
         document
+        cleanFilterBtn.addEventListener('click', function() {
+            document.getElementById('dificuldade').value = '';
+            document.getElementById('area').value = '';
+            tagify.removeAllTags();
+        });
     </script>
 </body>
 </html>

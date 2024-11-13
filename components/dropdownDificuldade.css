@@ -1,0 +1,29 @@
+/* SELECT Related*/
+.custom-select {
+ appearance: none; /* Remove o estilo padrão do navegador */
+ width: 100%; /* Ocupa toda a largura disponível */
+ padding: 10px 15px; /* Espaçamento interno */
+ font-size: 16px; /* Tamanho da fonte */
+ background-color: #f3f3f3; /* Cor de fundo */
+ border: 2px solid #ccc; /* Borda */
+ border-radius: 5px; /* Cantos arredondados */
+ color: #333; /* Cor do texto */
+ outline: none; /* Remove o outline ao focar */
+ transition: border-color 0.3s ease; /* Transição suave na borda */
+}
+
+/* Ao focar no select */
+.custom-select:focus {
+ border-color: #339cd1; /* Cor da borda ao focar */
+ background-color: #e9f7ff; /* Fundo mais claro ao focar */
+}
+
+/* Para o ícone da seta */
+.custom-select::after {
+ content: '▼'; /* Seta customizada */
+ position: absolute;
+ right: 10px;
+ top: 50%;
+ transform: translateY(-50%);
+ pointer-events: none;
+}

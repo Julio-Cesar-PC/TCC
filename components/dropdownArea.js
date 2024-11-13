@@ -24,7 +24,6 @@ function createAreaDropdown() {
     <option value="dicionario">Manipulação de Dicionários</option>
     <option value="matriz">Manipulação de Matrizes</option>
     <option value="recursao">Recursão</option>
-    <option value= "teste maluco">Teste maluco</option>
   `;
 
   container.appendChild(label);

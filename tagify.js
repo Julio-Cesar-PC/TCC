@@ -36,6 +36,10 @@ function transformTag(tagData) {
   tagData.style += "background-color: " + tagData.bgColor + ";";
 }
 
+function cleanTags(){
+  tagify.removeAllTags();
+}
+
 // Captura o evento de submissão do formulário
 document.getElementById('btnSubmit').addEventListener('click', function(e) {
   e.preventDefault(); // Evita o comportamento padrão de envio do formulário
