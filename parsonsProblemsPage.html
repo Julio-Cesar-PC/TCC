@@ -323,7 +323,7 @@
 
   function getExercicioById(userData, id) {
     console.log("id do exercicio e user data: ",id+ " "+userData);
-    return fetch(getExercicioByIdURL(id),
+    return fetch(getExercicioByIdURL(userData.id, id),
       {
         method: "GET",
       }
