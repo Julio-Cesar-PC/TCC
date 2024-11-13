@@ -57,7 +57,7 @@ function getRandExURL(userId = null, dificuldade = 0) {
     return url;
 }
 
-function getElementByIdUrl(userData, id) {
+function getExercicioByIdURL(userData, id) {
     var url = "https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w" + "/exec?actionRequest=getExercicioById" + `&id=${id}`;
     
     if (userData != null) {
