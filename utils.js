@@ -46,6 +46,7 @@ function getRandExURL(userId = null, dificuldade = 0) {
     // Add dificuldade
     if (userId == null) {
         // NÃO FUNCIONA AINDA SEM ESTAR LOGADO
+        // ramon: e se setar para pegar um exercicio completamente aleatorio? sem levar em conta a dificuldade
         url = url + "&dificuldade=" + dificuldade;
     } else {
         // Usuário está logado
@@ -55,6 +56,17 @@ function getRandExURL(userId = null, dificuldade = 0) {
 
     return url;
 }
+
+function getElementByIdUrl(userData, id) {
+    var url = "https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w" + "/exec?actionRequest=getExercicioById" + `&id=${id}`;
+    
+    if (userData != null) {
+        url = url + "&userId=" + userData.id;
+    }
+    return url;
+}
+
+
 
 
 function getHistoricoURL(authentication = null) {

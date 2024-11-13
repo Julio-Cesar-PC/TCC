@@ -320,6 +320,16 @@
     });
   }
 
+  function getExercicioById(userData, id) {
+    return fetch(getExercicioByIdURL(userData, id),
+      {
+        method: "GET",
+      }
+    ).then(response => {
+      return response.json();
+    });
+  }
+
   // Seta um novo exercício no site e pega a hora atual
   function setNovoExercicio(res) {
     console.log("resposta do setNovoExercicio: ", res);
@@ -360,7 +370,6 @@
     // Instância do ParsonsWidget com a configuração final
     parson = new ParsonsWidget(parsonsConfig);
 
-    console.log("Configuracoes do parson",parson);
     parson.init(randEx.exercicio);
     parson.shuffleLines();
 
@@ -380,114 +389,118 @@
   $(document).ready(function () {
     $("#msg-carregando").css("display", "flex");
 
-    getExercicioAleatorio(userData).then(res => {
-      //////////////////////////////
-      $("#msg-carregando").css("display", "none");
-
-      // TO DO / TODO
-      // Alerta de versão de testes
-      if (typeof res.randExercise == "undefined" || res.userLevelInfo.currentLevel == 5) {
-        showEndOfTestModeAlert(userData);
-      } else {
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    console.log("id do exercicio: ",id);
+    if (id) {
+      getExercicioById(userData,id).then(res => {
+        //////////////////////////////
+        $("#msg-carregando").css("display", "none");
+        console.log("resposta do getExercicioById: ", res);
         setNovoExercicio(res);
+      });
+    } 
+    else {
+      getExercicioAleatorio(userData).then(res => {
+        //////////////////////////////
+        $("#msg-carregando").css("display", "none");
+        console.log("resposta do getExercicioAleatorio: ", res);
+
+        // TO DO / TODO
+        // Alerta de versão de testes
+        if (typeof res.randExercise == "undefined" || res.userLevelInfo.currentLevel == 5) {
+          showEndOfTestModeAlert(userData);
+        } else {
+          setNovoExercicio(res);
+        }
+      });
+    }
+    
+    window.addEventListener("beforeunload", function (e) {
+      if (Object.keys(parson.states).length && $("#btnNext").prop('disabled') === true) {
+        e.preventDefault();
       }
+    });
+    // Muda o exercício (GET de um novo exercício)
+    $("#btnChangeExercise").click(function (event) {
+      event.preventDefault();
 
-      window.addEventListener("beforeunload", function (e) {
-        if (Object.keys(parson.states).length && $("#btnNext").prop('disabled') === true) {
-          e.preventDefault();
-        }
+      btnDisable("#btnChangeExercise");
+
+      getExercicioAleatorio(userData).then(response => {
+        setNovoExercicio(response);
       });
-      /*
-      <p><img id="user-picture" alt="Profile Picture"></p>
-      <p><strong>Name:</strong> <span id="user-name"></span></p>
-      <p><strong>Email:</strong> <span id="user-email"></span></p>
-      document.getElementById('user-name').innerHTML = userData.name;
-      document.getElementById('user-email').innerHTML = userData.email;
-      document.getElementById('user-picture').src = userData.pic;
-      */
+    });
 
-      // Muda o exercício (GET de um novo exercício)
-      $("#btnChangeExercise").click(function (event) {
-        event.preventDefault();
+    /// BOTOES ///
 
-        btnDisable("#btnChangeExercise");
+    // Reembaralha as linhas
+    $("#btnReset").click(function (event) {
+      event.preventDefault();
+      parson.shuffleLines();
+    });
 
-        getExercicioAleatorio(userData).then(response => {
-          setNovoExercicio(response);
-        });
+    // Retorna o feedback do exercício
+    $("#btnSubmit").click(function (event) {
+      event.preventDefault();
+      var fb = parson.getFeedback();
+      displayFeedback(fb);
+    });
+
+    // Pega um novo exercício e seta ele no site
+    $("#btnNext").click(function (event) {
+      event.preventDefault();
+
+      btnDisable("#btnNext");
+      $("#btnNext").hide();
+      $("#msg-carregando-continua").css("display", "flex");
+
+      getExercicioAleatorio(userData).then(response => {
+        $("#msg-carregando-continua").css("display", "none");
+        setNovoExercicio(response);
       });
-      /// BOTOES ///
+    });
 
-      // Reembaralha as linhas
-      $("#btnReset").click(function (event) {
-        event.preventDefault();
-        parson.shuffleLines();
-      });
+    // Abre o trinket se houver
+    $("#btnTestYourself").click(function (event) {
+      event.preventDefault();
 
-      // Retorna o feedback do exercício
-      $("#btnSubmit").click(function (event) {
-        event.preventDefault();
-        var fb = parson.getFeedback();
-        displayFeedback(fb);
-      });
+      if (hasTrinket) {
+        $(".popup-wrapper").css('display', 'block');
+      }
+    });
 
-      // Pega um novo exercício e seta ele no site
-      $("#btnNext").click(function (event) {
-        event.preventDefault();
+    $(".popup-close").click(function (event) {
+      $(".popup-wrapper").css('display', 'none');
+    });
 
-
-        btnDisable("#btnNext");
-        $("#btnNext").hide();
-        $("#msg-carregando-continua").css("display", "flex");
-
-        getExercicioAleatorio(userData).then(response => {
-          $("#msg-carregando-continua").css("display", "none");
-          setNovoExercicio(response);
-        });
-      });
-
-      // Abre o trinket se houver
-      $("#btnTestYourself").click(function (event) {
-        event.preventDefault();
-
-        if (hasTrinket) {
-          $(".popup-wrapper").css('display', 'block');
-        }
-      });
-
-      $(".popup-close").click(function (event) {
-        $(".popup-wrapper").css('display', 'none');
-      });
-
-      $('.popup-wrapper').click(function (e) {
-        if (!disablePopupWrapperClick) {
-          const $target = $(e.target)
-          const conditionalToClosePopup = (!$target.is(".popup") && !$target.is($(".popup").children()) && !$target.is(".popup-content") && !$target.is($(".popup-content").children()) && !$target.is(".added") && !$target.is($(".added").children()))
-
-          if (conditionalToClosePopup) {
-            $(".popup-wrapper").css('display', 'none');
-          }
-        }
-      });
-      // abre o menu
-      $('#menu').click(function (e) {
-        e.stopPropagation();
-        w3_open();
-      });
-
-      $('#sidebar-wrapper').click(function (e) {
+    $('.popup-wrapper').click(function (e) {
+      if (!disablePopupWrapperClick) {
         const $target = $(e.target)
-        const conditionalToCloseSidebar = (!$target.is("#sidebar") && !$target.is($("#sidebar").children()))
+        const conditionalToClosePopup = (!$target.is(".popup") && !$target.is($(".popup").children()) && !$target.is(".popup-content") && !$target.is($(".popup-content").children()) && !$target.is(".added") && !$target.is($(".added").children()))
 
-        if (conditionalToCloseSidebar) {
-          w3_close();
+        if (conditionalToClosePopup) {
+          $(".popup-wrapper").css('display', 'none');
         }
-      });
+      }
+    });
+    // abre o menu
+    $('#menu').click(function (e) {
+      e.stopPropagation();
+      w3_open();
+    });
 
-      $('#logout-link').click(function (e) {
-        logout(e);
-      });
-      //////////////////////////////
+    $('#sidebar-wrapper').click(function (e) {
+      const $target = $(e.target)
+      const conditionalToCloseSidebar = (!$target.is("#sidebar") && !$target.is($("#sidebar").children()))
+
+      if (conditionalToCloseSidebar) {
+        w3_close();
+      }
+    });
+
+    $('#logout-link').click(function (e) {
+      logout(e);
     });
   });
 </script>
