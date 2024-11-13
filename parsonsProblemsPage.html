@@ -197,11 +197,11 @@
   var disablePopupWrapperClick = false;
 
   function displayFeedback(fb) {
-    console.log(fb);
-    console.log("displayFeedback : " + fb.success + " : " + fb.feedback);
+   // console.log(fb);
+   // console.log("displayFeedback : " + fb.success + " : " + fb.feedback);
     function exercicioCorreto(fb) {
-      console.log("denttro do exercicio correto",fb);
-      console.log("dentro do exercicio correto displayFeedback : " + fb.success + " : " + fb.feedback);
+     // console.log("denttro do exercicio correto",fb);
+      //console.log("dentro do exercicio correto displayFeedback : " + fb.success + " : " + fb.feedback);
       if(fb === undefined || fb.feedback === undefined){
         $("#feedbackText").html("Parabéns, você acertou!");
       }
@@ -287,7 +287,7 @@
       ).then(response => {
         return response.json();
       }).then(res => {
-        console.log(res);
+       // console.log(res);
         if (typeof res.data != 'undefined') {
           setUserLevel(res.data.userLevelInfo);
 
@@ -322,8 +322,8 @@
   }
 
   function getExercicioById(userData, id) {
-    
-    return fetch(getExercicioByIdURL(userData, id),
+    console.log("id do exercicio e user data: ",id+ " "+userData);
+    return fetch(getExercicioByIdURL(id),
       {
         method: "GET",
       }
