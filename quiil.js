@@ -1,5 +1,22 @@
 function atualizarEnunciado() {
   var enunciadoHTML = quillEnunciado.root.innerHTML;
+
+  // procura endentacao
+  var exercicio = returnExercicio();
+  var lines = exercicio.split('\n');
+  
+  //if(!(enunciadoHTML.includes("<p><strong>ATENÇÃO</strong> Você vai precisar endentar corretamente as linhas de código!</p>"))){
+  for (i = 0; i < lines.length; i++) {
+    if(lines[i].trim().length != lines[i].length){
+      enunciadoHTML += "<p><strong>ATENÇÃO</strong> Você vai precisar endentar corretamente as linhas de código!</p>";
+      break;
+    }
+  }
+  
+  if (exercicio.split("#distractor").length - 1 > 0 && !(enunciadoHTML.includes("<p><strong>ATENÇÃO:</strong> Nem todas as linhas de código disponíveis serão usadas na solução.</p>"))) {
+    enunciadoHTML += "<p><strong>ATENÇÃO:</strong> Nem todas as linhas de código disponíveis serão usadas na solução.</p>";
+  }
+
   document.getElementById('enunciado-text').innerHTML = enunciadoHTML;
 }
 
@@ -60,6 +77,7 @@ document.getElementById('btnSubmit').addEventListener('click', function(event) {
     document.getElementById('dificuldade').style.border = '';
   }
 
+  atualizarEnunciado();
   // Pegando o texto dos editores (sem formatação)
   var enunciadoText = quillEnunciado.getText().trim();
   var exercicioText = quillExercicio.getText().trim();

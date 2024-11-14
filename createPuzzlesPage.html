@@ -455,6 +455,8 @@
     var tags = tagsString();
 
    // var auth = document.getElementById('auth').value;
+  
+    
 
     var postData = {
       "actionRequest": "postExercicio",
@@ -548,6 +550,8 @@
   }
 
   function atualizarSorteableTrash(){
+    // definida em quill.js
+    atualizarEnunciado();
     // pega o valor do exercicio a partir do quill.js
     var exercicio = returnExercicio();
 
