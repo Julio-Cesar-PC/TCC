@@ -473,3 +473,49 @@ select::-moz-focus-inner {
   border: 10px solid #828aa7;
   border-radius: 5px;
 }
+
+/* POPUP */
+
+.popup-wrapper {
+  display: none;
+  background: rgba(0,0,0,0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+}
+
+.popup {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: medium;
+  width: 100%;
+  max-width: 750px;
+  border-radius: 15px;
+  margin: 10% auto;
+  padding: 35px 15px 15px 15px;
+  background: #bc8fce;
+  position: relative;
+}
+
+.popup-close {
+  font-family: 'Montserrat', sans-serif;
+  font-size: large;
+  font-weight: 600;
+  position: absolute;
+  top: 5px;
+  right: 15px;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  color:#1b0722;
+  background: #ff4242;
+  transition: ease 0.2s;
+}
+
+
+.popup-close:hover {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px, rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}

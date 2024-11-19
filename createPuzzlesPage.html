@@ -72,6 +72,14 @@
 
 </head>
 <body>
+  <div class="popup-wrapper" style="display: none;">
+    <div class="popup">
+      <button class="popup-close">x</button>
+      <div class="popup-content">
+      </div>
+    </div>
+  </div>
+
   <div class="navbar-container">
     <div class="python-parson-navbar">
 
@@ -247,9 +255,13 @@
         <div class="buttons-notch">
           <div class="buttons">
             <button class="button" id="btnReset">Shuffle</button>
-            <button class="button" id="btnTestYourself" hidden>
+            <button class="button" id="btnTestYourself" disabled="True" hidden>
               <img src="./assets/trinket-logo.png" height="15px">
               Teste
+            </button>
+            <button class="button" id="btnDebug" hidden>
+              <img src="./assets/trinket-logo.png" height="15px">
+              Debug
             </button>
             <button class="button" id="btnRun">Run</button>
               
@@ -611,6 +623,46 @@
     parson.shuffleLines();
     $("#feedbackText").html("");
   });
+
+  // Trinket RELATED
+  trinketHTML.addEventListener('change', function(){
+    var trinket = document.getElementById('trinketHTML').value;
+    
+    if (trinket != null) {
+      console.log("trinket: ",trinket);
+      btnEnable("#btnTestYourself", "#b184c2");
+      $("#btnTestYourself").removeAttr("hidden").show();
+      // Remove qualquer elemento existente com a classe 'added'
+      $(".popup-content .added").remove();
+      $(".popup-content").append('<div class="added">' + trinket.trim() + '</div>');
+    }
+    else{
+      $(".popup-content .added").remove();
+    }
+  })
+
+  var btnTestYourself = document.getElementById('btnTestYourself')
+  btnTestYourself.addEventListener('click',function(e){
+    e.preventDefault();
+    console.log("clicou no trinket")
+    $(".popup-wrapper").css('display', 'block');
+  });
+
+
+  $(".popup-close").click(function (event) {
+    $(".popup-wrapper").css('display', 'none');
+  });
+
+  $('.popup-wrapper').click(function (e) {
+    const $target = $(e.target)
+    const conditionalToClosePopup = (!$target.is(".popup") && !$target.is($(".popup").children()) && !$target.is(".popup-content") && !$target.is($(".popup-content").children()) && !$target.is(".added") && !$target.is($(".added").children()))
+
+    if (conditionalToClosePopup) {
+      $(".popup-wrapper").css('display', 'none');
+    }
+  });
+
+  
       
 </script>
 
