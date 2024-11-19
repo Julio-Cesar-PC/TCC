@@ -14,10 +14,26 @@ function countSubstring(string, substring) {
     return string.split(substring).length - 1;
 }
 
-function replaceHeight(str) {
-    // Expressão regular para encontrar o padrão height="algum_numero" e substituir por height="356"
-    return str.replace(/height="\d+"/, 'height="356"');
-}
+// A função padrão para ajustar o iframe
+function standardizeIframe(iframeString) {
+    if(iframeString === ""){
+        return "null"
+    }    
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = iframeString.trim();
+    const iframe = tempDiv.querySelector("iframe");
+    if (!iframe) {
+        window.alert("O texto fornecido, " + iframeString+ " não contém um iframe válido.")
+        throw new Error("A string fornecida, " + iframeString+ " não contém um iframe válido.");
+    }
+    iframe.setAttribute("width", "100%");
+    iframe.setAttribute("height", "600px");
+    iframe.setAttribute("frameborder", "0");
+    iframe.setAttribute("marginwidth", "0");
+    iframe.setAttribute("marginheight", "0");
+    iframe.setAttribute("allowfullscreen", "");
+    return iframe.outerHTML;
+  }
 
 
 function checkIfSolutionIsCorrect(fb) {

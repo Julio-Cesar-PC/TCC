@@ -260,7 +260,7 @@
               Teste
             </button>
             <button class="button" id="btnDebug" hidden>
-              <img src="./assets/trinket-logo.png" height="15px">
+              <img src= "./assets/pythonTutor-logo.jpg" height="15px">
               Debug
             </button>
             <button class="button" id="btnRun">Run</button>
@@ -335,8 +335,8 @@
 
   var parson;
   // Função para retornar null caso o campo esteja vazio
-  function optionalFieldValue(field) {
-    return field.value === ""  ?"null" : field.value;
+  function optionalFieldValue(value) {
+    return value === ""  ? "null" : value;
   }
     
   function optionalFieldValueMaxWrongLines(field) {
@@ -465,14 +465,13 @@
     var enunciado = document.getElementById('enunciado-text').innerHTML;
     var exercicio = returnExercicio();
     
-    // Campos opcionais usando a função optionalFieldValue
-    var trinketHTML = optionalFieldValue(document.getElementById('trinketHTML'));
-    var pythonTutor = optionalFieldValue(document.getElementById('python_tutor'));
+    // Campos opcionais 
+    var trinketHTML = standardizeIframe(document.getElementById('trinketHTML').value);
+    var pythonTutor = standardizeIframe(document.getElementById('python_tutor').value);
 
     var imageInput = fieldImage(document.getElementById('imageInput'));
 
     var max_wrong_lines = optionalFieldValueMaxWrongLines(document.getElementById('max_wrong_lines'));
-    // var unittest = optionalFieldValue(document.getElementById('unittests'));
     //var toggleTypeHandlers = optionalFieldValue(document.getElementById('toggleTypeHandlers'));
     
     var unittests = generateUnittests();
@@ -579,9 +578,6 @@
     atualizarEnunciado();
     // pega o valor do exercicio a partir do quill.js
     var exercicio = returnExercicio();
-
-    var dificuldade = document.getElementById('dificuldade').value;
-    var trinketHTML = optionalFieldValue(document.getElementById('trinketHTML'));    
     var max_wrong_lines = optionalFieldValueMaxWrongLines(document.getElementById('max_wrong_lines'));
     var unittests = generateUnittests();
     var vartests = generateVartests();
@@ -624,30 +620,53 @@
     $("#feedbackText").html("");
   });
 
+  // Python Tutor Related
+  python_tutor.addEventListener('change', function(){
+    var pythonTutor = document.getElementById('python_tutor').value
+
+    if (pythonTutor != null) {
+      // padroniza o iframe
+      pythonTutor = standardizeIframe(pythonTutor)
+      // Define o valor padronizado no elemento de ID 'python_tutor'
+      document.getElementById('python_tutor').value = pythonTutor;
+
+      btnEnable("#btnDebug", "#339cd1");
+      $("#btnDebug").removeAttr("hidden").show();
+    }
+  });
+  var btnDebug = document.getElementById('btnDebug')
+  btnDebug.addEventListener('click',function(e){
+    e.preventDefault();
+    // Remove qualquer elemento existente com a classe 'added'
+    $(".popup-content .added").remove();
+    $(".popup-content").append('<div class="added">' + document.getElementById('python_tutor').value 
+      + '</div>');
+    $(".popup-wrapper").css('display', 'block');
+  });
+
   // Trinket RELATED
   trinketHTML.addEventListener('change', function(){
     var trinket = document.getElementById('trinketHTML').value;
     
     if (trinket != null) {
-      console.log("trinket: ",trinket);
+      // padroniza o iframe
+      trinket = standardizeIframe(trinket)
+      // Define o valor padronizado no elemento de ID 'trinketHTML'
+      document.getElementById('trinketHTML').value = trinket;
+
       btnEnable("#btnTestYourself", "#b184c2");
       $("#btnTestYourself").removeAttr("hidden").show();
-      // Remove qualquer elemento existente com a classe 'added'
-      $(".popup-content .added").remove();
-      $(".popup-content").append('<div class="added">' + trinket.trim() + '</div>');
-    }
-    else{
-      $(".popup-content .added").remove();
     }
   })
 
   var btnTestYourself = document.getElementById('btnTestYourself')
   btnTestYourself.addEventListener('click',function(e){
     e.preventDefault();
-    console.log("clicou no trinket")
+    $(".popup-content .added").remove();
+    $(".popup-content").append('<div class="added">' + document.getElementById('trinketHTML').value 
+      + '</div>');
     $(".popup-wrapper").css('display', 'block');
   });
-
 
   $(".popup-close").click(function (event) {
     $(".popup-wrapper").css('display', 'none');

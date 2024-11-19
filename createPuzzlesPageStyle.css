@@ -515,7 +515,19 @@ select::-moz-focus-inner {
   transition: ease 0.2s;
 }
 
-
 .popup-close:hover {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px, rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+
+.added i {
+  font-size: 2rem;
+  position: relative;
+  top: 0.7rem;
+  float: left; 
+  margin:12px 12px 20px 0;
+}
+
+.added h2 {
+  font-weight: 600;
+  color: #dfff0f;
 }
