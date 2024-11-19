@@ -67,13 +67,17 @@ pre {
 
 /* NAVBAR RELATED */
 
-.navbar { 
+.python-parson-navbar { 
+  /*
   grid-area: navbar; 
+  */
   background-color: #282a36;
   border-bottom: 1px solid #676c88;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: fit-content;
+  padding: 0px 0px 0px 0px;
 }
 
 #progress-bar {
@@ -168,15 +172,22 @@ pre {
   border-top: 1px solid #676c88;
   font-family: 'Space Mono', monospace;
 }
+#feedback-area { 
+  background-color: #1a1c23;
+  border-top: 1px solid #676c88;
+  border-left: 1px solid #676c88;
+  font-family: 'Space Mono', monospace;
+}
 
 .feedback-title-area {
-  grid-area: feedback-title-area; 
+  /*grid-area: feedback-title-area; */
   display: flex;
   justify-content: space-between;
+  color: #f0f0f0;
 }
 
 .feedback-feedback-area { 
-  grid-area: feedback-feedback-area; 
+  /*grid-area: feedback-feedback-area; */
   font-weight: 400;
   color: #f0f0f0;
   margin-top: 20px;
@@ -194,6 +205,14 @@ pre {
   grid-area: enunciado-area; 
   background-color: #1a1c23;
   border-right: 1px solid #676c88;
+  font-family: 'Space Mono', monospace;
+  font-weight: 400;
+  color: #f0f0f0;
+  max-height: fit-content;
+}
+
+#enunciado-area{
+  background-color: #1a1c23;
   font-family: 'Space Mono', monospace;
   font-weight: 400;
   color: #f0f0f0;
@@ -230,6 +249,15 @@ pre {
   grid-area: code-area;
   display: block;
   background-color: #414658;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  color: #f0f0f0;
+}
+
+#code-area{
+  display: block;
+  background-color: #414658;
+  border-left: 1px solid #676c88;
   font-family: 'Space Mono', monospace;
   font-weight: 700;
   color: #f0f0f0;
@@ -342,15 +370,9 @@ pre {
 }
 
 
-/* TEXT MARGIN (ENUNCIADO E FEEDBACK) */
-
-.block-margin {
-  margin-top: 5px;
-  margin-left: 10px;
-  margin-right: 10px;
-  margin-bottom: 5px;
+#containerImage{
+  background-color: #1a1c23;
 }
-
 /* ICON/ANIMATION TEXT */
 
 .icon-text {
