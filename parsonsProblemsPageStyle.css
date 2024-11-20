@@ -39,10 +39,15 @@ pre {
 }
 
 
-/* MASTER CONTAINER */
+/* MASTER CONTAINER 
+display: flex;
+*/
 
 #master-container {
-  display: flex;
+  padding: 5px;
+  margin: 5px;
+  background-color: #282a36;
+  color: #e9a931;
 }
 
 .container {  
