@@ -41,11 +41,11 @@ pre {
 
 /* MASTER CONTAINER 
 display: flex;
+padding: 5px;
+margin: 5px;
 */
 
 #master-container {
-  padding: 5px;
-  margin: 5px;
   background-color: #282a36;
   color: #e9a931;
 }
