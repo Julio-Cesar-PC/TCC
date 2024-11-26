@@ -136,7 +136,7 @@
                 <img src= "./assets/pythonTutor-logo.png" height="15px">
                 Debug
               </button>
-              <button class="button" id="btnNext" disabled="true" hidden>Continuar</button>
+              <button class="button" id="btnNext" hidden>Continuar</button>
               <div id="msg-salvando" style="display: none;">
                 <span class="loader"></span>
                 <span class="icon-text">Salvando...</span>
@@ -319,8 +319,10 @@
 
           $("#msg-salvando").css('display', 'none');
 
-          btnEnable("#btnNext", "#50fa7b");
-          $("#btnNext").show();
+          //btnEnable("#btnNext", "#50fa7b");
+          //$("#btnNext").show();
+          $("#btnNext").removeAttr("hidden").show();
+
           if (hasTrinket) {
             //btnEnable("#btnTestYourself", "#b184c2");
             $("#btnTestYourself").removeAttr("hidden").show();
@@ -392,7 +394,7 @@
   //  btnDisable("#btnDebug")
     $("#btnDebug").hide();
 
-    btnDisable("#btnNext");
+  //  btnDisable("#btnNext");
     $("#btnNext").hide();
 
     let parsonsConfig = {
@@ -470,7 +472,7 @@
     }
     
     window.addEventListener("beforeunload", function (e) {
-      if (Object.keys(parson.states).length && $("#btnNext").prop('disabled') === true) {
+      if (Object.keys(parson.states).length && $("#btnNext").prop('hidden') === true) {
         e.preventDefault();
       }
     });
@@ -504,7 +506,7 @@
     $("#btnNext").click(function (event) {
       event.preventDefault();
 
-      btnDisable("#btnNext");
+      //btnDisable("#btnNext");
       $("#btnNext").hide();
       $("#msg-carregando-continua").css("display", "flex");
 
