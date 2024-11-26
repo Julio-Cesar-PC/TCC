@@ -121,6 +121,14 @@ body {
   position: relative;
 }
 
+#btnDebug{
+  background: #339cd1;
+}
+
+#btnDebug img{
+  position: relative;
+}
+
 #btnReset {
   color: #dbdbdb;
   background-color: #414658;
