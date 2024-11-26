@@ -16,24 +16,34 @@ function countSubstring(string, substring) {
 
 // A função padrão para ajustar o iframe
 function standardizeIframe(iframeString) {
-    if(iframeString === ""){
-        return "null"
-    }    
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = iframeString.trim();
-    const iframe = tempDiv.querySelector("iframe");
-    if (!iframe) {
-        window.alert("O texto fornecido, " + iframeString+ " não contém um iframe válido.")
-        throw new Error("A string fornecida, " + iframeString+ " não contém um iframe válido.");
+    if (iframeString === "") {
+        return "null";
     }
-    iframe.setAttribute("width", "100%");
-    iframe.setAttribute("height", "600px");
-    iframe.setAttribute("frameborder", "0");
-    iframe.setAttribute("marginwidth", "0");
-    iframe.setAttribute("marginheight", "0");
-    iframe.setAttribute("allowfullscreen", "");
-    return iframe.outerHTML;
-  }
+
+    // Verifica se o iframeString contém a tag <iframe> (para validação)
+    const iframeTagMatch = iframeString.match(/<iframe[^>]*src="([^"]*)"[^>]*>/);
+    if (!iframeTagMatch) {
+        window.alert("O texto fornecido não contém um iframe válido.");
+        throw new Error("A string fornecida não contém um iframe válido.");
+    }
+
+    // Extrai o src do iframe
+    const originalSrc = iframeTagMatch[1];
+
+    // Preserva os outros atributos do iframe
+    const iframeAttributes = iframeString.replace(/<iframe[^>]*src="[^"]*"[^>]*>/, "<iframe>");
+
+    // Agora modificamos os atributos necessários
+    let standardizedIframe = iframeAttributes.replace('<iframe', `<iframe width="100%" height="600px" frameborder="0" marginwidth="0" marginheight="0" allowfullscreen`);
+
+    // Restaura o src original preservando a codificação
+    standardizedIframe = standardizedIframe.replace('<iframe', `<iframe src="${originalSrc}"`);
+
+    console.log("iframe recebido: ", iframeString);
+    console.log("iframe retornado: ", standardizedIframe);
+
+    return standardizedIframe;
+}
 
 
 function checkIfSolutionIsCorrect(fb) {
