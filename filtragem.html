@@ -39,7 +39,7 @@
         })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
 
-
+    <script src="./scriptUrl.js"></script>
     <!-- Componentes -->
     <script src="./components/dropdownArea.js"></script>
     <script src="./components/dropdownDificuldade.js"></script>
@@ -125,6 +125,7 @@
     <script src="tagify.js"></script>
 
     <script>
+        var scriptUrl = window.scriptUrl
 
         document.getElementById('test').addEventListener('click', function() {
             console.log('Clicou no botão de teste');
@@ -140,7 +141,7 @@
             var area = document.getElementById('area').value;
             var tags = tagsString();
             // Fazer a requisição GET usando os parâmetros de filtro
-            fetch(`https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w/exec?actionRequest=getExercicioFiltrado&dificuldade=${dificuldade}&area=${area}&tags=${tags}`)
+            fetch(scriptUrl +`/exec?actionRequest=getExercicioFiltrado&dificuldade=${dificuldade}&area=${area}&tags=${tags}`)
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
@@ -188,7 +189,7 @@
         // Função para carregar o exercício com base no ID
         async function setNovoExercicio(id) {
             // Fazer a requisição GET usando os parâmetros de filtro
-            fetch(`https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w/exec?actionRequest=getExercicioById&id=${id}`)
+            fetch(scriptUrl + `/exec?actionRequest=getExercicioById&id=${id}`)
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {

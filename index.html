@@ -34,7 +34,10 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="https://unpkg.com/jwt-decode/build/cjs/index.js"></script>
   <!--<script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>-->
+
+  <script src="./scriptUrl.js"></script>
   <script>
+    var scriptUrl = window.scriptUrl
     function handleCredentialResponse(response) {
       const googleData = jwtDecode(response.credential)
 
@@ -49,7 +52,7 @@
         }
       }
 
-      fetch( "https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w" + "/exec",
+      fetch(scriptUrl + "/exec",
         {
           method: "POST",
           headers: {

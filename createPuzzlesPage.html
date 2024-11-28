@@ -65,6 +65,7 @@
   </script>
 
 
+
   <!--Componentes-->
   <script src="./components/dropdownArea.js"></script>
   <script src="./components/dropdownDificuldade.js"></script>
@@ -314,12 +315,16 @@
 <script src="./lib/skulpt-stdlib.js"></script>
 <script src="https://accounts.google.com/gsi/client" async></script>
 <script src="https://unpkg.com/jwt-decode/build/cjs/index.js"></script>
+
+<script src="./scriptUrl.js"></script>
 <script src="./utils.js"></script>
 <!-- Tagify JS -->
 <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
 <script src="tagify.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 <script>
+  //console.log(`Script URL: ${window.scriptUrl}`);
+  var scriptUrl = window.scriptUrl
   /*
   const userData = getCookie("userData");
   const auth = getCookie("auth");
@@ -504,9 +509,10 @@
     }
 
     console.log(postData);
+    console.log(scriptUrl)
 
     try{
-      fetch("https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w" + "/exec", 
+      fetch(scriptUrl + "/exec", 
       {
         method: "POST",
         headers: {
