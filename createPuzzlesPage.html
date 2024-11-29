@@ -185,6 +185,8 @@
               <label for="imageInput">Escolha uma imagem enunciado:</label>
               <input type="file" id="imageInput" accept="image/*"><br><br>
             </div>
+            <!-- Campo oculto para armazenar a string Base64 -->
+            <input type="hidden" id="hiddenImageField" name="imgEnunciado" value="null" />
             
             <div class="tag-container col-5">
               <label for="tags">Adicione tags:</label><br>
@@ -351,7 +353,7 @@
     if (imageInput.files.length > 0) {
       return imageInput.files[0];
     }
-    return "null"
+    return null;
   }
   // funcao para criar Vartests, uma lista de dicionarios, a partir de um initcode e variaveis
   function generateVartests(event) {
@@ -495,10 +497,16 @@
         "trinketHTML": trinketHTML,
         "area" : area,
         "pythonTutor" : pythonTutor,
-        "imgEnunciado" : imageInput,
+        "imgEnunciado" : "null",
         "tags" : tags
       },
       //"auth": auth
+    }
+    if($('#hiddenImageField').val() != "null"){
+      postData.payload['imgEnunciado'] = {
+        image: $('#hiddenImageField').val(), // Obtém a Base64 do campo oculto
+        imageType: "image/jpeg", // Tipo MIME pode ser enviado separadamente
+      }
     }
     // Adiciona vartests se não estiver vazio
     if (vartests != "null") {
@@ -706,28 +714,44 @@
 
 
 <script>
-  document.getElementById('imageInput').addEventListener('change', function(event) {
-    const imagePreview = document.getElementById('imagePreview');
+  document.getElementById('imageInput').addEventListener('change', function(event){
     const file = event.target.files[0];
-  
-    if (file) {
+    const imagePreview = document.getElementById('imagePreview');
+    if (file){
       const reader = new FileReader();
-  
-      // Quando a imagem é carregada, exibe-a na div
-      reader.onload = function(e) {
+      reader.onload = (e) => {
+
+        // Preview da imagem
         imagePreview.innerHTML = ''; // Limpa qualquer conteúdo anterior
         const img = document.createElement('img');
         img.src = e.target.result;
         img.style.maxWidth = '80%'; // Ajusta a imagem ao tamanho da div
         img.style.maxHeight = '80%';
         imagePreview.appendChild(img); // Adiciona a imagem à div
-      };
+
+
+        const imageInput = fieldImage(document.getElementById('imageInput'));
+        const base64Image = reader.result.split(',')[1]; // Remove o prefixo 'data:image/...'
   
-      reader.readAsDataURL(file); // Converte o arquivo de imagem para URL
-    } else {
+        // Crie o JSON com os dados da imagem e outras informações
+        const payload = {
+          image: base64Image, // Adicione a imagem codificada
+          imageType: imageInput.type, // Inclua o tipo MIME da imagem
+        };
+        // Atualiza o valor de um campo oculto no formulário
+        $('#hiddenImageField').val(base64Image);
+  
+        console.log("chamou reader.onload: ", base64Image)
+      };
+      reader.readAsDataURL(file); // Converte o arquivo em Base64
+
+    }
+    else{
+      $('#hiddenImageField').val("null");
       imagePreview.innerHTML = '<span>Imagem não selecionada</span>'; // Exibe uma mensagem se nenhuma imagem for selecionada
     }
   });
+
 </script>
 
 <script src="quiil.js"></script>

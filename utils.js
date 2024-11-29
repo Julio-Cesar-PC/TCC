@@ -45,6 +45,15 @@ function standardizeIframe(iframeString) {
     return standardizedIframe;
 }
 
+function adjustDriveUrlForIframe(storedUrl) {
+    // Verifica se a URL contém "/file/d/" e substitui o trecho correto
+    if (storedUrl.includes("/file/d/")) {
+        return storedUrl.replace(/\/view\?.*$/, "/preview");
+    } else {
+        console.error("URL inválida ou não no formato esperado.");
+        return null;
+    }
+}
 
 function checkIfSolutionIsCorrect(fb) {
     if (Array.isArray(fb)) {

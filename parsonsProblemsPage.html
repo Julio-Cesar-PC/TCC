@@ -382,7 +382,20 @@
     $("#enunciadoText").append('<div class="added">' + selectedEx.enunciado + '</div>');
 
     if(selectedEx.imgEnunciado != "null"){
-      const imagePreview = document.getElementById('imagePreview');
+      let iframeImg = adjustDriveUrlForIframe(selectedEx.imgEnunciado);
+      if (iframeImg){
+        // Obtém o contêiner onde o iframe será adicionado
+        const imagePreviewContainer = document.getElementById("imagePreview");
+
+        // Cria o elemento iframe
+        const iframeElement = document.createElement("iframe");
+        iframeElement.src = iframeImg;
+        iframeElement.allow = "autoplay";
+        iframeElement.frameBorder = "0"; // Opcional: remove bordas do iframe
+
+        // Adiciona o iframe ao contêiner
+        imagePreviewContainer.appendChild(iframeElement);
+        }
     }
 
     // Set user level
