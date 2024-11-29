@@ -83,30 +83,28 @@ function getRandExURL(userId = null, dificuldade = 0) {
     // Add dificuldade
     if (userId == null) {
         // NÃO FUNCIONA AINDA SEM ESTAR LOGADO
+        console.log("nao esta logado")
         // ramon: e se setar para pegar um exercicio completamente aleatorio? sem levar em conta a dificuldade
-        url = url + "&dificuldade=" + dificuldade;
+        url = url + "&dificuldade=0" ;
     } else {
         // Usuário está logado
         url = url + "&dificuldade=userDefault";
         url = url + "&userId=" + userId;
     }
-
+    console.log("url: "+ url)
     return url;
 }
 
-function getExercicioByIdURL(userId, id, dificuldade=0) {
+function getExercicioByIdURL(id, userId = null, dificuldade=0) {
     //var url = "https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w" + "/exec?actionRequest=getExercicioById" + "&id=" + id;
     var url = window.scriptUrl + "/exec?actionRequest=getExercicioById" + "&id=" + id;
 
-    if (userId == null) {
-        // NÃO FUNCIONA AINDA SEM ESTAR LOGADO
-        // ramon: e se setar para pegar um exercicio completamente aleatorio? sem levar em conta a dificuldade
-        url = url + "&dificuldade=" + dificuldade;
-    } else {
+    if(userId){
         // Usuário está logado
         url = url + "&dificuldade=userDefault";
         url = url + "&userId=" + userId;
     }
+
     console.log("url: " + url);
     return url;
 }
@@ -162,14 +160,22 @@ function getCookie(name) {
     return decodeURI(dc.substring(begin + prefix.length, end));
 } 
 */
-function setUserLevel(userLevelInfo) {
+function setUserLevel(userLevelInfo = null) {
     const progressBarPercentRate = 10;
+    var levelPercent=null;
+    if(userLevelInfo == null){
+        $(".current-level").html("Nivel " + "0");
+        $(".progressbar-progress-text").html("0");
+        $(".next-level").html("Nivel " + "1");
+        levelPercent = 0*progressBarPercentRate + "%";
+    }
+    else{
+        $(".current-level").html("Nivel " + userLevelInfo.currentLevel);
+        $(".progressbar-progress-text").html(userLevelInfo.levelProgress);
+        $(".next-level").html("Nivel " + userLevelInfo.nextLevel);
+        levelPercent = userLevelInfo.levelProgress*progressBarPercentRate + "%";
+    }
 
-    $(".current-level").html("Nivel " + userLevelInfo.currentLevel);
-    $(".progressbar-progress-text").html(userLevelInfo.levelProgress);
-    $(".next-level").html("Nivel " + userLevelInfo.nextLevel);
-
-    var levelPercent = userLevelInfo.levelProgress*progressBarPercentRate + "%";
     if(levelPercent === "0%") {
         levelPercent = "3%";
     }

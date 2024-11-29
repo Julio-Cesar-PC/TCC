@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 20px;
     background-color: #282a36;
-    color:#e9a931
+    
 }
 .filter-container {
     margin-bottom: 20px;
@@ -10,6 +10,10 @@ body {
     border-top: 2px solid #339cd1;
     border-radius: 10px;
     padding-right: 6px;
+    color:#e9a931
+}
+h1{
+    color:#e9a931
 }
 label {
     font-weight: bold;

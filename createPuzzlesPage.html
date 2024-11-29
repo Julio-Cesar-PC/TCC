@@ -530,6 +530,7 @@
         body: JSON.stringify(postData), // body data type must match "Content-Type" header
       })
       .then(response => {
+        console.log("res: ",response)
         return response.json();
       })
       .then(res => {
