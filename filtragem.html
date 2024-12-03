@@ -92,14 +92,6 @@
                 </div>
             </div>
         </div>
-
-        <div>
-            <button id="test" type="button" hidden>
-                Bora testar
-            </button>
-        </div>
-    
-        
     
         <div id="result-container">
             <table id="resultTable">
@@ -108,7 +100,6 @@
                         <th>ID</th>
                         <th>Enunciado</th>
                         <th>Dificuldade</th>
-                        <th>Exercício</th>
                         <th>Área</th>
                         <th>Tags</th>
                     </tr>
@@ -126,14 +117,6 @@
 
     <script>
         var scriptUrl = window.scriptUrl
-
-        document.getElementById('test').addEventListener('click', function() {
-            console.log('Clicou no botão de teste');
-            setNovoExercicio(1);
-        });
-
-        
-
 
         document.getElementById('filterBtn').addEventListener('click', function() {
             // Capturar os filtros do usuário
@@ -167,21 +150,47 @@
 
             // Cria a célula ID como um link clicável
             const idCell = document.createElement('td');
+            const divIdCell = document.createElement('div');
+            divIdCell.setAttribute('class', 'id-cell');
+            /*
             const idButton = document.createElement('button');
             idButton.setAttribute('type', 'button');
             idButton.setAttribute('id', `idButton${exercicio.id}`);
             idButton.textContent = exercicio.id;
-            
-            idCell.appendChild(idButton);
+            */
+
+            const squareIcon = document.createElement('i');
+            squareIcon.className = 'fa-regular fa-square';
+            squareIcon.style.cursor = 'pointer'; // Faz o ícone parecer clicável
+            squareIcon.setAttribute('id', `idButton${exercicio.id}`);
+            squareIcon.setAttribute('title', `idButton${exercicio.id}`); // Tooltip ao passar o mouse
+
+             // Ícone de edição
+            const editIcon = document.createElement('i');
+            editIcon.className = 'fas fa-edit';
+            editIcon.style.marginLeft = '10px'; // Espaçamento entre o ID e o ícone
+            editIcon.style.cursor = 'pointer'; // Faz o ícone parecer clicável
+            editIcon.setAttribute('title', 'Editar'); // Tooltip ao passar o mouse
+
+            divIdCell.appendChild(squareIcon);
+            divIdCell.appendChild(editIcon);
+
+            idCell.appendChild(divIdCell);
+            //idCell.appendChild(idButton);
             row.appendChild(idCell);
             
+            //<td>${exercicio.exercicio}</td>
             row.innerHTML += `
                 <td>${exercicio.enunciado}</td>
                 <td>${exercicio.dificuldade}</td>
-                <td>${exercicio.exercicio}</td>
                 <td>${exercicio.area}</td>
-                <td>${exercicio.tags}</td>
             `;
+            if(exercicio.tags != "null"){
+                row.innerHTML += `<td>${exercicio.tags}</td>`
+            }
+            else{
+                row.innerHTML += "<td> </td> "
+            }
             tableBody.appendChild(row);
           });
         }
@@ -210,7 +219,8 @@
         document.getElementById('resultTable').addEventListener('click', function(event) {
             const id = event.target.textContent;
             if (event.target.id === `idButton${id}`) {
-                setNovoExercicio(id);
+                console.log("clicou em: "+ `idButton${id}`)
+                //setNovoExercicio(id);
             }
         });
 

@@ -118,6 +118,7 @@
             <div id="labelEnunciado">
               <label for="enunciado">Enunciado:</label><br>
             </div>
+            <p class="observacao">Escreva o enunciado do seu exercício.</p>
             <!-- Toolbar personalizada com um id -->
             <div id="enunciado-toolbar">
               <span class="ql-formats">
@@ -156,17 +157,18 @@
                 <button type="button" class="btn btn-secondary tooltip-btn" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Cada linha será um dos blocos arrastáveis, a ordem escrita será a ordem correta e para usar identação basta um espaço">?</button>
               </label>
             </div>
+            <p class="observacao">Escreva seu código ordenado corretamente. Para formar um trecho incorreto escreva 'distractor' no final da linha.</p>
             <div id="quillExercicio"></div>
           </div>
         </div>
 
         
         <div class="row">
-          <div class="col-2">
+          <div class="col-lg-2 col-sm-4">
             <button class="button" id="btnTeste" type="button" data-bs-toggle="collapse" data-bs-target="#opcionais" aria-expanded="false" aria-controls="opcionais">Opcionais</button>
           </div>
-          <div class="col-2">
-            <button class="button" id="btnSubmit" type="submit">Submit</button>
+          <div class="col-lg-2 col-sm-4">
+            <button class="button" id="btnSubmit" type="submit">Enviar</button>
           </div>
         </div>
         
@@ -207,28 +209,33 @@
                <textarea id="trinketHTML" name="trinketHTML" rows="4" cols="50" placeholder="Acesse o website, crie sua conta, clique em 'new trinket', escreva seu código correto, clique em save, por fim vá em share -> embed -> copie e cole o iframe aqui "></textarea>
              </div>
           </div>
-
-          Teste de Variáveis:
+          <label for="">Teste de Variáveis:</label>
+          <p class="observacao">
+            Através do código que o usuário formar o teste verificará se o valor final das variáveis abaixo é o esperado.
+          </p>
           <div class="row" id="vartests">
             <div class="col-6">
               <label for="initcode">Initcode:
                 <button type="button" class="btn btn-secondary tooltip-btn" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="É uma lista de valores iniciais de variáveis que serão testadas">?</button>
-              </label><br>
+              </label>
+              <p class="observacao">Atribua valores iniciais para variáveis</p>
               <textarea id="initcode" name="initcode" rows="4" cols="50" placeholder="Exemplo:&#10;variavel=valorInicial , variavel=valorInicial"></textarea>
             </div>
             <div class="col-6">
               <label for="variables">Variables:
                 <button type="button" class="btn btn-secondary tooltip-btn" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="É uma lista de valores finais de variáveis que serão testadas">?</button>
-              </label><br>
+              </label>
+              <p class="observacao">Atribua valores finais para variáveis</p>
               <textarea id="variables" name="variables" rows="4" cols="50" placeholder="Exemplo:&#10;variavel=valorFinal, variavel=valorFinal"></textarea>
             </div>
           </div>
 
           <div class="row">
             <div class="col-12">
-              <label for="unittests">Unit Tests:
+              <label for="unittests">Testes Unitários:
                 <button type="button" class="btn btn-secondary tooltip-btn" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Escreva seus testes unitários abaixo, seguindo o formato do placeholder">?</button>
-              </label><br>
+              </label>
+              <p class="observacao">Para utilizar um teste unitário, o código deve possuir uma função. Escreva um teste unitário passando os parâmetros: função chamada com seus valores, retorno esperado e uma mensagem.</p>
               <textarea id="unittests" name="unittests" rows="8" cols="50" placeholder='assertEqual(maxindex([0, 2, 4]),2,"Calling function maxindex([0, 2, 4]).")'></textarea>
             </div>
           </div>

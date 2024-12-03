@@ -530,7 +530,9 @@
     $("#btnChangeExercise").click(function (event) {
       event.preventDefault();
 
-      btnDisable("#btnChangeExercise");
+      //btnDisable("#btnChangeExercise");
+      $("#btnNext").hide();
+      
 
       getExercicioAleatorio(userData).then(response => {
         setNovoExercicio(response);

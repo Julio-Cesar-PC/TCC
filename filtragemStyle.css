@@ -52,6 +52,17 @@ td {
     color:  black;
 }
 
+td i {
+    margin-right: 2px;
+    margin-left: 0px
+}
+
+.id-cell{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 /* NAVBAR RELATED */
 
 .python-parson-navbar {

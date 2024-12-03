@@ -39,17 +39,3 @@ function transformTag(tagData) {
 function cleanTags(){
   tagify.removeAllTags();
 }
-
-// Captura o evento de submissão do formulário
-document.getElementById('btnSubmit').addEventListener('click', function(e) {
-  e.preventDefault(); // Evita o comportamento padrão de envio do formulário
-  
-  // Pega as tags como um array de objetos (cada objeto contém a tag e outros metadados)
-  var tags = tagify.value; 
-  // Converte o array de tags em uma string ou um array de valores simples (apenas as tags)
-  var tagsArray = tags.map(tag => tag.value);
-
- // console.log('Tags: ' + tagsArray + 'typeof: ' + typeof tagsArray);
- // console.log('Tags: ' + tagsString(tagsArray) + 'typeof: ' + typeof tagsString(tagsArray));
-
-});
