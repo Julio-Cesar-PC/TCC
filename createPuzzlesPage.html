@@ -369,8 +369,17 @@
     var initcodeList = document.getElementById('initcode').value.split('\n') .map(line => line.replace(/\s+/g, '')).filter(line => line.length > 0);
     var variablesList = document.getElementById('variables').value
     .split('\n')
-    .map(line => line.replace(/\s+/g, ''))
-    .filter(line => line.length > 0);
+    .map(line => {
+        if (line.trim() !== "") { // Verifica se a linha não é vazia (ignora espaços)
+            let [key, ...rest] = line.split('='); // Divide a linha no primeiro '=' encontrado
+            key = key.replace(/\s+/g, ''); // Remove espaços antes do '='
+            let value = rest.join('=').trim(); // Junta o resto e aplica trim()
+            return `${key}=${value}`; // Reconstroi a linha no formato esperado
+        }
+        return ""; // Retorna vazio para as linhas sem conteúdo
+    })
+    .filter(line => line.length > 0); // Filtra linhas que ainda são vazias
+    console.log("lista de variaveis:", variablesList)
     // elementos
     var initcodeElement = document.getElementById('initcode');
     var variablesElement = document.getElementById('variables');
@@ -428,7 +437,7 @@
         let vartest = {
             initcode: initcode.replace(',', '\n'),
             code: "",
-            message: "Testando",
+            message: "Testando com valores: " + initcode.replace(',', '\n'),
             variables: variablesDict
         };
         
@@ -626,6 +635,8 @@
   }
 
   max_wrong_lines.addEventListener('input', atualizarSorteableTrash);
+  unittests.addEventListener('change', atualizarSorteableTrash);
+  variables.addEventListener('change', atualizarSorteableTrash);
 
   var btnRun = document.getElementById('btnRun');
   btnRun.addEventListener('click', function(event) {
