@@ -55,6 +55,20 @@ function adjustDriveUrlForIframe(storedUrl) {
     }
 }
 
+function removeHtmlTags(input) {
+    return input.replace(/<\/?[^>]+(>|$)/g, "");
+}
+
+function removerAteAtecao(str) {
+    const posicaoAtencao = str.toUpperCase().indexOf("ATENÇÃO");
+    
+    if (posicaoAtencao !== -1) {
+      return str.substring(0, posicaoAtencao).trim();
+    } else {
+      return str; // Se "ATENCAO" não for encontrado, retorna a string original
+    }
+}
+  
 function checkIfSolutionIsCorrect(fb) {
     if (Array.isArray(fb)) {
         if (fb.length > 0) {
@@ -266,4 +280,40 @@ function w3_close() {
     $("#sidebar").css("opacity", "0");
     $("#sidebar-wrapper").css("visibility", "hidden");
     $("#sidebar-wrapper").css("opacity", "0");
+}
+
+function extractInitcode(data) {
+    return data.map(item => item.initcode).join('\n');
+}
+
+function extractVariables(data) {
+    return data
+      .map(item => Object.entries(item.variables)
+        .map(([key, value]) => `${key}=${value}`).join('\n'))
+      .join('\n');
+}
+
+function stringToDictionary(jsonString) {
+    try {
+      // Converte a string JSON em um objeto
+      return JSON.parse(jsonString);
+    } catch (error) {
+      console.error("Erro ao converter a string em lista de dicionários:", error);
+      return null; // Retorna null em caso de erro
+    }
+}
+
+function extractAssertStrings(code) {
+    // Expressão regular para capturar os asserts com o formato desejado
+    const assertRegex = /self\.assertEqual\(([^,]+),([^,]+),\s*\"([^\"]+)\"\)/g;
+    let match;
+    let result = '';
+  
+    // Loop através de todas as ocorrências de assert
+    while ((match = assertRegex.exec(code)) !== null) {
+      // match[1] é o primeiro argumento, match[2] é o segundo e match[3] é a mensagem
+      result += `assertEqual(${match[1]},${match[2]},"${match[3]}")\n`;
+    }
+  
+    return result.trim();  // Retorna os asserts formatados
 }

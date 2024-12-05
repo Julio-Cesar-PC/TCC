@@ -39,6 +39,11 @@
         })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
     </script>
 
+    <script src="./lib/jquery.min.js"></script>
+    <script src="./lib/jquery-ui.min.js"></script>
+    <script src="./lib/jquery.ui.touch-punch.min.js"></script>
+
+
     <script src="./scriptUrl.js"></script>
     <!-- Componentes -->
     <script src="./components/dropdownArea.js"></script>
@@ -118,11 +123,15 @@
     <script>
         var scriptUrl = window.scriptUrl
 
-        document.getElementById('filterBtn').addEventListener('click', function() {
+
+        function fetchDisplay(){
             // Capturar os filtros do usuário
             var dificuldade = document.getElementById('dificuldade').value;
             var area = document.getElementById('area').value;
             var tags = tagsString();
+            console.log(dificuldade);
+            console.log(area);
+            console.log(tags);
             // Fazer a requisição GET usando os parâmetros de filtro
             fetch(scriptUrl +`/exec?actionRequest=getExercicioFiltrado&dificuldade=${dificuldade}&area=${area}&tags=${tags}`)
             .then(response => response.json())
@@ -137,6 +146,10 @@
             .catch(error => {
                 console.error('Erro ao buscar exercícios:', error);
             });
+        }
+
+        document.getElementById('filterBtn').addEventListener('click', function() {
+            fetchDisplay();
         });
 
         function displayResults(exercicios) {
@@ -170,6 +183,7 @@
             editIcon.className = 'fas fa-edit';
             editIcon.style.marginLeft = '10px'; // Espaçamento entre o ID e o ícone
             editIcon.style.cursor = 'pointer'; // Faz o ícone parecer clicável
+            editIcon.setAttribute('id', `idButton${exercicio.id}`);
             editIcon.setAttribute('title', 'Editar'); // Tooltip ao passar o mouse
 
             divIdCell.appendChild(squareIcon);
@@ -204,7 +218,7 @@
                 if (data.status === 'success') {
                     console.log(data.exercicio);
                     localStorage.setItem('exerciseId', data.exercicio.id); // Salva o ID no localStorage
-                    window.location.href = "parsonsProblemsPage.html";
+                    window.location.href = "./parsonsProblemsPage.html";
                     
                 } 
                 else {
@@ -217,12 +231,28 @@
         }
 
         document.getElementById('resultTable').addEventListener('click', function(event) {
-            const id = event.target.textContent;
-            if (event.target.id === `idButton${id}`) {
-                console.log("clicou em: "+ `idButton${id}`)
-                //setNovoExercicio(id);
+            // Verifica se o elemento clicado é um ícone
+            if (event.target.tagName === 'I') {
+                const target = event.target;
+
+                // Lida com o ícone de quadrado
+                if (target.classList.contains('fa-square')) {
+                    const id = target.id.replace("idButton",'');
+                    //console.log(`id: ${id}`)
+                    setNovoExercicio(id);
+                }
+
+                // Lida com o ícone de edição
+                if (target.classList.contains('fa-edit')) {
+                    console.log("Clicou no ícone de edição:", target.parentElement.parentElement.parentElement); 
+                    // Exemplo de interação: editar o exercício
+                    const id = target.id.replace("idButton",'');
+                    window.location.href = `./editPuzzlesPages.html?id=${id}`;
+
+                }
             }
         });
+
 
     </script>
 
@@ -231,6 +261,7 @@
             // Código a ser executado após o carregamento do DOM
             appendAreaDropdown("#dropdownArea");
             appendDificuldadeDropdown("#dropdownDificuldade");
+            fetchDisplay();
         });
         document
         cleanFilterBtn.addEventListener('click', function() {

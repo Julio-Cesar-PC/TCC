@@ -11,14 +11,26 @@ function tagsString(){
   var tags = tagify.value; 
   // Converte o array de tags em uma string ou um array de valores simples (apenas as tags)
   var tagsArray = tags.map(tag => tag.value);
-
+/*
   if (tagsArray.length == 0 ){
     return "null";
   }
-
+*/
 
   var tagsString = tagsArray.join(',');
   return tagsString;
+}
+
+function stringToTags(tagsString) {
+  if (!tagsString || tagsString === "null") {
+    return  // Retorna se a string for "null" ou não existir
+  }
+
+  // Divide a string de tags em um array
+  var tagsArray = tagsString.split(',');
+
+  // Usa o método addTags para adicionar as tags no Tagify
+  tagify.addTags(tagsArray);
 }
 
 function transformTag(tagData) {

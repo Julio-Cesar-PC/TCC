@@ -144,12 +144,37 @@ body {
   box-shadow: inset 0px 0px 0px 2px #f1f1f1;
 }
 
+
 #btnSubmit{
   background: #ff42e6;
+  box-shadow: inset 0px 0px 0px 2px #ce1581;
+
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  font-size: large;
+  margin: 0px 10px 0px 10px;
+  padding: 5px 20px;
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  transition: all 0.3s ease;
+
 }
 #btnSubmit:hover {
   box-shadow: inset 0px 0px 0px 2px #ce15ce;
 }
+
+#btnDelete{
+  background: #ff4242;
+}
+#btnDelete img{
+  position: relative;
+}
+#btnDelete:hover {
+  box-shadow: inset 0px 0px 0px 2px #ce1515;
+}
+
 
 #btnRun {
   background: #dbfa50;
