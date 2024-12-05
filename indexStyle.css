@@ -174,7 +174,6 @@ a {
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px;
   transition: all 0.3s ease-in-out;
   
-  
   font-family: "Google Sans", arial, sans-serif;
   font-size: 14px;
   height: 40px;
@@ -192,6 +191,10 @@ a {
   align-items: center;
   justify-content: center; /* Para centralizar o texto */
   text-align: center;
+}
+
+.login-button span {
+  margin-right: 1rem;
 }
 
 .login-button:hover {
@@ -212,13 +215,11 @@ a {
 
 /* Estilo da imagem no botão */
 .login-icon {
-  width: 80px; /* Ajuste o tamanho conforme necessário */
   height: 100%;
-  object-fit: contain;
+  margin-left: -17px;
 }
 
-/* Força a imagem para a extrema esquerda */
-.login-icon-wrapper {
-  margin: 0; /* Remove o espaçamento */
-  left: 2px; /* Margem fixa da imagem à esquerda */
+
+.login-icon-wrapper span {
+  margin-right: 2px;
 }
