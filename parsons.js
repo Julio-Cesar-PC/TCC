@@ -423,7 +423,7 @@
        success = false;
      } else { // passed or failed tests
        feedbackHtml += '<span class="msg">' + this.stripLinenumberIfNeeded(res.feedback) + '</span><br />';
-       feedbackHtml += 'Expected <span class="expected">' + res.expected +
+       feedbackHtml += 'Espera-se que <span class="expected">' + res.expected +
                  '</span>' + res.test + '<span class="actual">' + res.actual +
                  '</span>';
        if (res.status === "fail") {
