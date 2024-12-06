@@ -45,7 +45,30 @@ function standardizeIframe(iframeString) {
     return standardizedIframe;
 }
 
+function adjustDriveUrlForIframe(storedUrl) {
+    // Verifica se a URL contém "/file/d/" e substitui o trecho correto
+    if (storedUrl.includes("/file/d/")) {
+        return storedUrl.replace(/\/view\?.*$/, "/preview");
+    } else {
+        console.error("URL inválida ou não no formato esperado.");
+        return null;
+    }
+}
 
+function removeHtmlTags(input) {
+    return input.replace(/<\/?[^>]+(>|$)/g, "");
+}
+
+function removerAteAtecao(str) {
+    const posicaoAtencao = str.toUpperCase().indexOf("ATENÇÃO");
+    
+    if (posicaoAtencao !== -1) {
+      return str.substring(0, posicaoAtencao).trim();
+    } else {
+      return str; // Se "ATENCAO" não for encontrado, retorna a string original
+    }
+}
+  
 function checkIfSolutionIsCorrect(fb) {
     if (Array.isArray(fb)) {
         if (fb.length > 0) {
@@ -68,32 +91,34 @@ function checkIfSolutionIsCorrect(fb) {
 
 function getRandExURL(userId = null, dificuldade = 0) {
     //var url = "https://script.google.com/macros/s/AKfycbwZKg-bWoZs_OgVkRUmvxxfrdQeSTWbk3lANkRDUPik-zAvLWfieRkhCgFrU415LYYg/exec?actionRequest=getExercicioAleatorio";
-    var url = "https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w" + "/exec?actionRequest=getExercicioAleatorio";
+    //var url = "https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w" + "/exec?actionRequest=getExercicioAleatorio";
+    
+    var url = window.scriptUrl + "/exec?actionRequest=getExercicioAleatorio"
     // Add dificuldade
     if (userId == null) {
         // NÃO FUNCIONA AINDA SEM ESTAR LOGADO
+        console.log("nao esta logado")
         // ramon: e se setar para pegar um exercicio completamente aleatorio? sem levar em conta a dificuldade
-        url = url + "&dificuldade=" + dificuldade;
+        url = url + "&dificuldade=0" ;
     } else {
         // Usuário está logado
         url = url + "&dificuldade=userDefault";
         url = url + "&userId=" + userId;
     }
-
+    console.log("url: "+ url)
     return url;
 }
 
-function getExercicioByIdURL(userId, id, dificuldade=0) {
-    var url = "https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w" + "/exec?actionRequest=getExercicioById" + "&id=" + id;
-    if (userId == null) {
-        // NÃO FUNCIONA AINDA SEM ESTAR LOGADO
-        // ramon: e se setar para pegar um exercicio completamente aleatorio? sem levar em conta a dificuldade
-        url = url + "&dificuldade=" + dificuldade;
-    } else {
+function getExercicioByIdURL(id, userId = null, dificuldade=0) {
+    //var url = "https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w" + "/exec?actionRequest=getExercicioById" + "&id=" + id;
+    var url = window.scriptUrl + "/exec?actionRequest=getExercicioById" + "&id=" + id;
+
+    if(userId){
         // Usuário está logado
         url = url + "&dificuldade=userDefault";
         url = url + "&userId=" + userId;
     }
+
     console.log("url: " + url);
     return url;
 }
@@ -103,9 +128,10 @@ function getExercicioByIdURL(userId, id, dificuldade=0) {
 
 function getHistoricoURL(authentication = null) {
   //  var url = "https://script.google.com/macros/s/AKfycbwZKg-bWoZs_OgVkRUmvxxfrdQeSTWbk3lANkRDUPik-zAvLWfieRkhCgFrU415LYYg/exec?actionRequest=getHistorico";
-    var url = "https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w" + "/exec?actionRequest=getHistorico";
+  //  var url = "https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w" + "/exec?actionRequest=getHistorico";
+    
+    var url = window.scriptUrl +"/exec?actionRequest=getHistorico";
     url = url + "&authentication=" + JSON.stringify(authentication);
-
     return url;
 }
 
@@ -148,14 +174,22 @@ function getCookie(name) {
     return decodeURI(dc.substring(begin + prefix.length, end));
 } 
 */
-function setUserLevel(userLevelInfo) {
+function setUserLevel(userLevelInfo = null) {
     const progressBarPercentRate = 10;
+    var levelPercent=null;
+    if(userLevelInfo == null){
+        $(".current-level").html("Nivel " + "0");
+        $(".progressbar-progress-text").html("0");
+        $(".next-level").html("Nivel " + "1");
+        levelPercent = 0*progressBarPercentRate + "%";
+    }
+    else{
+        $(".current-level").html("Nivel " + userLevelInfo.currentLevel);
+        $(".progressbar-progress-text").html(userLevelInfo.levelProgress);
+        $(".next-level").html("Nivel " + userLevelInfo.nextLevel);
+        levelPercent = userLevelInfo.levelProgress*progressBarPercentRate + "%";
+    }
 
-    $(".current-level").html("Nivel " + userLevelInfo.currentLevel);
-    $(".progressbar-progress-text").html(userLevelInfo.levelProgress);
-    $(".next-level").html("Nivel " + userLevelInfo.nextLevel);
-
-    var levelPercent = userLevelInfo.levelProgress*progressBarPercentRate + "%";
     if(levelPercent === "0%") {
         levelPercent = "3%";
     }
@@ -246,4 +280,40 @@ function w3_close() {
     $("#sidebar").css("opacity", "0");
     $("#sidebar-wrapper").css("visibility", "hidden");
     $("#sidebar-wrapper").css("opacity", "0");
+}
+
+function extractInitcode(data) {
+    return data.map(item => item.initcode).join('\n');
+}
+
+function extractVariables(data) {
+    return data
+      .map(item => Object.entries(item.variables)
+        .map(([key, value]) => `${key}=${value}`).join('\n'))
+      .join('\n');
+}
+
+function stringToDictionary(jsonString) {
+    try {
+      // Converte a string JSON em um objeto
+      return JSON.parse(jsonString);
+    } catch (error) {
+      console.error("Erro ao converter a string em lista de dicionários:", error);
+      return null; // Retorna null em caso de erro
+    }
+}
+
+function extractAssertStrings(code) {
+    // Expressão regular para capturar os asserts com o formato desejado
+    const assertRegex = /self\.assertEqual\(([^,]+),([^,]+),\s*\"([^\"]+)\"\)/g;
+    let match;
+    let result = '';
+  
+    // Loop através de todas as ocorrências de assert
+    while ((match = assertRegex.exec(code)) !== null) {
+      // match[1] é o primeiro argumento, match[2] é o segundo e match[3] é a mensagem
+      result += `assertEqual(${match[1]},${match[2]},"${match[3]}")\n`;
+    }
+  
+    return result.trim();  // Retorna os asserts formatados
 }

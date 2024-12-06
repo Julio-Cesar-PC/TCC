@@ -66,8 +66,6 @@
     </div>
   </div>
 
-
-
   <div id="sidebar-wrapper">
     <div id="sidebar" class="w3-sidebar w3-bar-block w3-border-right">
       <button onclick="w3_close()" class="w3-bar-item w3-large">Fechar</button>
@@ -88,7 +86,6 @@
           <img src="./assets/logoicon.png" alt="Icone do site, dois pês, representando Parsons Puzzles" height="55px">
         </a>
       </div>
-
       <div id="progress-bar">
         <span class="current-level">Nivel 1</span>
         <div class="progressbar-background">
@@ -115,30 +112,22 @@
     <div id="msg-carregando" style="display: none;">
       <span class="loader"></span>
       <span class="icon-text">Carregando...</span>
-    </div>
+    </div>  
+</div>
 
-
-    <!--
-      <div class="slider-wrapper">
-        <div class="slider-title">Nivel 0</div>
-        <div class="slider">
-          <div class="slider-item"> 
-            <a class="slider-item-link" href="#">
-              <p class="exercise-title">Exercício 1</p>
-              <p class="exercise-date">Horário de Início: 13:40</p>
-              <p class="exercise-date">Horário de Término: 13:45</p>
-              <p class="exercise-time">Tempo Levado: 5 minutos</p>
-              <p class="exercise-tries-count">Tentativas: 3</p>
-            </a>
-          </div>
-          <div class="slider-item"> Slide 2</div>
-      <div class="slider-item"> Slide 3</div>
-      <div class="slider-item"> Slide 4</div>
-    </div>
+<div class="message-container">
+  <div class="message-content">
+    <h1>
+      Histórico de Exercícios 
+    </h1>
+    <p>Para acessar seu histórico de exercícios, é necessário realizar cadastro ou login na plataforma.</p>
+    
+    <button class="return-button" onclick="location.href='index.html'">
+      <i class="fa-solid fa-house"></i>
+      Voltar para a Tela Inicial
+    </button>
   </div>
--->
-
-  </div>
+</div>
 </body>
 
 
@@ -160,13 +149,17 @@
 <script>
   const userData = getCookie("userData");
   const auth = getCookie("auth");
+
+  var flagAnonimo = (userData && auth) ? false : true
+
   var allHistoryData = [];
 
 
+  /*
   if (userData === null || auth === null) {
     accessDenied_returningToMain();
   }
-
+  */
   function getHistorico(authentication) {
     return fetch(getHistoricoURL(authentication),
       {
@@ -292,51 +285,62 @@
 
     $("#msg-carregando").css("display", "flex");
 
-    (getHistorico(auth)).then(res => {
+    if(flagAnonimo){
       //////////////////////////////
       $("#msg-carregando").css("display", "none");
-
-      setUserLevel(res.userLevelInfo);
-      buildSliderItems(res.userHistory);
-
-      $('#menu').click(function (e) {
-        e.stopPropagation();
-        w3_open();
-      });
-
-      $('#sidebar-wrapper').click(function (e) {
-        const $target = $(e.target)
-        const conditionalToCloseSidebar = (!$target.is("#sidebar") && !$target.is($("#sidebar").children()))
-
-        if (conditionalToCloseSidebar) {
-          w3_close();
-        }
-      });
-
-      $('.slider-item-link').click(function (e) {
-        const sliderClickData = getHistoryDataFromSliderClick(e);
-        populatePopup(allHistoryData[sliderClickData.nivel][sliderClickData.index]);
-
-        $(".popup-wrapper").css('display', 'block');
-      });
-
-      $(".popup-close").click(function (event) {
-        close_popup();
-      });
-
-      $('.popup-wrapper').click(function (e) {
-        const $target = $(e.target)
-        const conditionalToClosePopup = (!$target.is(".popup") && !$target.is($(".popup").children()) && !$target.is(".popup-content") && !$target.is($(".popup-content").children()) && !$target.is(".popup-added") && !$target.is($(".popup-added").children()) && !$target.is("pre code") && !$target.is($("pre code").children()))
-
-        if (conditionalToClosePopup) {
+  
+      setUserLevel();
+      console.log("consegui acessar como anonimo, mostrar um botao pedindo para cadastrar/logar")
+    }
+    else{
+      (getHistorico(auth)).then(res => {
+        //////////////////////////////
+        $("#msg-carregando").css("display", "none");
+  
+        setUserLevel(res.userLevelInfo);
+        buildSliderItems(res.userHistory);
+  
+        
+        $('.slider-item-link').click(function (e) {
+          const sliderClickData = getHistoryDataFromSliderClick(e);
+          populatePopup(allHistoryData[sliderClickData.nivel][sliderClickData.index]);
+  
+          $(".popup-wrapper").css('display', 'block');
+        });
+  
+        $(".popup-close").click(function (event) {
           close_popup();
-        }
+        });
+  
+        $('.popup-wrapper').click(function (e) {
+          const $target = $(e.target)
+          const conditionalToClosePopup = (!$target.is(".popup") && !$target.is($(".popup").children()) && !$target.is(".popup-content") && !$target.is($(".popup-content").children()) && !$target.is(".popup-added") && !$target.is($(".popup-added").children()) && !$target.is("pre code") && !$target.is($("pre code").children()))
+  
+          if (conditionalToClosePopup) {
+            close_popup();
+          }
+        });
+  
+        //////////////////////////////
       });
+      
+    }
+    $('#menu').click(function (e) {
+      e.stopPropagation();
+      w3_open();
+    });
 
-      $('#logout-link').click(function (e) {
-        logout(e);
-      });
-      //////////////////////////////
+    $('#sidebar-wrapper').click(function (e) {
+      const $target = $(e.target)
+      const conditionalToCloseSidebar = (!$target.is("#sidebar") && !$target.is($("#sidebar").children()))
+
+      if (conditionalToCloseSidebar) {
+        w3_close();
+      }
+    });
+    
+    $('#logout-link').click(function (e) {
+      logout(e);
     });
   });
 

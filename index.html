@@ -34,7 +34,10 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="https://unpkg.com/jwt-decode/build/cjs/index.js"></script>
   <!--<script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>-->
+
+  <script src="./scriptUrl.js"></script>
   <script>
+    var scriptUrl = window.scriptUrl
     function handleCredentialResponse(response) {
       const googleData = jwtDecode(response.credential)
 
@@ -49,7 +52,7 @@
         }
       }
 
-      fetch( "https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w" + "/exec",
+      fetch(scriptUrl + "/exec",
         {
           method: "POST",
           headers: {
@@ -98,7 +101,7 @@
 
       google.accounts.id.initialize({
         //client_id: "303026483981-t6cl68qgrole0khn79j0tp6bjtatjddj.apps.googleusercontent.com",
-        client_id : "303026483981-t6cl68qgrole0khn79j0tp6bjtatjddj.apps.googleusercontent.com",
+        client_id : "538626185085-8g8uc5gjnansh4ngt307bvud114oooo1.apps.googleusercontent.com",
         callback: handleCredentialResponse
       });
 
@@ -115,6 +118,8 @@
       );
       google.accounts.id.prompt(); // also display the One Tap dialog
     }
+
+    
   </script>
 
 
@@ -159,13 +164,31 @@
       <div class="login-image">
         <img src="./assets/login_page_image.png" alt="Código em python estilizado e rotacionado.">
       </div>
-      <div class="login-form">
-        <p class="login-text">Login com Google</p>
-        <div id="buttonDiv"></div>
-        <div class="consent-area">
-          <p>Ao realizar login com Google, estou consentindo com as<br><a href="./termosECondicoesPage.html">Informações, Políticas de Privacidade e Termos de Uso</a> referentes<br>a esta plataforma, desenvolvida durante um projeto de TCC.</p>
+      <div class="buttons">
+        <div class="login-form">
+          <p class="login-text">Login com Google</p>
+          <div id="buttonDiv"></div>
+          <div class="consent-area">
+            <p>Ao realizar login com Google, estou consentindo com as<br><a href="./termosECondicoesPage.html">Informações, Políticas de Privacidade e Termos de Uso</a> referentes<br>a esta plataforma, desenvolvida durante um projeto de TCC.</p>
+          </div>
         </div>
+        <div class="anonymous-login">
+          <button id ="anonymous" class="login-button">
+            <div class="login-icon-wrapper">
+              <img src="./assets/anonimo.png" alt="Ícone de anônimo" class="login-icon">
+            </div>
+            <span>
+              Continuar sem cadastro
+            </span>
+          </button>
+        </div>        
       </div>
     </div>
   </div>
+  <script>
+    document.getElementById("anonymous").addEventListener('click', function(){
+      console.log("clicou no anonimo")
+      window.location.href = "./parsonsProblemsPage.html"
+    })
+  </script>
 </body>

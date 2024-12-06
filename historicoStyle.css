@@ -4,10 +4,13 @@ body {
   background-color: #1a1c23;
 }
 
+
 h1 {
   margin: 0px;
+  margin-bottom: 10px;
   font-family: 'Space Mono', monospace !important;
-  color: #f0f0f0 !important;
+  font-size: 2rem;
+  color: #f0f0f0;
   font-weight: 700 !important;
 }
 
@@ -38,6 +41,8 @@ pre {
 
 p {
   margin: 5px 0px 5px 0px;
+  font-size: 1.2rem;
+  line-height: 1.5;
 }
 
 
@@ -366,5 +371,55 @@ pre code pre {
 }
 
 .return-to-main-page i {
+  margin-right: 8px;
+}
+
+.message-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column; /* Empilhar elementos */
+  align-content: center;
+  justify-content:center;
+}
+
+.message-content {
+  text-align: center; /* Centraliza o texto (h1 e p) */
+  color: #e9a931;
+}
+
+.message-content h1{
+  color: #339cd1;
+}
+
+.message-content * {
+  display: inline-block; /* Faz o <h1> ocupar apenas o espaço do texto */
+  position: relative; /* Permite posicionar o <hr> dentro do <h1> */
+  font-size: 2rem;
+  margin-bottom: 1rem; /* Ajuste do espaçamento abaixo */
+}
+
+.return-button {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: larger;
+  color: #dea3f5;
+  border: 3px solid #815294;
+  border-radius: 10px;
+  padding: 10px 20px;
+  background-color: transparent;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  transition: all 0.2s ease-in-out;
+}
+
+.return-button:hover {
+  color: #ebcff7;
+  border-color: #bb8cce;
+}
+
+.return-button:active {
+  transform: scale(0.98);
+}
+.return-button i {
   margin-right: 8px;
 }

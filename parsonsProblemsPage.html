@@ -136,6 +136,7 @@
                 <img src= "./assets/pythonTutor-logo.png" height="15px">
                 Debug
               </button>
+              <button class="button" id="btnSubmit">Executar</button>
               <button class="button" id="btnNext" hidden>Continuar</button>
               <div id="msg-salvando" style="display: none;">
                 <span class="loader"></span>
@@ -145,7 +146,6 @@
                 <span class="loader"></span>
                 <span class="icon-text">Carregando...</span>
               </div>
-              <button class="button" id="btnSubmit">Executar</button>
             </div>
           </div>
           <div class="code-code-area">
@@ -196,13 +196,16 @@
 <script src="https://accounts.google.com/gsi/client" async></script>
 <script src="https://unpkg.com/jwt-decode/build/cjs/index.js"></script>
 <!--<script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>-->
+<script src="./scriptUrl.js"></script>
 <script src="./utils.js"></script>
 <script>
+  var scriptUrl = window.scriptUrl
   const userData = getCookie("userData");
   const auth = getCookie("auth");
-
+  var flagAnonimo = false;
   if (userData === null || auth === null) {
-    accessDenied_returningToMain();
+    //accessDenied_returningToMain();
+    flagAnonimo = true;
   }
 
   var selectedEx;
@@ -232,11 +235,17 @@
       else{
         $("#feedbackText").html("Parabéns, você acertou!"+ fb.feedback);
       }
-      saveProgress();
-
+      if(!flagAnonimo){
+        saveProgress();
+      }
+      showButtons();
+      hideButtons();
     }
 
     function atualizaTentativas() {
+      if(flagAnonimo){
+        return;
+      }
       tentativas.push({
         tentativa: tentativasCont,
         horario: new Date()
@@ -266,6 +275,26 @@
     }
   }
 
+  function showButtons(){
+    $("#btnNext").removeAttr("hidden").show();
+    if (hasTrinket) {
+      //btnEnable("#btnTestYourself", "#b184c2");
+      $("#btnTestYourself").removeAttr("hidden").show();
+    }
+    if (hasPythonTutor){
+      //btnEnable("btnDebug","#339cd1");
+      $("#btnDebug").removeAttr("hidden").show();
+    }
+  }
+
+  function hideButtons(){
+    //btnDisable("#btnSubmit");
+    $("#btnSubmit").hide();
+    //$("#btnChangeExercise").prop('disabled', true);
+    $("#btnChangeExercise").hide();
+    //$("#btnReset").prop('disabled', true);
+  }
+  
   function saveProgress() {
     // Faz o submit do exercício -> 
     // ----- 1. Retorna o feedback desse exercício
@@ -274,14 +303,9 @@
     // 4. Habilita o botão para o dar um get no novo exercício (GET do exercício)
     //    4.1 Caso esteja logado: O backend consulta o nível do usuário e já retorna o exercício na dificuldade adequada
     //    4.2 Caso não esteja logado: O front envia junto na request a dificuldade desejada
-    btnDisable("#btnSubmit");
-    $("#btnSubmit").hide();
-
-    $("#btnChangeExercise").prop('disabled', true);
-    $("#btnReset").prop('disabled', true);
-
+    
+    
     $("#msg-salvando").css('display', 'flex');
-
     submitDate = new Date();
 
     var postData = {
@@ -299,7 +323,7 @@
     }
 
     try {
-      fetch( "https://script.google.com/macros/s/AKfycbyPA-UzG-PVuzKK_d99wr5FS_58xsLv5yDXfIapObnJ6RD-By4EcwlX8FjUo_1sdBPp1w" + "/exec",
+      fetch(scriptUrl + "/exec",
         {
           method: "POST",
           headers: {
@@ -314,27 +338,8 @@
        // console.log(res);
         if (typeof res.data != 'undefined') {
           setUserLevel(res.data.userLevelInfo);
-
           $("#btnChangeExercise").prop('disabled', false);
-
           $("#msg-salvando").css('display', 'none');
-
-          //btnEnable("#btnNext", "#50fa7b");
-          //$("#btnNext").show();
-          $("#btnNext").removeAttr("hidden").show();
-
-          if (hasTrinket) {
-            //btnEnable("#btnTestYourself", "#b184c2");
-            $("#btnTestYourself").removeAttr("hidden").show();
-          }
-
-          if (hasPythonTutor){
-            //btnEnable("btnDebug","#339cd1");
-            $("#btnDebug").removeAttr("hidden").show();
-
-          }
-
-
         } 
         else {
           window.alert("Algo deu errado :/\nRecarregue a página.");
@@ -347,24 +352,47 @@
 
   function getExercicioAleatorio(userData) {
     localStorage.removeItem('exerciseId');
-    return fetch(getRandExURL(userData.id),
+    if(flagAnonimo){
+      return fetch(getRandExURL(),
       {
         method: "GET",
       }
-    ).then(response => {
-      return response.json();
-    });
+      ).then(response => {
+        return response.json();
+      });
+    }
+    else{
+      return fetch(getRandExURL(userData.id),
+        {
+          method: "GET",
+        }
+      ).then(response => {
+        return response.json();
+      });
+    }
   }
 
-  function getExercicioById(userData, id) {
-    console.log("id do exercicio e user data: ",id+ " "+userData);
-    return fetch(getExercicioByIdURL(userData.id, id),
-      {
-        method: "GET",
-      }
-    ).then(response => {
-      return response.json();
-    });
+  function getExercicioById(id, userData) {
+    console.log("id do exercicio e user data: " + id+ " "+userData);
+
+    if(flagAnonimo){
+      return fetch(getExercicioByIdURL(id),
+        {
+          method: "GET",
+        }
+      ).then(response => {
+        return response.json();
+      });
+    }
+    else{
+      return fetch(getExercicioByIdURL(id, userData.id,),
+        {
+          method: "GET",
+        }
+      ).then(response => {
+        return response.json();
+      });
+    }
   }
 
   // Seta um novo exercício no site e pega a hora atual
@@ -380,13 +408,35 @@
     $("#enunciadoText").append('<div class="added">' + selectedEx.enunciado + '</div>');
 
     if(selectedEx.imgEnunciado != "null"){
-      const imagePreview = document.getElementById('imagePreview');
+      let iframeImg = adjustDriveUrlForIframe(selectedEx.imgEnunciado);
+      if (iframeImg){
+        // Obtém o contêiner onde o iframe será adicionado
+        const imagePreviewContainer = document.getElementById("imagePreview");
+
+        // Cria o elemento iframe
+        const iframeElement = document.createElement("iframe");
+        iframeElement.src = iframeImg;
+        iframeElement.allow = "autoplay";
+        iframeElement.width = "100%"
+        iframeElement.height = "100%"
+        iframeElement.frameBorder = "0"; // Opcional: remove bordas do iframe
+
+        // Adiciona o iframe ao contêiner
+        imagePreviewContainer.appendChild(iframeElement);
+        }
     }
 
     // Set user level
-    setUserLevel(res.userLevelInfo);
+    if(flagAnonimo){
+      setUserLevel();
+    }
+    else{
+      setUserLevel(res.userLevelInfo);
+    }
 
     $("#btnSubmit").show();
+    $("#btnChangeExercise").show()
+    $("#btnReset").show();
 
    // btnDisable("#btnTestYourself");
     $("#btnTestYourself").hide();
@@ -410,7 +460,7 @@
         parsonsConfig['vartests'] = JSON.parse(selectedEx.vartests);
     }
     if(selectedEx.unittests  != "null"){
-        parsonsConfig['unittests'] = unittests;
+        parsonsConfig['unittests'] = selectedEx.unittests;
     }
 
     // Instância do ParsonsWidget com a configuração final
@@ -419,9 +469,9 @@
     parson.init(selectedEx.exercicio);
     parson.shuffleLines();
 
-    btnEnable("#btnChangeExercise", "#ffb86c");
-    btnEnable("#btnSubmit", "#dbfa50");
-    $("#btnReset").prop('disabled', false);
+   // btnEnable("#btnChangeExercise", "#ffb86c");
+   // btnEnable("#btnSubmit", "#dbfa50");
+   // $("#btnReset").prop('disabled', false);
 
     if (selectedEx.trinketHTML != "null") {
       hasTrinket = true;
@@ -448,7 +498,7 @@
     var id = localStorage.getItem('exerciseId');
     console.log("id do exercicio: ",id);
     if (id) {
-      getExercicioById(userData, id).then(res => {
+      getExercicioById(id, userData).then(res => {
         //////////////////////////////
         $("#msg-carregando").css("display", "none");
         console.log("resposta do getExercicioById: ", res);
@@ -463,7 +513,7 @@
 
         // TO DO / TODO
         // Alerta de versão de testes
-        if (typeof res.exercicio == "undefined" || res.userLevelInfo.currentLevel == 5) {
+        if (typeof res.exercicio == "undefined") {
           showEndOfTestModeAlert(userData);
         } else {
           setNovoExercicio(res);
@@ -480,7 +530,9 @@
     $("#btnChangeExercise").click(function (event) {
       event.preventDefault();
 
-      btnDisable("#btnChangeExercise");
+      //btnDisable("#btnChangeExercise");
+      $("#btnNext").hide();
+      
 
       getExercicioAleatorio(userData).then(response => {
         setNovoExercicio(response);
@@ -493,6 +545,8 @@
     $("#btnReset").click(function (event) {
       event.preventDefault();
       parson.shuffleLines();
+      $("#btnNext").show();
+      $("#btnSubmit").show();
     });
 
     // Retorna o feedback do exercício

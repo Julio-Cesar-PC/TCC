@@ -160,3 +160,66 @@ a {
 .return-to-main-page i {
   margin-right: 8px;
 }
+
+/* Botão padrão de login */
+.login-button {
+  font-weight: 600;
+  color: #e8eaed;
+  background-color: #202124; /* Mesma cor do link */
+  border: none;
+  border-radius: 20px;
+  box-sizing: border-box;
+
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px;
+  transition: all 0.3s ease-in-out;
+  
+  font-family: "Google Sans", arial, sans-serif;
+  font-size: 14px;
+  height: 40px;
+  letter-spacing: 0.25px;
+  outline: none;
+  overflow: hidden;
+  padding: 0px;
+  position: relative;
+
+  vertical-align: middle;
+  white-space: nowrap;
+  width: 100%;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Para centralizar o texto */
+  text-align: center;
+}
+
+.login-button span {
+  margin-right: 1rem;
+}
+
+.login-button:hover {
+  background-color: gray; /* Cor mais escura no hover */
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 8px;
+}
+
+.anonymous-login {
+  margin-top: 1rem;
+  text-align: center;
+  margin-left: 10px;
+}
+/* Força o texto a ficar centralizado */
+.login-button span {
+  flex-grow: 1; /* Faz o texto ocupar o espaço disponível */
+  text-align: center;
+}
+
+/* Estilo da imagem no botão */
+.login-icon {
+  height: 100%;
+  margin-left: -17px;
+}
+
+
+.login-icon-wrapper span {
+  margin-right: 2px;
+}

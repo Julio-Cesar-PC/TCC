@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Create Python Parsons Puzzles</title>
+  <title>Edite Python Parsons Puzzles</title>
 
   <link rel="icon" href="./assets/logoicon.png">
   <!-- Bootstrap CSS -->
@@ -18,7 +18,7 @@
   <link href="./parsons.css" rel="stylesheet" />
   <link href="./lib/prettify.css" rel="stylesheet" />
   <link href="./cssAnimations.css" rel="stylesheet" />
-  <link href="./createPuzzlesPageStyle.css" rel="stylesheet">
+  <link href="./editPuzzlesPage.css"rel="stylesheet">
   <link rel="stylesheet" href="/components/sideBarStyle.css">
 
 
@@ -71,6 +71,8 @@
   <script src="./components/dropdownDificuldade.js"></script>
   <script src="./sideBar.js"></script>
 
+  
+
 </head>
 <body>
   <div class="popup-wrapper" style="display: none;">
@@ -97,9 +99,8 @@
   </div>
   <div id="master-container"> 
     <div>
-      <h1>Criação de Python Parsons Puzzles</h1>
-      <p>Preencha o formulário abaixo para criar um novo Parson Puzzle.</p>    
-      <p>Vídeo tutorial exemplificando cada parâmetro: <a href="https://youtu.be/TLCcVhBCO3M" target="_blank" style="color:#0000FF; text-decoration:underline">Tutorial Criação de Exercícios</a></p>
+      <h1>Edição de Python Parsons Puzzles</h1>
+      <p>Preencha o formulário abaixo para editar um Parson Puzzle.</p>    
       <form
         id="puzzle-form"
       >
@@ -170,6 +171,9 @@
           </div>
           <div class="col-lg-2 col-sm-4">
             <button class="button" id="btnSubmit" type="submit">Enviar</button>
+          </div>
+          <div class="col-lg-2 col-sm-4">
+            <button class="button" id="btnDelete" type="button" aria-controls="excluir exercicio">Deletar</button>
           </div>
         </div>
         
@@ -312,8 +316,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
-
-
 <script src="./lib/jquery.min.js"></script>
 <script src="./lib/jquery-ui.min.js"></script>
 <script src="./lib/jquery.ui.touch-punch.min.js"></script>
@@ -333,8 +335,105 @@
 <script src="tagify.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 <script>
-  //console.log(`Script URL: ${window.scriptUrl}`);
   var scriptUrl = window.scriptUrl
+
+  function getQueryParam(param) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+  const idUrl = getQueryParam('id');
+
+  function verifyId(id) {
+    if (id) {
+      console.log(`ID recebido: ${idUrl}`);
+      // Chama setParams e trata a resposta
+      setParams(idUrl)
+          .then(res => {
+              console.log("Resposta do setParams:", res);
+              // Aqui você pode usar os dados retornados
+          })
+          .catch(err => {
+              console.error("Erro ao processar setParams:", err);
+          });
+    } 
+    else {
+        window.alert("Nenhum ID fornecido para edição, voltando à página de filtragem");
+        window.location.href = "./filtragem.html";
+    }
+  }
+
+  function setParams(id) {
+
+    return fetch(`${scriptUrl}/exec?actionRequest=getExercicioById&id=${id}`, {
+        method: "GET",
+    })
+    .then(response => {
+      if (!response.ok) {
+          throw new Error(`Erro na requisição: ${response.status}`);
+      }
+      return response.json(); // Retorna os dados parseados como JSON
+    })
+    .then(data => {
+      preencherFormulario(data);
+    })
+    .catch(error => {
+        console.error("Erro ao buscar os dados:", error);
+        throw error; // Propaga o erro para o nível superior
+    });     
+  }
+  function preencherFormulario(res) {
+
+    console.log("Data recebida para preencher o formulario:", res);
+    const data = res.exercicio
+    // Obrigatorios    
+    document.getElementById('dificuldade').value = data.dificuldade;
+    area = document.getElementById('area').value = data.area;
+
+    window.quillEnunciado.setText(removerAteAtecao(removeHtmlTags(data.enunciado)));
+    console.log("remover atencao: " ,removerAteAtecao(removeHtmlTags(data.enunciado)))
+    window.quillExercicio.setText(data.exercicio);
+
+    // opcionais
+    document.getElementById('max_wrong_lines').value = data.max_wrong_lines || '';
+    stringToTags(data.tags);
+    if (data.pythonTutor != "null"){
+      document.getElementById('python_tutor').value = data.pythonTutor;
+      atualizaPythonTutor()
+    }
+    if (data.trinketHTML != "null"){
+      document.getElementById('trinketHTML').value = data.trinketHTML;
+      atualizaTrinket()
+    }
+    //const teste = [{"initcode":"valor=2","code":"","message":"Testando","variables":{"valor":4}}]
+
+    if(data.vartests !== "null"){
+      document.getElementById('initcode').value =  extractInitcode(stringToDictionary(data.vartests));   
+      document.getElementById('variables').value = extractVariables(stringToDictionary(data.vartests));
+      // Disparando o evento para forçar o ParsonsWidget a ser atualizado
+      document.getElementById('variables').dispatchEvent(new Event('change'));
+    }
+    if(data.unittests !== "null"){
+      document.getElementById('unittests').value = extractAssertStrings(data.unittests);
+      document.getElementById('unittests').dispatchEvent(new Event('change'));
+    }
+
+
+
+    /*
+
+    document.getElementById('hiddenImageField').value = data.imgEnunciado !== "null" ? data.imgEnunciado : '';
+
+    // Preenche os campos de variáveis, se existirem
+    document.getElementById('initcode').value = data.vartests !== "null" ? data.vartests.initcode : '';
+    document.getElementById('variables').value = data.vartests !== "null" ? data.vartests.variables : '';
+
+    // Preenche os testes unitários
+    document.getElementById('unittests').value = data.unittests !== "null" ? data.unittests : '';
+    */
+    
+  }
+
+  
 
   /*
   const userData = getCookie("userData");
@@ -474,10 +573,7 @@
     return unittestCode;
   }
 
-
-
-
-  function newPuzzle() {
+  function editPuzzle() {
 
     event.preventDefault(); // Evita o comportamento padrão do formulário
     
@@ -497,17 +593,15 @@
     
     var unittests = generateUnittests();
     var vartests = generateVartests();
+    console.log("vartests: " + vartests);
     var tags = tagsString();
-    if (tags == null || tags==""){
-      tags = "null";
-    }
+
    // var auth = document.getElementById('auth').value;
   
-    
-
     var postData = {
-      "actionRequest": "postExercicio",
+      "actionRequest": "updateExercicio",
       "payload": {
+        "id": idUrl,
         "enunciado" : enunciado,
         "dificuldade" : dificuldade,
         "exercicio" : exercicio,
@@ -529,7 +623,7 @@
     }
     // Adiciona vartests se não estiver vazio
     if (vartests != "null") {
-      postData.payload['vartests'] = JSON.stringify(vartests);;
+      postData.payload['vartests'] = JSON.stringify(vartests);
     }
     if(unittests != "null"){
       postData.payload['unittests'] = unittests;
@@ -537,7 +631,6 @@
 
     console.log(postData);
     console.log(scriptUrl)
-
     try{
       fetch(scriptUrl + "/exec", 
       {
@@ -549,13 +642,12 @@
         body: JSON.stringify(postData), // body data type must match "Content-Type" header
       })
       .then(response => {
-        console.log("res: ",response)
         return response.json();
       })
       .then(res => {
-       // console.log(res);
+        console.log(res);
         if (res.status === "success") {
-          window.alert("Exercício salvo com sucesso!");
+          window.alert("Exercício editado com sucesso!");
         } 
         else {
           window.alert("Algo deu errado :/\nRecarregue a página.");
@@ -604,7 +696,37 @@
     }
   }
 
-  function atualizarSorteableTrash(){
+  function atualizaPythonTutor(){
+    var pythonTutor = document.getElementById('python_tutor').value
+
+    if (pythonTutor != null) {
+      // padroniza o iframe
+      pythonTutor = standardizeIframe(pythonTutor)
+      // Define o valor padronizado no elemento de ID 'python_tutor'
+      document.getElementById('python_tutor').value = pythonTutor;
+
+      btnEnable("#btnDebug", "#339cd1");
+      $("#btnDebug").removeAttr("hidden").show();
+    }
+  }
+  function atualizaTrinket(){
+    var trinket = document.getElementById('trinketHTML').value;
+    
+    if (trinket != null) {
+      // padroniza o iframe
+      trinket = standardizeIframe(trinket)
+      // Define o valor padronizado no elemento de ID 'trinketHTML'
+      document.getElementById('trinketHTML').value = trinket;
+
+      btnEnable("#btnTestYourself", "#b184c2");
+      $("#btnTestYourself").removeAttr("hidden").show();
+    }
+  }
+
+  function atualizarSorteableTrash(e){
+
+    console.log("atualizarSorteableTrash foi chamada por: ", e.target);
+    console.log("informacoes de e:" , e);
     // definida em quill.js
     atualizarEnunciado();
     // pega o valor do exercicio a partir do quill.js
@@ -640,6 +762,7 @@
   max_wrong_lines.addEventListener('input', atualizarSorteableTrash);
   unittests.addEventListener('change', atualizarSorteableTrash);
   variables.addEventListener('change', atualizarSorteableTrash);
+  //variables.addEventListener('input', atualizarSorteableTrash);
 
   var btnRun = document.getElementById('btnRun');
   btnRun.addEventListener('click', function(event) {
@@ -654,19 +777,8 @@
   });
 
   // Python Tutor Related
-  python_tutor.addEventListener('change', function(){
-    var pythonTutor = document.getElementById('python_tutor').value
+  python_tutor.addEventListener('change', atualizaPythonTutor);
 
-    if (pythonTutor != null) {
-      // padroniza o iframe
-      pythonTutor = standardizeIframe(pythonTutor)
-      // Define o valor padronizado no elemento de ID 'python_tutor'
-      document.getElementById('python_tutor').value = pythonTutor;
-
-      btnEnable("#btnDebug", "#339cd1");
-      $("#btnDebug").removeAttr("hidden").show();
-    }
-  });
   var btnDebug = document.getElementById('btnDebug')
   btnDebug.addEventListener('click',function(e){
     e.preventDefault();
@@ -678,19 +790,7 @@
   });
 
   // Trinket RELATED
-  trinketHTML.addEventListener('change', function(){
-    var trinket = document.getElementById('trinketHTML').value;
-    
-    if (trinket != null) {
-      // padroniza o iframe
-      trinket = standardizeIframe(trinket)
-      // Define o valor padronizado no elemento de ID 'trinketHTML'
-      document.getElementById('trinketHTML').value = trinket;
-
-      btnEnable("#btnTestYourself", "#b184c2");
-      $("#btnTestYourself").removeAttr("hidden").show();
-    }
-  })
+  trinketHTML.addEventListener('change', atualizaTrinket);
 
   var btnTestYourself = document.getElementById('btnTestYourself')
   btnTestYourself.addEventListener('click',function(e){
@@ -726,10 +826,69 @@
 </script>
 
 <script>
+  function atualizarEnunciado() {
+    var enunciadoHTML = window.quillEnunciado.root.innerHTML;
+
+    // procura endentacao
+    var exercicio = returnExercicio();
+    var lines = exercicio.split('\n');
+    
+    //if(!(enunciadoHTML.includes("<p><strong>ATENÇÃO</strong> Você vai precisar endentar corretamente as linhas de código!</p>"))){
+    for (i = 0; i < lines.length; i++) {
+      if(lines[i].trim().length != lines[i].length){
+        enunciadoHTML += "<p><strong>ATENÇÃO</strong> Você vai precisar endentar corretamente as linhas de código!</p>";
+        break;
+      }
+    }
+    
+    if (exercicio.split("#distractor").length - 1 > 0 && !(enunciadoHTML.includes("<p><strong>ATENÇÃO:</strong> Nem todas as linhas de código disponíveis serão usadas na solução.</p>"))) {
+      enunciadoHTML += "<p><strong>ATENÇÃO:</strong> Nem todas as linhas de código disponíveis serão usadas na solução.</p>";
+    }
+
+    document.getElementById('enunciado-text').innerHTML = enunciadoHTML;
+  }
+
+  function returnExercicio(){
+    return window.quillExercicio.getText().trim();
+  }
+
   document.addEventListener("DOMContentLoaded", function() {
     // Código a ser executado após o carregamento do DOM
     appendAreaDropdown("#dropdownArea");
     appendDificuldadeDropdown("#dropdownDificuldade");
+
+      // Inicializa o Quill no editor de enunciado
+    var toolbarOptions = [
+      [{ 'header': [1, 2, 3, false] }],       // Títulos
+      ['bold', 'italic', 'underline'],        // Formatos de texto
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],  // Listas
+      ['code-block'],                         // Bloco de código
+      ['code'],                                // Texto inline como código
+
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      [{ 'font': [] }],
+      [{ 'align': [] }]
+    ];
+
+    window.quillEnunciado = new Quill('#quillEnunciado', {
+      theme: 'snow',
+      modules: {
+        toolbar: '#enunciado-toolbar'
+      }
+    });
+    // Capturando mudanças no editor e atualizando a div
+    
+    window.quillExercicio = new Quill('#quillExercicio', {
+      theme: 'snow',
+      modules: {
+        toolbar: false
+      }
+    });
+    
+    window.quillEnunciado.on('text-change', atualizarEnunciado);
+    window.quillExercicio.on('text-change', atualizarSorteableTrash);
+
+    verifyId(idUrl);
   });
 
 </script>
@@ -776,7 +935,100 @@
 
 </script>
 
-<script src="quiil.js"></script>
+<script>
+  document.getElementById('btnSubmit').addEventListener('click', function(event) {
+  // var para campos obrigatorios preenchidos
+  var enviar = true;
+
+  var area = document.getElementById('area').value;
+  var dificuldade = document.getElementById('dificuldade').value;
+
+  if(area === ""){
+    document.getElementById('area').style.border = '2px solid red';
+    enviar = false;
+  }
+  else{
+    document.getElementById('area').style.border = '';
+  }
+  
+  if (dificuldade === "") {
+    document.getElementById('dificuldade').style.border = '2px solid red';
+    enviar = false;
+  }
+  else{
+    document.getElementById('dificuldade').style.border = '';
+  }
+
+  //atualizarEnunciado();
+  // Pegando o texto dos editores (sem formatação)
+  var enunciadoText = window.quillEnunciado.getText().trim();
+  var exercicioText = window.quillExercicio.getText().trim();
+
+
+  // Verificando se o enunciado está vazio
+  if (enunciadoText.length === 0) {
+    // Foca o editor Quill do enunciado
+    window.quillEnunciado.focus();
+    // Adiciona uma borda vermelha para destacar
+    document.querySelector('#quillEnunciado').style.border = '2px solid red';
+    enviar = false; 
+  }
+  else{
+    document.querySelector('#quillEnunciado').style.border = '';
+  }
+
+  
+  // Verificando se o exercício está vazio
+  if (exercicioText.length === 0) {
+    // Foca o editor Quill do exercício
+    window.quillExercicio.focus();
+    // Adiciona uma borda vermelha para destacar
+    document.querySelector('#quillExercicio').style.border = '2px solid red';
+    enviar = false
+  }
+  else{
+    document.querySelector('#quillExercicio').style.border = '';
+  }
+  
+  if(!enviar){
+    alert('Preencha os campos obrigatórios!');
+    event.preventDefault(); // Evita o envio do formulário
+    return;
+  }
+
+  editPuzzle();
+
+});
+document.getElementById('btnDelete').addEventListener('click', function(event) {
+  event.preventDefault();
+  if (confirm("Tem certeza que deseja excluir este exercício?")) {
+    var postData = {
+      "actionRequest": "deleteExercicio",
+      "payload": {
+        "id": idUrl,
+      },
+      //"auth": auth
+    }
+    fetch(`${scriptUrl}/exec?actionRequest=deleteExercicio&id=${idUrl}`, {
+      method: "POST",
+      body: JSON.stringify(postData), // body data type must match "Content-Type" header
+    })
+    .then(response => {
+      return response.json();
+    })
+    .then(res => {
+      console.log(res);
+      if (res.status === "success") {
+        window.alert("Exercício excluído com sucesso! Voltando à página de filtragem.");
+        window.location.href = "./filtragem.html";
+      } 
+      else {
+        window.alert("Algo deu errado :/\nRecarregue a página.");
+      }
+    });
+  }
+});
+</script>
 
 
 </html>
