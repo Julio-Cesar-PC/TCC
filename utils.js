@@ -250,8 +250,8 @@ function del_cookies() {
 }
 
 function logout(e) {
-    e.stopPropagation();
-    e.preventDefault();
+//    e.stopPropagation();
+//    e.preventDefault();
 
     del_cookies();
     window.location.href = './index.html';
