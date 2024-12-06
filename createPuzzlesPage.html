@@ -498,7 +498,9 @@
     var unittests = generateUnittests();
     var vartests = generateVartests();
     var tags = tagsString();
-
+    if (tags == null || tags==""){
+      tags = "null";
+    }
    // var auth = document.getElementById('auth').value;
   
     
