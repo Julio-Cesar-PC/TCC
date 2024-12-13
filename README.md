@@ -12,12 +12,12 @@ Este repositório contém uma plataforma de exercícios que pode ser personaliza
    git clone https://github.com/RamonXXII/TCC.git
 
 ## 2. Configure a planilha no Google Sheets
-1. Acesse a planilha no link: [Planilha Google Sheets.](https://docs.google.com/spreadsheets/d/1aVTdrpp5z8DHZZUb2OFv6_FGGVYs2A14vpjoZbgP7nU/edit?usp=sharing)
+1. Acesse a planilha no link: [Planilha Google Sheets.](https://docs.google.com/spreadsheets/d/1vCub5qQZRu3KEEiJUPqKJ5bcn-TAJUgmTP_9JsrMfZQ/edit?usp=sharing)
 2. Faça uma cópia para o seu Google Drive:
 * Arquivo → Fazer uma cópia.
 * Nota: Um script será copiado automaticamente. Ele integra a planilha à plataforma
 3. No menu, acesse Extensões → Apps Script → TCC-backend.
-4. Localize o ID da sua nova planilha (exemplo: 1OpTDN9J1vf9WxV22w-ipfWzRdr5MqAOltnhiKEKEDoY).
+4. Localize o ID da sua nova planilha (exemplo: 1vCub5qQZRu3KEEiJUPqKJ5bcn-TAJUgmTP_9JsrMfZQ, localizado na URL do google planilha).
 * Substitua o ID no arquivo Code.gs, na primeira linha de código:
 
   ```js
